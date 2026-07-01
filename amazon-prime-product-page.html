@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Music Chapters · Prime Video</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#1A98FF;--blue2:#00A8E1;--navy:#0F171E;--deep:#00050D;--panel:#1a2530;--line:#243441;--mut:#8197A4;--font:'Inter','Amazon Ember','Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--deep);color:#fff;font-family:var(--font);-webkit-font-smoothing:antialiased}
+  .topbar{position:sticky;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 28px;background:rgba(3,9,15,.92);border-bottom:1px solid rgba(255,255,255,.07);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  .brand{display:flex;align-items:baseline;gap:12px;min-width:0}
+  .brand .logo{font-weight:800;font-size:17px}
+  .brand .logo .pv{color:var(--blue)}.brand .logo .sm{color:var(--blue);font-size:13px}
+  .brand .crumb{color:var(--mut);font-weight:600;font-size:12px;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brand .crumb b{color:#fff;font-weight:700}
+  .tabs{display:flex;gap:26px;align-items:center}
+  .tabs a{position:relative;color:var(--mut);font-weight:700;font-size:14px;text-decoration:none;padding-bottom:7px;white-space:nowrap;transition:color .2s}
+  .tabs a:hover{color:#cfe0ec}
+  .tabs a.on{color:#fff}
+  .tabs a.on:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:#fff;border-radius:2px}
+  @media(max-width:760px){.topbar{flex-direction:column;align-items:flex-start;gap:8px;padding:10px 16px}.tabs{gap:16px;overflow-x:auto;max-width:100%;width:100%}.brand .crumb{font-size:11px}}
+  .pdots{position:fixed;right:28px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:11px;z-index:90;transition:opacity .4s}
+  .pdots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);transition:.35s}
+  .pdots i.on{background:var(--blue);height:24px;border-radius:6px}
+  .xlist{margin-top:40px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);max-width:900px}
+  .xrow{display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid #1c2832}
+  .xrow:last-child{border-bottom:0}
+  .xrow.on{background:#13202b}
+  .xthumb{width:46px;height:46px;border-radius:8px;background:linear-gradient(135deg,var(--blue),#0a4a78);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .xmeta{flex:1;min-width:0}
+  .xmeta b{display:block;font-size:16px}
+  .xmeta span{font-size:13px;color:var(--mut);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .xtime{color:var(--mut);font-size:13px;font-weight:600;width:48px;text-align:right;flex-shrink:0}
+  .xjump{color:var(--blue);font-weight:700;font-size:13px;white-space:nowrap;cursor:pointer;flex-shrink:0}
+  .amusic{display:inline-block;margin-top:26px;color:var(--blue);font-weight:700;font-size:16px;text-decoration:none}
+  .amusic:hover{text-decoration:underline}
+  .note{color:#3c5160;font-size:12px;margin-top:14px;max-width:60ch}
+  @media(max-width:680px){.xtime{display:none}}
+  h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
+
+  .scrolly{position:relative}
+  .stage{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(120% 90% at 50% 0%,#0a2030 0%,#00050D 60%)}
+  .zoom{transition:transform 1.1s cubic-bezier(.4,0,.2,1);will-change:transform}
+  .step{height:82vh}
+
+  .hero-ttl{position:absolute;top:13vh;left:0;right:0;text-align:center;z-index:6;transition:opacity .6s,transform .6s;padding:0 6vw}
+  .hero-ttl .k{color:var(--blue);font-weight:800;letter-spacing:.2em;text-transform:uppercase;font-size:13px;margin-bottom:16px}
+  .hero-ttl h1{font-size:clamp(44px,8vw,108px);font-weight:900;line-height:.94;letter-spacing:-.03em}
+  .hero-ttl p{color:#dfe9f1;font-size:clamp(16px,1.7vw,21px);margin-top:18px;max-width:26ch;margin-inline:auto;line-height:1.45}
+  .scrollhint{position:absolute;bottom:5vh;left:50%;transform:translateX(-50%);color:var(--mut);font-size:12px;letter-spacing:.2em;text-transform:uppercase;z-index:6;animation:bob 2s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+
+  .caption{position:absolute;bottom:5vh;left:50%;transform:translate(-50%,20px);width:min(620px,90vw);text-align:center;z-index:8;opacity:0;transition:opacity .5s,transform .5s;pointer-events:none;background:rgba(2,8,14,.62);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:20px 26px}
+  .caption .lbl{color:var(--blue);font-weight:800;letter-spacing:.16em;text-transform:uppercase;font-size:12px;margin-bottom:10px}
+  .caption h3{font-size:clamp(22px,3vw,34px);font-weight:800;letter-spacing:-.01em;line-height:1.06}
+  .caption p{color:#cfe0ec;font-size:clamp(15px,1.4vw,17px);margin-top:10px;line-height:1.5}
+  .caption.on{opacity:1;transform:translate(-50%,0)}
+
+  /* player */
+  .player{position:relative;width:min(1180px,92vw);aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#0c3050,#06141f 50%,#020a12);box-shadow:0 40px 120px rgba(0,0,0,.7);border:1px solid var(--line);user-select:none}
+  .still{position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.015),rgba(255,255,255,.015) 2px,transparent 2px,transparent 10px)}
+  .still:after{content:"[ FILM STILL ]";position:absolute;left:5%;bottom:46%;color:rgba(255,255,255,.07);font-weight:800;letter-spacing:.28em;font-size:clamp(14px,2vw,26px)}
+  .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.5),transparent 22%,transparent 60%,rgba(0,0,0,.92))}
+  .pbar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:14px;padding:20px 24px;z-index:3}
+  .pbar .back{font-size:26px;opacity:.9;line-height:1}
+  .pbar .xbadge{background:var(--blue);color:#001a2e;font-weight:900;font-size:11px;padding:3px 8px;border-radius:4px;letter-spacing:.04em}
+  .pbar .ttl{font-weight:800;font-size:clamp(13px,1.4vw,17px)}
+  .pbar .ttl em{color:var(--mut);font-style:normal;font-weight:500;font-size:.78em;margin-left:8px}
+
+  /* X-Ray panel */
+  .xray{position:absolute;right:18px;top:11%;bottom:188px;width:33%;min-width:250px;background:rgba(16,26,36,.96);border:1px solid var(--line);border-radius:12px;padding:14px 14px 16px;z-index:4;backdrop-filter:blur(4px);display:flex;flex-direction:column}
+  .xtabs{display:flex;gap:15px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:9px;margin-bottom:12px;flex-shrink:0}
+  .xtabs a{font-size:12px;font-weight:700;color:var(--mut)}
+  .xtabs a.on{color:#fff;position:relative}
+  .xtabs a.on:after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:2px;background:var(--blue)}
+  .xtabs .viewall{margin-left:auto;font-size:11px;color:var(--blue);font-weight:700;cursor:pointer}
+  .xhead{font-size:10px;letter-spacing:.13em;color:var(--mut);font-weight:800;margin-bottom:10px;text-transform:uppercase;flex-shrink:0}
+  .xbody{display:flex;flex-direction:column;gap:6px;overflow-y:auto;flex:1;min-height:0}
+  .xitem{display:flex;align-items:flex-start;gap:11px;padding:10px;border-radius:9px;border:1px solid transparent}
+  .xitem.now{background:#13202b;border-color:var(--blue)}
+  .xitem.dim{opacity:.55}
+  .xart{width:42px;height:42px;border-radius:7px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:#3a586e;font-size:18px;flex-shrink:0;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.04),rgba(255,255,255,.04) 2px,transparent 2px,transparent 7px)}
+  .xinfo{flex:1;min-width:0}
+  .xtitle{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;line-height:1.2}
+  .xbadge{font-size:9px;font-weight:800;letter-spacing:.05em;color:var(--blue);border:1px solid var(--blue);border-radius:4px;padding:1px 5px;white-space:nowrap}
+  .xartist{font-size:12px;color:var(--mut);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .xsub{font-size:11px;color:var(--mut);margin-top:4px}
+  .xright{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;text-align:right}
+  .xtc{font-size:12px;color:var(--mut);font-weight:600;white-space:nowrap}
+  .xjs{font-size:12px;color:var(--blue);font-weight:700;white-space:nowrap;cursor:pointer}
+  .xrowbtns{display:flex;gap:8px;margin-top:10px}
+  .xrowbtns button{font-family:inherit;font-weight:700;font-size:12px;border-radius:7px;padding:9px 11px;cursor:pointer;border:1px solid var(--line);background:#0e1a24;color:#fff}
+  .xrowbtns .primary{background:var(--blue);border-color:var(--blue);color:#001a2e}
+  .xcta{flex-shrink:0}
+  .xcta button{width:100%;font-family:inherit;font-weight:800;font-size:13px;border-radius:8px;padding:12px;cursor:pointer;border:none;background:var(--blue);color:#001a2e;margin-top:12px}
+  .xcta a{display:block;text-align:center;margin-top:9px;color:var(--blue);font-weight:700;font-size:12px;text-decoration:none}
+
+  .chap{position:absolute;left:24px;bottom:120px;font-weight:700;font-size:13px;z-index:3;opacity:.92}
+  .chap span{color:var(--blue)}
+  .skipbtn{position:absolute;right:24px;bottom:118px;background:rgba(6,20,31,.7);border:1px solid rgba(255,255,255,.5);color:#fff;font-weight:700;font-size:14px;padding:11px 18px;border-radius:5px;z-index:4;cursor:pointer;transition:opacity .35s,background .2s}
+  .skipbtn:hover{background:var(--blue);color:#001a2e;border-color:var(--blue)}
+
+  .controls{position:absolute;left:0;right:0;bottom:0;padding:0 24px 18px;z-index:4}
+  .scrub{position:relative;height:7px;cursor:pointer;display:flex;align-items:center}
+  .track{position:absolute;left:0;right:0;height:5px;border-radius:5px;background:#3a4a57}
+  .played{position:absolute;left:0;height:5px;width:40%;border-radius:5px;background:var(--blue)}
+  .tick{position:absolute;width:2px;height:9px;background:rgba(255,255,255,.55);border-radius:2px}
+  .seg{position:absolute;height:11px;left:40%;width:24%;background:linear-gradient(90deg,rgba(26,152,255,.5),rgba(0,168,225,.5));border:1px solid rgba(143,208,255,.9);border-radius:4px}
+  .adcue{position:absolute;top:50%;width:8px;height:8px;border-radius:50%;background:#f5c518;box-shadow:0 0 0 2px rgba(2,10,18,.6);transform:translate(-50%,-50%);z-index:2}
+  .adlbl{position:absolute;bottom:15px;transform:translateX(-50%);font-size:9px;font-weight:800;letter-spacing:.08em;color:#f5c518;text-transform:uppercase}
+  .eq{display:inline-flex;align-items:flex-end;gap:2px;height:12px;vertical-align:middle}
+  .eq i{width:3px;height:3px;background:var(--blue);border-radius:1px;animation:eqp .9s ease-in-out infinite}
+  .eq.sm{height:9px}.eq.sm i{width:2px}
+  .eq i:nth-child(2){animation-delay:.15s}.eq i:nth-child(3){animation-delay:.3s}.eq i:nth-child(4){animation-delay:.45s}
+  @keyframes eqp{0%,100%{height:3px}50%{height:100%}}
+  .adbrick{margin-top:26px;max-width:900px;background:rgba(245,197,24,.06);border:1px solid rgba(245,197,24,.35);border-radius:14px;padding:20px 24px}
+  .adbrick .t{font-size:11px;letter-spacing:.16em;color:#f5c518;font-weight:800;margin-bottom:9px;text-transform:uppercase}
+  .adbrick p{font-size:14.5px;color:var(--mut);line-height:1.55}.adbrick p b{color:#fff}
+  .callout{margin-top:22px;max-width:900px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:0 14px 14px 0;padding:20px 24px}
+  .callout .pl{color:var(--blue);font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:11px;margin-bottom:9px}
+  .callout p{color:#dfe9f1;font-size:14.5px;line-height:1.55}.callout p b{color:#fff}
+  .pill{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);white-space:nowrap;background:#06141f;border:1px solid var(--blue);color:#fff;font-size:12px;font-weight:700;padding:6px 11px;border-radius:6px}
+  .pill:after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--blue)}
+  .knob{position:absolute;left:40%;width:14px;height:14px;border-radius:50%;background:var(--blue);transform:translateX(-50%);box-shadow:0 0 0 3px rgba(0,0,0,.35);z-index:2}
+  .timerow{display:flex;justify-content:space-between;margin-top:11px;color:#cfe0ec;font-size:12px;font-weight:600}
+  .ctrlrow{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+  .ctrlrow .grp{display:flex;align-items:center;gap:20px}
+  .ctrlrow svg{width:22px;height:22px;color:#fff;cursor:pointer;opacity:.92}
+  .ctrlrow .num{font-size:8px;font-weight:800;position:absolute;left:50%;top:54%;transform:translate(-50%,-50%)}
+  .ctrlrow .r10,.ctrlrow .f10{position:relative}
+
+  .ring{position:absolute;border:2px solid var(--blue);border-radius:8px;box-shadow:0 0 22px rgba(26,152,255,.6);opacity:0;transition:opacity .5s;pointer-events:none;z-index:5}
+  .ring.on{opacity:1}
+
+  section.block{padding:9vh 8vw;position:relative;scroll-margin-top:78px}
+  .close{scroll-margin-top:78px}
+  .eyebrow{color:var(--blue);font-weight:800;letter-spacing:.2em;text-transform:uppercase;font-size:12px;margin-bottom:16px}
+  .block h2{font-size:clamp(30px,5vw,60px);font-weight:900;line-height:1.04;letter-spacing:-.02em;max-width:20ch}
+  .block .sub{color:var(--mut);font-size:clamp(16px,1.4vw,19px);line-height:1.55;max-width:60ch;margin-top:18px}
+  .block .sub b{color:#fff}
+  .pgrid{margin-top:28px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .pbox{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--blue);border-radius:14px;padding:22px 24px}
+  .pbox .pl{color:var(--blue);font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:11px;margin-bottom:10px}
+  .pbox p{color:#dfe9f1;font-size:15px;line-height:1.5}
+  .pbox .jtbd{color:#cfe0ec;font-style:italic}.pbox .jtbd b{color:#fff;font-style:normal}
+  @media(max-width:760px){.pgrid{grid-template-columns:1fr}}
+  .flow{display:flex;flex-wrap:wrap;margin-top:46px;align-items:stretch}
+  .fstep{flex:1;min-width:180px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .fstep .t{font-size:11px;letter-spacing:.16em;color:var(--blue);font-weight:800}
+  .fstep h4{font-size:18px;margin:10px 0 8px}.fstep p{font-size:14px;color:var(--mut);line-height:1.5}
+  .arrow{display:flex;align-items:center;color:var(--blue);font-size:26px;font-weight:900;padding:0 10px}
+  @media(max-width:820px){.arrow{transform:rotate(90deg);width:100%;justify-content:center;padding:8px 0}}
+  .who{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:46px}
+  .wcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;transition:.2s}
+  .wcard:hover{border-color:var(--blue);transform:translateY(-3px)}
+  .wcard h4{font-size:17px;margin-bottom:8px}
+  .wcard p{font-size:14px;color:var(--mut);line-height:1.5}
+  @media(max-width:820px){.who{grid-template-columns:1fr 1fr}}
+
+  .stats{display:flex;gap:60px;flex-wrap:wrap;margin-top:46px}
+  .stat .v{font-size:clamp(40px,6vw,78px);font-weight:900;line-height:1}.stat .v em{color:var(--blue);font-style:normal}
+  .stat .l{color:var(--mut);font-size:14px;margin-top:10px;max-width:22ch;line-height:1.45}
+  .stat .src{display:block;margin-top:11px;font-size:11px;line-height:1.4}.stat .src a{color:#7e98a8;text-decoration:underline}
+  .fstep .src{display:block;margin-top:13px;font-size:10.5px;line-height:1.5}.fstep .src a{color:#7e98a8;text-decoration:underline}
+  .rlead{color:var(--mut);font-size:clamp(15px,1.3vw,18px);line-height:1.5;max-width:70ch;margin-top:16px}
+  .rlist{margin-top:32px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .ritem{background:linear-gradient(180deg,var(--panel),#0b1622);border:1px solid var(--line);border-radius:14px;padding:20px 18px}
+  .rnum{color:var(--blue);font-weight:900;font-size:24px;line-height:1;margin-bottom:12px}
+  .ritem h4{font-size:15px;margin-bottom:6px;line-height:1.2}
+  .ritem p{font-size:13px;color:var(--mut);line-height:1.45}
+  .ritem .src{display:block;margin-top:12px;font-size:10.5px;line-height:1.6}.ritem .src a{color:#7e98a8;text-decoration:underline}
+  .rconc{margin-top:22px;border-left:3px solid var(--blue);background:var(--panel);border-radius:0 14px 14px 0;padding:18px 24px}
+  .rconc p{color:#dfe9f1;font-size:15px;line-height:1.5}.rconc b{color:#fff}
+  @media(max-width:820px){.rlist{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.rlist{grid-template-columns:1fr}}
+  .close{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 8vw;background:radial-gradient(100% 80% at 50% 100%,#0a2030,#00050D 70%)}
+  .close h2{font-size:clamp(34px,6vw,84px);font-weight:900;letter-spacing:-.02em;line-height:1}
+  .close p{color:var(--mut);font-size:clamp(16px,1.5vw,19px);margin-top:20px;max-width:48ch;line-height:1.5}
+  .close .pill2{margin-top:30px;display:inline-block;background:var(--blue);color:#001a2e;font-weight:700;padding:14px 28px;border-radius:8px;font-size:16px}
+  footer{padding:40px 8vw 60px;color:#3c5160;font-size:12px;line-height:1.7;border-top:1px solid #0e1922}
+  .cite{margin-top:22px;font-size:11px;line-height:1.7;color:#54707f;max-width:74ch}
+  .cite a{color:#7e98a8;text-decoration:underline}
+  @media(max-width:820px){.player{width:94vw}.xray{width:40%;min-width:0}.stats{gap:34px}}
+  @media(max-width:600px){
+    section.block{padding:11vh 6vw}
+    .topbar{padding:10px 14px}.brand .logo{font-size:15px}
+    .pbar{padding:14px 16px}.pbar .ttl em{display:none}
+    .xray{width:48%;min-width:0;padding:10px;top:9%;bottom:122px}
+    .xhead{font-size:9px}.xtitle{font-size:12px}.xartist{font-size:10px}
+    .xbadge{font-size:8px;padding:1px 4px}
+    .xrowbtns{flex-direction:column;gap:6px}.xrowbtns button{font-size:10.5px;padding:8px 6px;width:100%}
+    .skipbtn{font-size:12px;padding:8px 12px;bottom:86px}
+    .caption{padding:15px 18px}.caption h3{font-size:19px}.caption p{font-size:14px}
+    .flow{margin-top:30px}.fstep{padding:18px}
+    .stats{gap:26px}.stat .v{font-size:46px}
+    .close h2{font-size:40px}
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="logo"><span class="pv">prime</span> video <span class="sm">⌣</span></span><span class="crumb">Concept · <b>Music Chapters</b></span></div>
+  <nav class="tabs" id="tabs">
+    <a href="#problem" data-sec="problem" class="on">The problem</a>
+    <a href="#research" data-sec="research">Research</a>
+    <a href="#scrolly" data-sec="scrolly">The solution</a>
+    <a href="#how" data-sec="how">How it works</a>
+    <a href="#business" data-sec="business">The business</a>
+    <a href="#next" data-sec="next">What's next</a>
+  </nav>
+</header>
+<div class="pdots" id="pdots"></div>
+
+<section class="block" id="problem" style="background:#040d15">
+  <div class="eyebrow">The problem · where this starts</div>
+  <div class="pgrid">
+    <div class="pbox"><div class="pl">Problem</div><p>Viewers cannot tell what a song is or how long it lasts. They sit through music they meant to skip, or lose a song they loved.</p></div>
+    <div class="pbox"><div class="pl">Core user goal</div><p class="jtbd">"When a song plays, <b>I want</b> to know it and choose in one tap to skip or save it."</p></div>
+    <div class="pbox"><div class="pl">Opportunity</div><p>X-Ray names the song but cannot save it. Music Chapters adds the whole soundtrack to Amazon Music in one tap.</p></div>
+  </div>
+</section>
+
+<section class="block" id="research" style="background:#03101a">
+  <div class="eyebrow">Research · where the solution came from</div>
+  <p class="rlead">Not a guess. Each choice follows a friction point viewers raised themselves, across Reddit, Quora, and diaspora writing.</p>
+  <div class="rlist">
+    <div class="ritem"><div class="rnum">01</div><h4>Organized demand</h4><p>A viral "Skip Song" mockup near 4.3K upvotes, plus a Change.org petition.</p><span class="src"><a href="https://www.reddit.com/r/IndianOTTbestof/comments/1ozcuws/" target="_blank" rel="noopener">r/IndianOTTbestof</a> · <a href="https://www.change.org/p/netflix-addition-of-skip-song-button-in-bollywood-movies-on-netflix" target="_blank" rel="noopener">petition</a></span></div>
+    <div class="ritem"><div class="rnum">02</div><h4>Conditional, not blanket</h4><p>People skip weak numbers, never a loved one. So the skip is never automatic.</p><span class="src"><a href="https://www.quora.com/Do-you-skip-the-songs-when-watching-a-Bollywood-movie" target="_blank" rel="noopener">Quora</a> · <a href="https://www.reddit.com/r/bollywood/comments/1lc5uid/" target="_blank" rel="noopener">r/bollywood</a></span></div>
+    <div class="ritem"><div class="rnum">03</div><h4>They asked for chapters</h4><p>The top reply proposed a chapter per song, not a blunt skip. That is this feature.</p><span class="src"><a href="https://www.reddit.com/r/kollywood/comments/1iz1hql/" target="_blank" rel="noopener">r/kollywood</a></span></div>
+    <div class="ritem"><div class="rnum">04</div><h4>Cultural, pan-Indian</h4><p>Tamil and Telugu too. For the diaspora the song is a tether, so keep it passive.</p><span class="src"><a href="https://www.reddit.com/r/kollywood/comments/1iz1hql/" target="_blank" rel="noopener">r/kollywood</a> · <a href="https://www.burntroti.com/blog/the-soundtrack-to-my-diasporic-roots" target="_blank" rel="noopener">Burnt Roti</a></span></div>
+  </div>
+  <div class="rconc"><p><b>So: not an auto-skip.</b> A named chapter per song, built on X-Ray. Skip it, stay with it, or add its soundtrack to Amazon Music. The viewer always chooses.</p></div>
+</section>
+
+<div class="scrolly" id="scrolly">
+  <div class="stage">
+    <div class="zoom" id="zoom">
+      <div class="player" id="player">
+        <div class="still"></div>
+        <div class="scrim"></div>
+        <div class="pbar"><span class="back">‹</span><span class="xbadge">X-Ray</span><span class="ttl">Kal Ho Naa Ho <em>2003 · Romance/Musical · 3h 6m</em></span></div>
+
+        <div class="xray" id="xrayPanel">
+          <div class="xtabs"><a>Scenes</a><a>Cast</a><a class="on">Music</a><a class="viewall" id="viewAll">View All</a></div>
+          <div class="xhead" id="xhead">SONGS IN THIS SCENE</div>
+          <div class="xbody" id="xbody"></div>
+          <div class="xcta" id="xcta"></div>
+        </div>
+
+        <div class="chap">Now playing <span>· Song</span></div>
+        <button class="skipbtn" id="skipbtn">Jump to end</button>
+        <div class="controls">
+          <div class="scrub" id="scrub">
+            <div class="track"></div>
+            <div class="played" id="played"></div>
+            <div class="tick" style="left:14%"></div><div class="tick" style="left:30%"></div><div class="tick" style="left:64%"></div><div class="tick" style="left:80%"></div>
+            <div class="adcue" style="left:22%"></div><div class="adcue" style="left:76%"></div><div class="adlbl" style="left:22%">Ad</div>
+            <div class="seg" id="seg"><div class="pill"><span class="eq sm"><i></i><i></i><i></i></span> Kal Ho Naa Ho · 5:21 left</div></div>
+            <div class="knob" id="knob"></div>
+          </div>
+          <div class="timerow"><span id="elapsed">1:14:24</span><span>3:06:00</span></div>
+          <div class="ctrlrow">
+            <div class="grp">
+              <svg class="play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              <span class="r10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4a8 8 0 1 0 8 8" stroke-linecap="round"/><path d="M11 1L8 4l3 3"/></svg><span class="num">10</span></span>
+              <span class="f10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 4a8 8 0 1 1-8 8" stroke-linecap="round"/><path d="M13 1l3 3-3 3"/></svg><span class="num">10</span></span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 10v4h4l5 5V5L7 10H3z"/><path d="M16 8a5 5 0 0 1 0 8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            </div>
+            <div class="grp">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M6 13h4M13 13h5M6 10h2"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9V5h4M20 9V5h-4M4 15v4h4M20 15v4h-4"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="ring" id="ring"></div>
+      </div>
+    </div>
+
+    <div class="scrollhint" id="hint">Scroll to explore</div>
+    <div class="caption" id="caption"><div class="lbl"></div><h3></h3><p></p></div>
+  </div>
+
+  <div class="step" data-step="0"></div>
+  <div class="step" data-step="1"></div>
+  <div class="step" data-step="2"></div>
+  <div class="step" data-step="3"></div>
+</div>
+
+<section class="block" id="how" style="background:#06101a">
+  <div class="eyebrow">How it works · the technology</div>
+  <p class="sub">X-Ray already does the identification. Putting it on the timeline and wiring the actions is design, not new detection.</p>
+  <div class="flow">
+    <div class="fstep"><div class="t">X-RAY, TODAY</div><h4>The songs already exist</h4><p>X-Ray lists every song with its start time and a Jump to scene, inside a panel you pause to open.</p><span class="src"><a href="https://www.aboutamazon.com/news/entertainment/what-is-x-ray-on-prime-video" target="_blank" rel="noopener">Source: X-Ray (About Amazon)</a></span></div>
+    <div class="arrow">→</div>
+    <div class="fstep"><div class="t">WE ADD · THE PLACE</div><h4>On the timeline</h4><p>The same songs become chapters on the seek bar, so you see one coming and know how long it runs.</p><span class="src"><a href="https://www.amazon.science/publications/intro-and-recap-detection-for-movies-and-tv-series" target="_blank" rel="noopener">Precedent: intro / recap detection (Amazon Science)</a></span></div>
+    <div class="arrow">→</div>
+    <div class="fstep" style="border-color:var(--blue)"><div class="t">WE ADD · THE ACTIONS</div><h4>Skip it, or add it</h4><p>One tap to the end of a song, or one tap to add its soundtrack to Amazon Music. Neither exists today.</p><span class="src"><a href="https://www.amazon.science/publications/cnn-based-audio-event-recognition-for-automated-violence-classification-and-rating-for-prime-video-content" target="_blank" rel="noopener">Source: audio-event recognition (Amazon Science)</a></span></div>
+  </div>
+  <div class="adbrick"><div class="t">Design detail · living with ads</div><p>On the ad tier, Prime already marks the timeline with ad cue points. So <b>ads stay as unskippable dots</b>, while a song reads as a <b>named, skippable band</b> in X-Ray blue. If an ad cue and a song land together, the song label steps aside, so the two never stack.</p></div>
+  <div class="callout"><div class="pl">A number, not background music</div><p>X-Ray names every track, but not every track becomes a chapter. A chapter appears only on Indian titles, only when the audio matches the film's soundtrack album, and only when the song runs as sustained foreground music. Background score and brief cues stay in X-Ray as trivia, never as a marker. It tunes for precision over recall.</p></div>
+</section>
+
+<section class="block" id="business">
+  <div class="eyebrow">Why it works for the business</div>
+  <p class="sub">Prime Video is the loyalty engine for Amazon's flywheel of media, ads, and commerce, and India is where that flywheel is spinning up fastest. A finished song keeps members watching, and members who watch <b>stay in Prime, where they spend twice as much</b>. Across a <b>250M+ Indian audience</b> it means more ad views on the free tier, and every named song adds the film's <b>full soundtrack to Amazon Music</b>, at home and across the diaspora who carry these soundtracks with them. That music pull-through is a lever no rival can pull. Because it rides on X-Ray, it ships to every viewer of Indian titles, ad tier and ad-free, and launches on the ad tier first, where demand runs highest.</p>
+  <div class="stats">
+    <div class="stat"><div class="v"><em>2×</em></div><div class="l">more spent on Amazon by Prime members than non-members</div><span class="src"><a href="https://www.emarketer.com/content/prime-day-and-amazons-new-flywheel-media-advertising-and-commerce" target="_blank" rel="noopener">Source: eMarketer</a></span></div>
+    <div class="stat"><div class="v"><em>315M</em></div><div class="l">Prime ad-supported viewers a month, more than Netflix</div><span class="src"><a href="https://www.subscriptioninsider.com/article-type/news/prime-video-claims-315-million-monthly-ad-supported-viewers-surpassing-netflix-in-global-ad-reach" target="_blank" rel="noopener">Source: Subscription Insider</a></span></div>
+    <div class="stat"><div class="v"><em>250M+</em></div><div class="l">users on the unified platform after the MX Player merger</div><span class="src"><a href="https://www.broadbandtvnews.com/2026/05/07/prime-video-to-integrate-amazon-mx-player-in-india/" target="_blank" rel="noopener">Source: Broadband TV News</a></span></div>
+  </div>
+</section>
+
+<section class="block" id="next">
+  <div class="eyebrow">How I'd test it</div>
+  <p class="sub">X-Ray already does the hard part, so the test is about coverage and discovery, not building a model. Four steps, each a clear go or no-go.</p>
+  <div class="flow">
+    <div class="fstep"><div class="t">1 · AUDIT</div><h4>Check the data</h4><p>No model to build. Confirm X-Ray already stores song timecodes across the Indian catalog. A data check, not detection.</p></div>
+    <div class="arrow">→</div>
+    <div class="fstep"><div class="t">2 · LISTEN</div><h4>Interview</h4><p>Test the named-chapter framing. Do people use jump, and do they add songs to Amazon Music?</p></div>
+    <div class="arrow">→</div>
+    <div class="fstep"><div class="t">3 · BUILD</div><h4>Prototype</h4><p>Ship it as an X-Ray extension on the free tier, where the demand is highest.</p></div>
+    <div class="arrow">→</div>
+    <div class="fstep" style="border-color:var(--blue)"><div class="t">4 · PROVE</div><h4>A/B test</h4><p>Track task success (reached the end cleanly), adoption (chapter taps), completion, and the discovery signal: did more people add the soundtrack to Amazon Music?</p></div>
+  </div>
+</section>
+
+<section class="close">
+  <h2>Let's take it further.</h2>
+  <p>This is an independent concept, not affiliated with Amazon. I built it because X-Ray already does the hard part, the fix is mostly design, and the best products start from a small, honest observation. If you are building for moments like this, I would love to talk.</p>
+  <a class="pill2" href="mailto:isg2038@nyu.edu" style="text-decoration:none">Get in touch</a>
+</section>
+<footer>
+  A product concept by Saanchie. Independent and unaffiliated with Amazon.<br>
+  Example film: Kal Ho Naa Ho (2003), title track "Kal Ho Naa Ho" by Sonu Nigam (Shankar-Ehsaan-Loy). Marker position and timing are illustrative.<br>
+  Built on public research: Amazon Science (X-Ray, detection), Prime Video and MX Player India, Ormax, and community discussion. · isg2038@nyu.edu
+</footer>
+
+<script>
+  var played=document.getElementById('played'),knob=document.getElementById('knob'),seg=document.getElementById('seg'),scrub=document.getElementById('scrub'),skip=document.getElementById('skipbtn'),elapsed=document.getElementById('elapsed');
+  var total=11160; // 3:06:00
+  var songStart=40,songEnd=64,pct=40;
+  function fmt(s){s=Math.max(0,Math.round(s));var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return h+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');}
+  function render(){played.style.width=pct+'%';knob.style.left=pct+'%';elapsed.textContent=fmt(pct/100*total);var inSong=pct>=songStart-1&&pct<songEnd;skip.style.opacity=inSong?'1':'0';skip.style.pointerEvents=inSong?'auto':'none';seg.style.opacity=pct>=songEnd?'.35':'1';}
+  function animateTo(t){var s=pct,t0=performance.now();(function st(now){var k=Math.min(1,(now-t0)/600);pct=s+(t-s)*k;render();if(k<1)requestAnimationFrame(st);})(performance.now());}
+  function jump(e){if(e)e.stopPropagation();animateTo(songEnd+0.5);}
+  function jumpScene(e){if(e)e.stopPropagation();animateTo(songStart+0.3);}
+  skip.addEventListener('click',jump);
+  scrub.addEventListener('click',function(e){var r=scrub.getBoundingClientRect();pct=Math.max(0,Math.min(100,(e.clientX-r.left)/r.width*100));render();});
+  document.querySelectorAll('.xtabs a:not(.viewall)').forEach(function(a){a.addEventListener('click',function(){document.querySelectorAll('.xtabs a:not(.viewall)').forEach(function(x){x.classList.remove('on')});a.classList.add('on');});});
+  render();
+
+  // ---- X-Ray Music tab: collapsed scene view <-> expanded full title ----
+  var xhead=document.getElementById('xhead'),xbody=document.getElementById('xbody'),xcta=document.getElementById('xcta'),viewAll=document.getElementById('viewAll');
+  var xsongs=[
+    {t:'Kal Ho Naa Ho',a:'Sonu Nigam · Shankar-Ehsaan-Loy',tc:'1:14:24',now:true},
+    {t:'Pretty Woman',a:'Shankar Mahadevan',tc:'1:24:36'},
+    {t:'Maahi Ve',a:'Sonu Nigam, Shaan, Sadhana Sargam',tc:'1:52:08'},
+    {t:"It's the Time to Disco",a:'Shaan, KK, Vasundhara Das',tc:'2:05:30'},
+    {t:'Kuch To Hua Hai',a:'Alka Yagnik, Shaan',tc:'2:22:10'},
+    {t:'Kal Ho Naa Ho (Sad)',a:'Alka Yagnik, Sonu Nigam',tc:'2:41:00'},
+    {t:'Heartbeat',a:'Instrumental · Shankar-Ehsaan-Loy',tc:'2:58:12'}
+  ];
+  var xExpanded=false;
+  function renderXray(){
+    xhead.textContent=xExpanded?'SONGS IN THIS TITLE':'SONGS IN THIS SCENE';
+    var list=xExpanded?xsongs:xsongs.slice(0,3);
+    xbody.innerHTML=list.map(function(s,idx){
+      var badge=s.now?'<span class="xbadge">NOW PLAYING</span>':'';
+      if(!xExpanded&&s.now){
+        return '<div class="xitem now"><div class="xart">♪</div><div class="xinfo"><div class="xtitle">'+s.t+badge+'</div><div class="xartist">'+s.a+'</div><div class="xrowbtns"><button data-act="jumpscene">Jump to scene</button><button class="primary" data-act="add">Add to Amazon Music</button></div></div></div>';
+      }
+      if(!xExpanded){
+        var sub=idx===1?'up next · '+s.tc:s.tc;
+        return '<div class="xitem dim"><div class="xart">♪</div><div class="xinfo"><div class="xtitle">'+s.t+'</div><div class="xartist">'+s.a+'</div><div class="xsub">'+sub+'</div></div></div>';
+      }
+      return '<div class="xitem'+(s.now?' now':'')+'"><div class="xart">♪</div><div class="xinfo"><div class="xtitle">'+s.t+badge+'</div><div class="xartist">'+s.a+'</div></div><div class="xright"><div class="xtc">'+s.tc+'</div><a class="xjs" data-act="jumpscene">Jump to scene ›</a></div></div>';
+    }).join('');
+    xcta.innerHTML=xExpanded?'<button data-act="addall">Add soundtrack to Amazon Music</button>':'';
+    viewAll.textContent=xExpanded?'Show less':'View All';
+    xbody.querySelectorAll('[data-act]').forEach(function(el){el.addEventListener('click',function(ev){ev.stopPropagation();var a=el.getAttribute('data-act');if(a==='jumpscene'){jumpScene();}else if(a==='add'){el.textContent='Added ✓';}});});
+    var addall=xcta.querySelector('[data-act="addall"]');if(addall)addall.addEventListener('click',function(ev){ev.stopPropagation();addall.textContent='Soundtrack added ✓';});
+  }
+  function reframeXray(){if(typeof current==='undefined'||current!==3)return;if(xExpanded){applyZoom(.835,.52,1.25);}else{var p=presets[3];applyZoom(p.fx,p.fy,p.s);}}
+  viewAll.addEventListener('click',function(e){e.stopPropagation();xExpanded=!xExpanded;renderXray();reframeXray();});
+  renderXray();
+
+  // ---- scroll-driven zoom walkthrough (centers the highlighted element) ----
+  var zoom=document.getElementById('zoom'),caption=document.getElementById('caption'),hint=document.getElementById('hint'),player=document.getElementById('player'),scrolly=document.getElementById('scrolly'),pdots=document.getElementById('pdots');
+  var presets=[
+    {fx:.5,fy:.5,s:1},
+    {fx:.5,fy:.86,s:1.8,lbl:'Music Chapters',h:'Never wonder how long a song runs.',p:'Every song becomes its own chapter on the seek bar. You can see a number coming and know where it ends, while ad cues stay as separate dots.'},
+    {fx:.52,fy:.83,s:2.2,lbl:'Named on the timeline',h:'Know the song without leaving the film.',p:'The chapter shows the title and time left, like "Kal Ho Naa Ho, 5:21 left," so you can choose to stay with it or move on, no guessing.'},
+    {fx:.835,fy:.33,s:1.75,lbl:'Skip it, or add it',h:'Jump to the end, or add it to Amazon Music.',p:'X-Ray already named the song. One tap skips to its end, or adds its soundtrack to your Amazon Music library. No searching later.'}
+  ];
+  presets.forEach(function(){pdots.appendChild(document.createElement('i'));});
+  var dots=[].slice.call(pdots.children),current=0;
+  function applyZoom(fx,fy,s){var W=player.offsetWidth,H=player.offsetHeight;var tx=-s*(fx-0.5)*W,ty=-s*(fy-0.5)*H;zoom.style.transformOrigin='50% 50%';zoom.style.transform='translate('+tx+'px,'+ty+'px) scale('+s+')';}
+  function setStep(i){
+    current=i;var p=presets[i];applyZoom(p.fx,p.fy,p.s);
+    dots.forEach(function(d,x){d.className=x===i?'on':'';});
+    if(i!==3&&xExpanded){xExpanded=false;renderXray();}
+    if(i===0){hint.style.opacity='1';caption.classList.remove('on');return;}
+    hint.style.opacity='0';
+    caption.querySelector('.lbl').textContent=p.lbl;caption.querySelector('h3').textContent=p.h;caption.querySelector('p').textContent=p.p;caption.classList.add('on');
+  }
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)setStep(+e.target.dataset.step);});},{rootMargin:'-45% 0px -45% 0px',threshold:0});
+  document.querySelectorAll('.step').forEach(function(s){io.observe(s);});
+  window.addEventListener('resize',function(){setStep(current);});
+  window.addEventListener('scroll',function(){var r=scrolly.getBoundingClientRect();pdots.style.opacity=(r.bottom>window.innerHeight*0.55)?'1':'0';},{passive:true});
+  setStep(0);
+  // ---- section nav active state ----
+  var tabSecs=['problem','research','scrolly','how','business','next'],tabEls={};
+  document.querySelectorAll('#tabs a').forEach(function(a){tabEls[a.getAttribute('data-sec')]=a;});
+  var tio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){tabSecs.forEach(function(id){if(tabEls[id])tabEls[id].classList.toggle('on',id===e.target.id);});}});},{rootMargin:'-12% 0px -82% 0px',threshold:0});
+  tabSecs.forEach(function(id){var el=document.getElementById(id);if(el)tio.observe(el);});
+</script>
+</body>
+</html>

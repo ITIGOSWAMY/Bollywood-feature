@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Music Markers & Music Chapters · A concept by Saanchie.</title>
+<meta name="description" content="A product design concept: helping viewers navigate songs in Bollywood and Indian films on Netflix and Prime Video.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--nf:#E50914;--pv:#1A98FF}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:#08080a;color:#fff;font-family:'Inter',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+  .wrap{max-width:1080px;margin:0 auto;padding:9vh 7vw 8vh}
+  h1,h2{text-wrap:balance}p{text-wrap:pretty}
+  .kicker{color:#8a8a8a;font-weight:800;letter-spacing:.22em;text-transform:uppercase;font-size:12px;margin-bottom:18px}
+  h1{font-size:clamp(40px,7vw,86px);font-weight:900;line-height:.98;letter-spacing:-.03em}
+  h1 .a{position:relative;color:#fff;white-space:nowrap}
+  h1 .a:after{content:"";position:absolute;left:0;right:0;bottom:.05em;height:.13em;border-radius:4px;background:#fff}
+  .lead{color:#cfcfcf;font-size:clamp(16px,1.7vw,20px);line-height:1.55;max-width:60ch;margin-top:22px}
+  .lead b{color:#fff}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:54px}
+  .card{position:relative;display:flex;flex-direction:column;text-decoration:none;color:#fff;border-radius:18px;padding:34px 30px;min-height:230px;border:1px solid #242424;overflow:hidden;transition:transform .25s,border-color .25s}
+  .card:hover{transform:translateY(-4px)}
+  .card.nf{background:radial-gradient(120% 120% at 20% 0%,#2a0d11,#0b0809 70%)}
+  .card.nf:hover{border-color:var(--nf)}
+  .card.pv{background:radial-gradient(120% 120% at 20% 0%,#0c3050,#06141f 70%)}
+  .card.pv:hover{border-color:var(--pv)}
+  .badge{font-weight:900;letter-spacing:.16em;font-size:15px}
+  .card.nf .badge{color:var(--nf)}
+  .card.pv .badge .pv1{color:var(--pv)}
+  .crumb{color:#9a9a9a;font-size:12px;font-weight:600;letter-spacing:.08em;margin-top:6px}
+  .card h2{font-size:clamp(26px,3vw,38px);font-weight:900;letter-spacing:-.01em;margin-top:34px}
+  .card p{color:#b9b9b9;font-size:14.5px;line-height:1.5;margin-top:10px;max-width:34ch}
+  .go{margin-top:auto;padding-top:22px;font-weight:700;font-size:14px;color:#cfcfcf}
+  .card.nf:hover .go{color:var(--nf)}
+  .card.pv:hover .go{color:var(--pv)}
+  .meta{margin-top:54px;color:#6f6f6f;font-size:13px;line-height:1.7;border-top:1px solid #1a1a1a;padding-top:26px}
+  .meta a{color:#cfcfcf}
+  @media(max-width:760px){.cards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="kicker">A product design concept · Netflix &amp; Prime Video</div>
+    <h1>Indian films are built on songs.<br>Now you can <span class="a">navigate them.</span></h1>
+    <p class="lead">A single Indian film can carry six or more song sequences across three hours. When one plays on Netflix or Prime Video, you are stuck. You cannot see how long it runs, skip past it, or keep the one you loved. <b>Two concepts fix that. Every song becomes a chapter on the timeline, yours to skip, name, or add to your library.</b> The demand is real: a fan mockup hit 4.3K upvotes and a petition. Every finished song is a finished film.</p>
+
+    <div class="cards">
+      <a class="card nf" href="netflix-product-page.html">
+        <div class="badge">NETFLIX</div>
+        <div class="crumb">Concept · Music Markers</div>
+        <h2>Music Markers</h2>
+        <p>A named chapter for every song, on the seek bar. Like Skip Intro, for songs.</p>
+        <span class="go">Open the concept ›</span>
+      </a>
+      <a class="card pv" href="amazon-prime-product-page.html">
+        <div class="badge"><span class="pv1">prime</span> video</div>
+        <div class="crumb">Concept · Music Chapters</div>
+        <h2>Music Chapters</h2>
+        <p>Skip any song on the timeline, or add its soundtrack to Amazon Music. Built on X-Ray.</p>
+        <span class="go">Open the concept ›</span>
+      </a>
+    </div>
+
+    <div class="meta">
+      A product concept by Saanchie. Independent and unaffiliated with Netflix or Amazon.<br>
+      Built on public research and each platform's own published technology. Example films and song timings are illustrative. · <a href="mailto:isg2038@nyu.edu">isg2038@nyu.edu</a>
+    </div>
+  </div>
+</body>
+</html>

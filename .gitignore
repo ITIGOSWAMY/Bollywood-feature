@@ -1,0 +1,6 @@
+# Publish only the site files. Everything else (research .md docs, etc.) stays out of the public repo.
+*
+!index.html
+!netflix-product-page.html
+!amazon-prime-product-page.html
+!.gitignore
