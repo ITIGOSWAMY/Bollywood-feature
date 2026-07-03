@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Music Markers · Netflix</title>
+<title>Tracks · Netflix</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -163,7 +163,7 @@
 </head>
 <body>
 <header class="topbar">
-  <div class="brand"><span class="logo">NETFLIX</span><span class="crumb">Concept · <b>Music Markers</b></span></div>
+  <div class="brand"><span class="logo">NETFLIX</span><span class="crumb">Concept · <b>Tracks</b></span></div>
   <nav class="tabs" id="tabs">
     <a href="#problem" data-sec="problem" class="on">The problem</a>
     <a href="#research" data-sec="research">Research</a>
@@ -194,7 +194,7 @@
     <div class="ritem"><div class="rnum">03</div><h4>They asked for chapters</h4><p>The top reply proposed a chapter per song, not a blunt skip. That is this feature.</p><span class="src"><a href="https://www.reddit.com/r/kollywood/comments/1iz1hql/" target="_blank" rel="noopener">r/kollywood</a></span></div>
     <div class="ritem"><div class="rnum">04</div><h4>Cultural, pan-Indian</h4><p>Tamil and Telugu too. For the diaspora the song is a tether, so keep it passive.</p><span class="src"><a href="https://www.reddit.com/r/kollywood/comments/1iz1hql/" target="_blank" rel="noopener">r/kollywood</a> · <a href="https://www.burntroti.com/blog/the-soundtrack-to-my-diasporic-roots" target="_blank" rel="noopener">Burnt Roti</a></span></div>
   </div>
-  <div class="rconc"><p><b>So: not an auto-skip.</b> A passive, named chapter per song. The skip shows only for people who already skip. Everyone else just sees where the song ends.</p></div>
+  <div class="rconc"><p><b>So: not an auto-skip.</b> A passive, named track per song. The skip shows only for people who already skip. Everyone else just sees where the song ends.</p></div>
 </section>
 
 <!-- ===================== WALKTHROUGH ===================== -->
@@ -206,7 +206,7 @@
         <div class="scrim"></div>
         <div class="pbar"><span class="back">‹</span><span class="ttl">Dhurandhar <em>R · 2025 · Action/Thriller · 3h 34m</em></span></div>
         <div class="centerplay" id="centerplay"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div>
-        <div class="chap">Chapter 7 of 14 <span>· Song</span></div>
+        <div class="chap">Track 7 of 14 <span>· Song</span></div>
         <button class="skipbtn" id="skipbtn">Skip to end of song</button>
         <div class="controls">
           <div class="scrub" id="scrub">
@@ -320,7 +320,7 @@
   var zoom=document.getElementById('zoom'),caption=document.getElementById('caption'),hint=document.getElementById('hint'),player=document.getElementById('player'),scrolly=document.getElementById('scrolly'),pdots=document.getElementById('pdots');
   var presets=[
     {fx:.5,fy:.5,s:1},
-    {fx:.5,fy:.86,s:1.8,lbl:'Music Markers',h:'Never wonder how long a song runs.',p:'Every song becomes its own chapter on the seek bar, so you can see a number coming and know exactly where it ends.'},
+    {fx:.27,fy:.8,s:1.35,lbl:'Tracks',h:'See every song coming.',p:'Each song is marked as its own track on the seek bar, so a musical number never takes you by surprise.'},
     {fx:.53,fy:.83,s:2.2,lbl:'Named, with time left',h:'Know the song, and when it ends.',p:'The marker shows the title and the time still to go, like "Gehra Hua, 4:10 left," so you can choose to wait or move on instead of scrubbing blindly.'},
     {fx:.90,fy:.79,s:2.2,lbl:'Yours to skip, or savor',h:'Skip to the end in one tap. Like Skip Intro.',p:'It appears only for viewers who already skip songs. Tap to jump back to the story, or ignore it and enjoy the number, so no one loses a song they came for.'}
   ];
