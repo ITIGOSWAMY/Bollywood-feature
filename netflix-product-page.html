@@ -28,6 +28,7 @@
   .pdots i.on{background:var(--red);height:24px;border-radius:6px}
   h1,h2,h3{text-wrap:balance}
   p{text-wrap:pretty}
+  .caption p,.fstep p,.ritem p,.pbox p,.stat .l{text-wrap:balance}
 
   /* ===== scrolly walkthrough ===== */
   .scrolly{position:relative}
@@ -85,7 +86,7 @@
   .ctrlrow .grp{display:flex;align-items:center;gap:20px}
   .ctrlrow svg{width:22px;height:22px;color:#fff;cursor:pointer;opacity:.92}
   .ctrlrow .r10,.ctrlrow .f10{position:relative}
-  .ctrlrow .num{font-size:8px;font-weight:800;position:absolute;left:50%;top:54%;transform:translate(-50%,-50%)}
+  .ctrlrow .num{font-size:8px;font-weight:800;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
 
   /* highlight ring used during zoom steps */
   .ring{position:absolute;border:2px solid var(--red);border-radius:8px;box-shadow:0 0 0 9999px rgba(0,0,0,.0),0 0 22px rgba(229,9,20,.6);opacity:0;transition:opacity .5s;pointer-events:none;z-index:5}
@@ -220,8 +221,8 @@
           <div class="ctrlrow">
             <div class="grp">
               <svg class="play" id="play2" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              <span class="r10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4a8 8 0 1 0 8 8" stroke-linecap="round"/><path d="M11 1L8 4l3 3"/></svg><span class="num">10</span></span>
-              <span class="f10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 4a8 8 0 1 1-8 8" stroke-linecap="round"/><path d="M13 1l3 3-3 3"/></svg><span class="num">10</span></span>
+              <span class="r10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6a6 6 0 1 1-5.6 3.9"/><path d="M12 3 8.4 6 12 9"/></svg><span class="num">10</span></span>
+              <span class="f10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6a6 6 0 1 0 5.6 3.9"/><path d="M12 3 15.6 6 12 9"/></svg><span class="num">10</span></span>
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 10v4h4l5 5V5L7 10H3z"/><path d="M16 8a5 5 0 0 1 0 8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
             </div>
             <div class="grp">
