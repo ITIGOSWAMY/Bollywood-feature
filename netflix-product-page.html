@@ -68,7 +68,19 @@
   .skipbtn:hover{background:#fff;color:#000}
 
   .controls{position:absolute;left:0;right:0;bottom:0;padding:0 24px 18px;z-index:4}
-  .scrub{position:relative;height:7px;cursor:pointer;display:flex;align-items:center}
+  .scrub{position:relative;height:7px;display:flex;align-items:center}
+  .cseg{position:absolute;top:50%;transform:translateY(-50%);height:6px;background:rgba(255,255,255,.32);border-radius:3px}
+  .cseg.red{background:var(--red)}
+  .chaptitle{display:flex;width:fit-content;align-items:center;gap:10px;margin-bottom:16px;padding:9px 16px;background:rgba(35,35,38,.82);border-radius:22px;color:#fff;font-weight:600;font-size:15px;cursor:pointer;transition:background .2s}
+  .chaptitle:hover{background:rgba(55,55,58,.9)}
+  .chapicon{width:17px;height:17px;color:#fff;opacity:.92;flex-shrink:0}
+  .songspanel{position:absolute;left:24px;bottom:96px;width:min(600px,58%);max-height:calc(100% - 150px);z-index:9;background:rgba(18,18,20,.97);border-radius:12px;padding:22px 26px;box-shadow:0 12px 40px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .3s;overflow-y:auto}
+  .songspanel.open{opacity:1;pointer-events:auto}
+  .sp-head{color:#fff;font-weight:900;font-size:26px;margin-bottom:14px}
+  .sp-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 4px;border-bottom:1px solid rgba(255,255,255,.08);color:#fff}
+  .sp-row .n{font-weight:700;font-size:17px}
+  .sp-row .t{color:var(--gray);font-size:15px;font-weight:600;flex-shrink:0}
+  .sp-row.on{border:1px solid rgba(255,255,255,.9);border-radius:8px;padding:16px 12px}
   .track{position:absolute;left:0;right:0;height:5px;border-radius:5px;background:var(--track)}
   .played{position:absolute;left:0;height:5px;width:35%;border-radius:5px;background:var(--red)}
   .tick{position:absolute;width:2px;height:9px;background:rgba(255,255,255,.6);border-radius:2px}
@@ -207,14 +219,12 @@
         <div class="scrim"></div>
         <div class="pbar"><span class="back">‹</span><span class="ttl">Dhurandhar <em>R · 2025 · Action/Thriller · 3h 34m</em></span></div>
         <div class="centerplay" id="centerplay"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div>
-        <div class="chap">Track 7 <span>· Gehra Hua</span></div>
         <button class="skipbtn" id="skipbtn">Skip to end of song</button>
         <div class="controls">
+          <div class="chaptitle"><svg class="chapicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.1" fill="currentColor" stroke="none"/><circle cx="4.5" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="4.5" cy="18" r="1.1" fill="currentColor" stroke="none"/></svg><span>Gehra Hua</span></div>
           <div class="scrub" id="scrub">
-            <div class="track"></div>
-            <div class="played" id="played"></div>
-            <div class="tick" style="left:12%"></div><div class="tick" style="left:30%"></div><div class="tick" style="left:64%"></div><div class="tick" style="left:82%"></div>
-            <div class="seg" id="seg"></div>
+            <div class="cseg" style="left:0;width:11%"></div><div class="cseg" style="left:12%;width:9%"></div><div class="cseg" style="left:22%;width:10.8%"></div><div class="cseg" style="left:33.6%;width:3.1%"></div><div class="cseg" style="left:37.5%;width:13.5%"></div><div class="cseg" style="left:52%;width:11%"></div><div class="cseg" style="left:64%;width:15%"></div><div class="cseg" style="left:80%;width:20%"></div>
+            <div class="cseg red" style="left:0;width:11%"></div><div class="cseg red" style="left:12%;width:9%"></div><div class="cseg red" style="left:22%;width:10.8%"></div><div class="cseg red" style="left:33.6%;width:1.4%"></div>
             <div class="knob" id="knob"></div>
           </div>
           <div class="timerow"><span id="elapsed">1:14:54</span><span>3:34:00</span></div>
@@ -231,6 +241,17 @@
             </div>
           </div>
         </div>
+        <div class="songspanel" id="songspanel">
+          <div class="sp-head">Songs</div>
+          <div class="sp-list">
+            <div class="sp-row"><span class="n">Dhurandhar (Title Track)</span><span class="t">0:07:10</span></div>
+            <div class="sp-row"><span class="n">Zamana</span><span class="t">0:29:40</span></div>
+            <div class="sp-row"><span class="n">Ishq Jalakar (Karvaan)</span><span class="t">0:51:20</span></div>
+            <div class="sp-row on"><span class="n">Gehra Hua</span><span class="t">1:12:00</span></div>
+            <div class="sp-row"><span class="n">Saudai</span><span class="t">1:41:15</span></div>
+            <div class="sp-row"><span class="n">Mitti</span><span class="t">2:18:40</span></div>
+          </div>
+        </div>
         <div class="ring" id="ring"></div>
       </div>
     </div>
@@ -245,6 +266,8 @@
   <div class="step" data-step="0"></div>
   <div class="step" data-step="1"></div>
   <div class="step" data-step="2"></div>
+  <div class="step" data-step="3"></div>
+  <div class="step" data-step="4"></div>
 </div>
 
 <!-- ===================== ML (HOW) ===================== -->
@@ -262,6 +285,7 @@
   </div>
   <div class="callout"><div class="pl">Personalized, and optional</div><p><b>And who sees the skip?</b> Netflix already logs every scrub. Pair those events with the song timestamps from SMAD, and skipping a song becomes a clear, per-viewer signal, read the same way FM-Intent models what a session is for. So the skip button surfaces only for people who have skipped songs before. Everyone else just sees the marker.</p><p style="margin-top:11px"><b>Phase 1</b> ships the marker and a skip for everyone, exactly like Skip Intro works today. <b>Phase 2</b> layers this personalization on once the per-viewer signal proves out, so none of it blocks a first launch.</p><span class="src"><a href="https://netflixtechblog.com/fm-intent-predicting-user-session-intent-with-hierarchical-multi-task-learning-94c75e18f4b8" target="_blank" rel="noopener">Source: FM-Intent, hierarchical multi-task learning (Netflix TechBlog)</a></span></div>
   <div class="callout"><div class="pl">A number, not background music</div><p>Not every track becomes a marker. A marker appears only on Indian titles, only when the audio matches the film's own soundtrack, and only when the song plays as sustained foreground music long enough to be a real number. Background score and short needle-drops stay unmarked. It tunes for precision, so it would rather miss a borderline song than mislabel a scene.</p></div>
+  <div class="callout"><div class="pl">Built on Netflix's podcast chapters</div><p>Netflix just turned its player into a video-podcast hub: 16 shows from Spotify and The Ringer, and 15-plus from iHeartMedia, all arriving in 2026 with chapter navigation. That segmented bar and Songs list are the same pattern this feature uses. So Tracks is not a fresh build. It reuses the chapter tooling Netflix already shipped, and points it at a catalog no podcast deal can match: Indian cinema.</p><span class="src"><a href="https://www.cnbc.com/2025/10/14/spotify-ringer-netflix-video-podcasts.html" target="_blank" rel="noopener">Source: Spotify / The Ringer deal (CNBC)</a> · <a href="https://techcrunch.com/2025/12/16/netflix-doubles-down-on-video-podcasts-with-iheartmedia-deal/" target="_blank" rel="noopener">iHeartMedia deal (TechCrunch)</a> · <a href="https://www.netflix.com/tudum/articles/netflix-spotify-video-podcasts" target="_blank" rel="noopener">Netflix Tudum</a></span></div>
 </section>
 
 <!-- ===================== BUSINESS ===================== -->
@@ -304,30 +328,29 @@
 
 <script>
   // ---- interactive player ----
-  var played=document.getElementById('played'),knob=document.getElementById('knob'),seg=document.getElementById('seg'),scrub=document.getElementById('scrub'),skip=document.getElementById('skipbtn'),elapsed=document.getElementById('elapsed');
-  var total=12840; // 3:34:00 in seconds
-  var songStart=33.6,songEnd=36.7,pct=35,playing=false;
-  function fmt(s){s=Math.max(0,Math.round(s));var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return h+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');}
-  function render(){played.style.width=pct+'%';knob.style.left=pct+'%';elapsed.textContent=fmt(pct/100*total);var inSong=pct>=songStart-1&&pct<songEnd;skip.style.opacity=inSong?'1':'0';skip.style.pointerEvents=inSong?'auto':'none';seg.style.opacity=pct>=songEnd?'.3':'1';}
-  function animateTo(t){var s=pct,t0=performance.now();(function st(now){var k=Math.min(1,(now-t0)/600);pct=s+(t-s)*k;render();if(k<1)requestAnimationFrame(st);})(performance.now());}
-  skip.addEventListener('click',function(e){e.stopPropagation();animateTo(songEnd+0.5);});
-  scrub.addEventListener('click',function(e){var r=scrub.getBoundingClientRect();pct=Math.max(0,Math.min(100,(e.clientX-r.left)/r.width*100));render();});
-  document.getElementById('centerplay').addEventListener('click',function(){playing=!playing;this.style.opacity=playing?'0':'1';});
-  setInterval(function(){if(playing){pct=Math.min(100,pct+0.06);render();}},40);
-  render();
+  var skip=document.getElementById('skipbtn'),knob=document.getElementById('knob');
+  document.getElementById('centerplay').addEventListener('click',function(){this.style.opacity=this.style.opacity==='0'?'1':'0';});
+  skip.addEventListener('click',function(e){e.stopPropagation();knob.style.transition='left .55s';knob.style.left='37.4%';skip.style.opacity='0';});
+  var songspanel=document.getElementById('songspanel'),chaptitle=document.querySelector('.chaptitle');
+  function setList(open){if(songspanel)songspanel.classList.toggle('open',open);if(chaptitle)chaptitle.style.visibility=open?'hidden':'visible';}
+  if(chaptitle)chaptitle.addEventListener('click',function(e){e.stopPropagation();setList(!songspanel.classList.contains('open'));});
+  if(songspanel)songspanel.addEventListener('click',function(){setList(false);});
 
   // ---- scroll-driven zoom walkthrough (centers the highlighted element) ----
   var zoom=document.getElementById('zoom'),caption=document.getElementById('caption'),hint=document.getElementById('hint'),player=document.getElementById('player'),scrolly=document.getElementById('scrolly'),pdots=document.getElementById('pdots');
   var presets=[
     {fx:.5,fy:.5,s:1},
-    {fx:.27,fy:.8,s:1.35,lbl:'Tracks',h:'Know which track is playing.',p:'Every song, named on the timeline.'},
-    {fx:.90,fy:.79,s:2.2,lbl:'Yours to skip, or savor',h:'Skip to the end. One tap.',p:'Like Skip Intro, for songs.'}
+    {fx:.35,fy:.8,s:1.6,lbl:'Tracks',h:'Know which song is playing.',p:'Named right above the bar.'},
+    {fx:.36,fy:.87,s:2.6,lbl:'See how long it runs',h:'The marker shows where it ends.',p:''},
+    {fx:.90,fy:.79,s:2.2,lbl:'Yours to skip, or savor',h:'Skip to the end. One tap.',p:'Like Skip Intro, for songs.'},
+    {fx:.5,fy:.5,s:1,lbl:'Every song',h:'Open the list, jump anywhere.',p:'The full soundtrack, in order.'}
   ];
   presets.forEach(function(){pdots.appendChild(document.createElement('i'));});
   var dots=[].slice.call(pdots.children),current=0;
   function applyZoom(fx,fy,s){var W=player.offsetWidth,H=player.offsetHeight;var tx=-s*(fx-0.5)*W,ty=-s*(fy-0.5)*H;zoom.style.transformOrigin='50% 50%';zoom.style.transform='translate('+tx+'px,'+ty+'px) scale('+s+')';}
   function setStep(i){
     current=i;var p=presets[i];applyZoom(p.fx,p.fy,p.s);
+    if(typeof setList==='function')setList(i===4);
     dots.forEach(function(d,x){d.className=x===i?'on':'';});
     if(i===0){hint.style.opacity='1';caption.classList.remove('on');return;}
     hint.style.opacity='0';
