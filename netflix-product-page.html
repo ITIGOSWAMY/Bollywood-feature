@@ -8,8 +8,10 @@
 <style>
   :root{--red:#E50914;--red-d:#B20710;--bg:#fafafa;--near:#141414;--panel:#ffffff;--gray:#B3B3B3;--ink:#221F1F;--muted:#4d4d4d;--faint:#5a5a5a;--line:#e6e6e6;--track:rgba(255,255,255,.3);--font:'Netflix Sans','NetflixSans','Helvetica Neue',Helvetica,Arial,sans-serif}
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{background:var(--bg);color:#fff;font-family:var(--font);-webkit-font-smoothing:antialiased}
+  html{scroll-behavior:smooth;overflow-x:clip}
+  body{background:var(--bg);color:#fff;font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:clip;max-width:100%}
+  /* keep horizontal card-scroll contained to the row, never the page */
+  .rlist,.metrics,.itr-grid,.appblocks{overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
   .topbar{position:sticky;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 40px;height:76px;background:#141414}
   .brand{display:flex;align-items:center;gap:14px;min-width:0}
   .brand .mark{flex-shrink:0;display:block}
@@ -159,6 +161,14 @@
   @media(max-width:640px){.ba-compare{grid-template-columns:1fr}}
   .uflowd{margin-top:28px;max-width:none}
   .uflowd svg{width:100%;height:auto;display:block}
+  /* user flow spreads to the full screen width */
+  .dpanel[data-panel="flow-sec"] .uflowd{width:100vw;max-width:100vw;margin-left:50%;transform:translateX(-50%);padding:0 clamp(18px,5vw,90px)}
+  /* highlight only the current profile's path in the user flow */
+  .flowlane{transition:opacity .25s ease}
+  .uflowd[data-active] .flowlane{opacity:.18}
+  .uflowd[data-active="maya"] .flowlane[data-flow="maya"],
+  .uflowd[data-active="priya"] .flowlane[data-flow="priya"],
+  .uflowd[data-active="sofia"] .flowlane[data-flow="sofia"]{opacity:1}
   /* ===== billboard hero (Netflix app style) ===== */
   .hero{background:#141414;color:#fff;position:relative;min-height:86vh;display:flex;align-items:center;padding:0 max(6vw,calc((100% - 1120px)/2));overflow:hidden}
   .hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(130% 120% at 78% 26%,#4a1116,#160a0b 55%,#141414 88%)}
@@ -186,8 +196,16 @@
   /* ===== netflix topbar extras ===== */
   .nfright{display:flex;align-items:center;gap:18px;margin-left:auto}
   .nficon{color:#fff;cursor:pointer;display:block}
-  .nfbell{position:relative;display:flex}
+  .nfbell-wrap{position:relative;display:flex}
+  .nfbell{position:relative;display:flex;background:transparent;border:0;padding:0;cursor:pointer;color:#fff}
   .nfbell .dot{position:absolute;top:-5px;right:-6px;background:var(--red);color:#fff;font-size:9px;font-weight:800;border-radius:8px;padding:0 4px;line-height:1.6}
+  .nfnotif{position:absolute;top:40px;right:-8px;width:320px;max-width:86vw;background:rgba(10,10,10,.97);border:1px solid #333;border-radius:8px;padding:6px;opacity:0;pointer-events:none;transform:translateY(-6px);transition:.2s;z-index:130;box-shadow:0 18px 44px rgba(0,0,0,.6)}
+  .nfnotif.open{opacity:1;pointer-events:auto;transform:none}
+  .nfnotif:before{content:"";position:absolute;top:-6px;right:14px;width:11px;height:11px;background:rgba(10,10,10,.97);border-left:1px solid #333;border-top:1px solid #333;transform:rotate(45deg)}
+  .nn-head{color:#fff;font-weight:800;font-size:14px;padding:12px 14px 10px}
+  .nn-item{display:flex;flex-direction:column;gap:3px;padding:11px 14px;border-top:1px solid #262626}
+  .nn-item b{color:#fff;font-size:13px;font-weight:700}
+  .nn-item span{color:#b3b3b3;font-size:12.5px;line-height:1.45}
   .nfprofile{position:relative;display:flex;align-items:center;gap:6px;cursor:pointer}
   .nfprofile .av{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;background:linear-gradient(150deg,#F0323B,#7b1015);color:#fff}
   .nfprofile .caret{color:#fff;font-size:9px;transition:transform .2s}
@@ -365,15 +383,15 @@
   .nfrow-dots{display:flex;gap:3px;align-items:center;flex-shrink:0;padding-bottom:3px}
   .nfrow-dots i{width:16px;height:2px;background:#4d4d4d;border-radius:1px;transition:background .2s}
   .nfrow-dots i.on{background:#aeaeae}
-  .nfrow{position:relative;margin-right:calc(-1 * max(6vw,calc((100% - 1120px)/2)))}
-  .nfrow .rlist{padding-right:48px}
+  .nfrow{position:relative;margin-right:0;max-width:100%}
+  .nfrow .rlist{padding-right:8px}
   .nfrow-arrow{position:absolute;top:16px;bottom:26px;right:0;width:calc(max(6vw,calc((100% - 1120px)/2)) + 8px);min-width:44px;border:0;background:linear-gradient(90deg,rgba(20,20,20,0),rgba(20,20,20,.75) 55%);color:#fff;display:flex;align-items:center;justify-content:flex-end;padding-right:14px;cursor:pointer;opacity:0;transition:opacity .2s;z-index:8}
   .nfrow:hover .nfrow-arrow{opacity:1}
   .nfrow-arrow svg{width:30px;height:30px}
   .nfrow-arrow.left{left:0;right:auto;justify-content:flex-start;padding-left:14px;padding-right:0;background:linear-gradient(270deg,rgba(20,20,20,0),rgba(20,20,20,.75) 55%)}
   .nfrow-arrow[hidden]{display:none}
   /* research row — real Netflix-style dark thumbnails; info expands on click */
-  .rlist{margin-top:14px;display:flex;align-items:flex-start;gap:8px;overflow-x:auto;padding:6px 2px 26px;scroll-snap-type:x proximity;scroll-padding-right:60px}
+  .rlist{margin-top:24px;display:flex;align-items:flex-start;gap:8px;overflow-x:auto;padding:6px 0 26px;scroll-snap-type:x proximity;scroll-padding-right:60px}
   .rlist>.ritem{flex:0 0 clamp(232px,23vw,292px);scroll-snap-align:start}
   .ritem{position:relative;background:#181818;border:0;border-radius:6px;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,.45);display:flex;flex-direction:column;transition:box-shadow .2s}
   .ritem:hover{box-shadow:0 10px 28px rgba(0,0,0,.6)}
@@ -404,10 +422,16 @@
   .rp-top:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.5));pointer-events:none}
   .rp-panel{padding:14px 18px 18px}
   .rp-btns{display:flex;align-items:center;gap:11px;margin-bottom:14px}
-  .rp-cir{width:38px;height:38px;border-radius:50%;border:2px solid rgba(255,255,255,.55);background:rgba(42,42,42,.55);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:.15s}
+  .rp-top{text-decoration:none}
+  .rp-cir{width:38px;height:38px;border-radius:50%;border:2px solid rgba(255,255,255,.55);background:rgba(42,42,42,.55);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:.15s;text-decoration:none}
+  .rp-cir.play:hover{transform:scale(1.06)}
   .rp-cir:hover{border-color:#fff}
   .rp-cir svg{width:18px;height:18px}
   .rp-cir.play{background:#fff;color:#141414;border-color:#fff}
+  .rp-cir.link:hover{background:#fff;color:#141414;border-color:#fff}
+  .rp-cir.disagree svg{transform:scaleY(-1)}
+  .rp-cir.vote.voted.agree{background:#2ec26b;border-color:#2ec26b;color:#0b0b0b}
+  .rp-cir.vote.voted.disagree{background:#E50914;border-color:#E50914;color:#fff}
   .rp-close{margin-left:auto}
   .rp-panel h4{font-size:17px;color:#fff;font-weight:800;margin-bottom:7px}
   .rp-panel p{font-size:14px;color:#d2d2d2;line-height:1.5}
@@ -470,7 +494,7 @@
   @media(max-width:840px){.notes{grid-template-columns:1fr;gap:24px}}
 
   /* business, metrics (no cards, no icons) */
-  .metrics{display:flex;gap:9px;overflow-x:auto;padding:6px 2px 20px;margin-top:22px;scroll-snap-type:x mandatory}
+  .metrics{display:flex;gap:9px;overflow-x:auto;padding:6px 0 20px;margin-top:22px;scroll-snap-type:x mandatory}
   .metrics>.metric{flex:0 0 clamp(200px,20vw,244px);scroll-snap-align:start}
   .metric{background:transparent;border:0;border-top:2px solid #d8d3c7;border-radius:0;padding:18px 0 0;box-shadow:none}
   .metric .v{font-size:clamp(28px,3vw,44px);font-weight:700;line-height:1;color:var(--ink);letter-spacing:-.02em}
@@ -544,13 +568,16 @@
   .itr-fmenu button.on{color:#fff;font-weight:700}
   .itr.hidefilter{display:none}
   /* design panels: dropdown swaps these in place */
-  #dpanels{display:grid}
-  .dpanel{grid-area:1/1;display:none}
-  .dpanel.on{display:flex;flex-direction:column}
-  .dpanel .itr-grid,.dpanel .metrics,.dpanel .appblocks,.dpanel .uflowd{margin-top:auto;margin-bottom:auto}
+  #dpanels{display:grid;grid-template-columns:minmax(0,1fr)}
+  /* every panel occupies the same cell → the frame is always as tall as the tallest panel, so switching tabs never changes height */
+  .dpanel{grid-area:1/1;min-width:0;display:flex;flex-direction:column;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .22s ease}
+  .dpanel.on{visibility:visible;opacity:1;pointer-events:auto;z-index:2}
+  /* top-align content so every tab's frame starts at the same Y, and subtitles share one position/style */
+  .dpanel>.itr-lead{margin:14px 0 0}
+  .dpanel .itr-grid,.dpanel .metrics,.dpanel .appblocks,.dpanel .uflowd{margin-top:24px;margin-bottom:auto}
   .dpanel[data-panel="how"] .metric.top .mbody{min-height:180px;display:flex;flex-direction:column;justify-content:center}
   /* netflix app blocks (how + test) */
-  .appblocks{display:flex;gap:9px;overflow-x:auto;padding:6px 2px 20px;margin-top:22px;scroll-snap-type:x mandatory}
+  .appblocks{display:flex;gap:9px;overflow-x:auto;padding:6px 0 20px;margin-top:22px;scroll-snap-type:x mandatory}
   .appblocks>.appblock{flex:0 0 clamp(230px,24vw,296px);scroll-snap-align:start}
   .appblock{position:relative;background:#181818;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;transition:transform .22s,box-shadow .22s}
   .appblock:hover{transform:scale(1.04);box-shadow:0 14px 34px rgba(0,0,0,.55);z-index:4}
@@ -582,7 +609,7 @@
   .nfitem:hover .nfdrop,.nfdrop.open{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
   .nfdrop a{display:block;color:#e5e5e5;font-size:13.5px;padding:8px 18px;text-decoration:none;white-space:nowrap;text-align:center}
   .nfdrop a:hover{text-decoration:underline}
-  .itr-grid{display:flex;gap:9px;overflow-x:auto;padding:6px 2px 20px;margin-top:22px;scroll-snap-type:x mandatory}
+  .itr-grid{display:flex;gap:9px;overflow-x:auto;padding:6px 0 20px;margin-top:22px;scroll-snap-type:x mandatory}
   .itr-grid>.itr{flex:0 0 clamp(230px,24vw,290px);scroll-snap-align:start}
   .itr{background:#181818;border:1px solid #262626;border-radius:6px;padding:18px;transition:transform .22s,box-shadow .22s}
   .itr:hover{transform:scale(1.04);box-shadow:0 14px 30px rgba(0,0,0,.5);z-index:5}
@@ -647,12 +674,33 @@
   @media(max-width:600px){
     section.block{padding:11vh 6vw}
     .topbar{padding:10px 14px}.brand .logo{font-size:15px}
-    .pbar{padding:14px 16px}.pbar .ttl em{display:none}
+    .pbar{padding:12px 14px}.pbar .ttl em{display:none}.pbar .ttl{font-size:12px}.pbar .back{font-size:22px}
     .skipbtn{font-size:12px;padding:8px 13px}
     .caption{padding:15px 18px}.caption h3{font-size:19px}.caption p{font-size:14px}
     .flow{margin-top:30px}.fstep{padding:18px}
     .stats{gap:26px}.stat .v{font-size:46px}
     .close h2{font-size:40px}
+    /* --- player mockup: keep everything proportional to a phone screen --- */
+    .player{width:94vw}
+    .centerplay{width:46px;height:46px;top:42%}
+    .centerplay svg{width:19px;height:19px;margin-left:3px}
+    .controls{padding:0 13px 11px}
+    .chaptitle{font-size:11.5px;padding:5px 11px;gap:6px;margin-bottom:9px;border-radius:16px}
+    .chapicon{width:13px;height:13px}
+    .scrub{height:11px}
+    .knob{width:11px;height:11px}
+    .ssong{height:8px}
+    .timerow{font-size:9.5px;margin-top:7px}
+    .ctrlrow{margin-top:8px}
+    .ctrlrow .grp{gap:14px}
+    .ctrlrow svg{width:17px;height:17px}
+    .ctrlrow .num{font-size:7px}
+    .scrubtip{font-size:10.5px;padding:5px 10px;bottom:22px}.scrubtip svg{width:12px;height:12px}
+    .songspanel{left:13px;right:13px;bottom:70px;width:auto;max-width:none;padding:14px 16px;max-height:calc(100% - 120px)}
+    .sp-head{font-size:19px;margin-bottom:8px}
+    .sp-row{padding:9px 4px}.sp-row .n{font-size:13px}.sp-row .t{font-size:12px}
+    .sp-row.on{padding:9px 10px}
+    .sp-skip{font-size:11px;padding:5px 11px}
   }
 </style>
 </head>
@@ -709,14 +757,23 @@
 <header class="topbar" id="topbar">
   <span class="logo">NETFLIX</span>
   <nav class="tabs" id="tabs">
-    <a href="#scrolly" data-sec="scrolly" class="navlink on">Home</a>
-    <a href="#iterations" data-sec="iterations" class="navlink">Design</a>
-    <a href="#feedback" data-sec="feedback" class="navlink">Your turn</a>
-    <a href="#reflection" data-sec="reflection" class="navlink">Reflection</a>
+    <a href="#iterations" data-sec="iterations" class="navlink on">Design</a>
+    <a href="#scrolly" data-sec="scrolly" class="navlink">Demo</a>
+    <a href="#feedback" data-sec="feedback" class="navlink">Test</a>
+    <a href="#reflection" data-sec="reflection" class="navlink">Reflections</a>
   </nav>
   <div class="nfright">
     <svg class="nficon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-    <span class="nfbell"><svg class="nficon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="dot">1</span></span>
+    <div class="nfbell-wrap" id="nfbellwrap">
+      <button class="nfbell" id="nfbell" type="button" aria-label="How to use this case study"><svg class="nficon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="dot">1</span></button>
+      <div class="nfnotif" id="nfnotif">
+        <div class="nn-head">How to use this case study</div>
+        <div class="nn-item"><b>Switch audience</b><span>Click your profile (top-right) and pick Maya, Priya, or Sofia — the account page, user flow, and cards all adapt to that viewer.</span></div>
+        <div class="nn-item"><b>Read the research</b><span>In Design &rarr; Research, click any card. Hit &#8599; to open the source, or &#128077;/&#128078; to agree or disagree.</span></div>
+        <div class="nn-item"><b>Try the demo</b><span>Open <b>Demo</b> and scroll — the player shows how Tracks marks, names, and skips songs.</span></div>
+        <div class="nn-item"><b>Test it</b><span>Answer the quick survey under <b>Test</b> — it feeds real responses back to the research.</span></div>
+      </div>
+    </div>
     <div class="nfprofile" id="nfprofile">
       <span class="av wa-amber" id="navav" style="background:linear-gradient(150deg,#E8A23C,#8a5200)">M</span>
       <span class="caret">&#9662;</span>
@@ -775,7 +832,7 @@
   </div>
   <div class="dpanels" id="dpanels">
   <div class="dpanel on" data-panel="research">
-  <div class="nfrow-head"><p class="itr-lead" style="margin:0">Because you skip songs&hellip;</p><div class="nfrow-dots" id="rdots"></div></div>
+  <p class="itr-lead">Because you skip songs&hellip;</p>
   <div class="nfrow">
   <button class="nfrow-arrow left" id="rarrowL" type="button" aria-label="Scroll left" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
   <button class="nfrow-arrow" id="rarrow" type="button" aria-label="Scroll right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
@@ -880,44 +937,41 @@
   </div>
 
   <div class="dpanel" data-panel="flow-sec">
-  <p class="itr-lead">The path to any song, in a tap or two.</p>
+  <p class="itr-lead">The path for the profile you're on — the other journeys are dimmed.</p>
   <div class="uflowd">
     <svg viewBox="0 0 1120 420" role="img" aria-label="User flow by intent. Press play, then watch the film. Three paths: here for the songs (open the Songs list, tap a song to jump straight there, watch it); here to skip a song (as a song starts, open the list and tap Skip, and the film resumes); or first time and curious (a song plays, the tab shows its name, now you know it). All paths return to the film.">
       <defs><marker id="fah" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#b3b3b3"/></marker></defs>
       <g stroke="#b3b3b3" stroke-width="2" fill="none" marker-end="url(#fah)">
         <path d="M112 210 H120"/>
-        <path d="M272 210 V68 H300"/>
-        <path d="M270 210 H300"/>
-        <path d="M272 210 V352 H300"/>
-        <path d="M450 68 H486"/>
-        <path d="M666 68 H706"/>
-        <path d="M450 210 H486"/>
-        <path d="M666 210 H706"/>
-        <path d="M450 352 H486"/>
-        <path d="M666 352 H706"/>
-        <path d="M856 68 H920 V210 H938"/>
-        <path d="M856 210 H938"/>
-        <path d="M856 352 H920 V210 H938"/>
       </g>
       <ellipse cx="58" cy="210" rx="52" ry="22" fill="#333"/>
       <text x="58" y="214" text-anchor="middle" font-family="inherit" font-size="12" font-weight="700" fill="#fff">Press play</text>
       <rect x="120" y="188" width="150" height="44" rx="6" fill="#E50914"/>
       <text x="195" y="214" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Watching the film</text>
 
-      <text x="375" y="36" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#ff8a90" letter-spacing="0.5">HERE FOR THE SONGS</text>
-      <rect x="300" y="46" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="375" y="72" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Open the Songs list</text>
-      <rect x="486" y="46" width="180" height="44" rx="6" fill="#E50914"/><text x="576" y="72" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Tap a song, jump there</text>
-      <rect x="706" y="46" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="781" y="72" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Watch that song</text>
+      <g class="flowlane" data-flow="maya">
+        <g stroke="#b3b3b3" stroke-width="2" fill="none" marker-end="url(#fah)"><path d="M272 210 V68 H300"/><path d="M450 68 H486"/><path d="M666 68 H706"/><path d="M856 68 H920 V210 H938"/></g>
+        <text x="375" y="36" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#ff8a90" letter-spacing="0.5">MUSICAL — HERE FOR THE SONGS</text>
+        <rect x="300" y="46" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="375" y="72" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Open the Songs list</text>
+        <rect x="486" y="46" width="180" height="44" rx="6" fill="#E50914"/><text x="576" y="72" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Tap a song, jump there</text>
+        <rect x="706" y="46" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="781" y="72" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Watch that song</text>
+      </g>
 
-      <text x="375" y="178" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#ff8a90" letter-spacing="0.5">HERE TO SKIP A SONG</text>
-      <rect x="300" y="188" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="375" y="214" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">A song starts</text>
-      <rect x="486" y="188" width="180" height="44" rx="6" fill="#E50914"/><text x="576" y="214" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Open list, tap Skip</text>
-      <rect x="706" y="188" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="781" y="214" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Film resumes</text>
+      <g class="flowlane" data-flow="priya">
+        <g stroke="#b3b3b3" stroke-width="2" fill="none" marker-end="url(#fah)"><path d="M270 210 H300"/><path d="M450 210 H486"/><path d="M666 210 H706"/><path d="M856 210 H938"/></g>
+        <text x="375" y="178" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#ff8a90" letter-spacing="0.5">BOLLYWOOD — HERE TO SKIP A SONG</text>
+        <rect x="300" y="188" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="375" y="214" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">A song starts</text>
+        <rect x="486" y="188" width="180" height="44" rx="6" fill="#E50914"/><text x="576" y="214" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Open list, tap Skip</text>
+        <rect x="706" y="188" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="781" y="214" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Film resumes</text>
+      </g>
 
-      <text x="375" y="320" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#ff8a90" letter-spacing="0.5">FIRST TIME, CURIOUS</text>
-      <rect x="300" y="330" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="375" y="356" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">A song plays</text>
-      <rect x="486" y="330" width="180" height="44" rx="6" fill="#E50914"/><text x="576" y="356" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Tab shows its name</text>
-      <rect x="706" y="330" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="781" y="356" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Now you know it</text>
+      <g class="flowlane" data-flow="sofia">
+        <g stroke="#b3b3b3" stroke-width="2" fill="none" marker-end="url(#fah)"><path d="M272 210 V352 H300"/><path d="M450 352 H486"/><path d="M666 352 H706"/><path d="M856 352 H920 V210 H938"/></g>
+        <text x="375" y="320" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#ff8a90" letter-spacing="0.5">K-DRAMA — FIRST TIME, CURIOUS</text>
+        <rect x="300" y="330" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="375" y="356" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">A song plays</text>
+        <rect x="486" y="330" width="180" height="44" rx="6" fill="#E50914"/><text x="576" y="356" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Tab shows its name</text>
+        <rect x="706" y="330" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="781" y="356" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Now you know it</text>
+      </g>
 
       <ellipse cx="1000" cy="210" rx="64" ry="24" fill="#333"/>
       <text x="1000" y="214" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="700" fill="#fff">Back to the film</text>
@@ -1017,19 +1071,18 @@
 
 <!-- ===================== FEEDBACK (primary research, live) ===================== -->
 <section class="block" id="feedback" style="background:#f4f1ea">
-  <div class="shead"><span class="eyebrow">Your turn</span></div>
-  <h2 class="shl">Help me test it. What would you change?</h2>
-  <p class="sub" style="max-width:64ch">A concept is only as good as real reactions. Answer a few quick questions and it opens a prefilled email to me, so this page doubles as live primary research.</p>
+  <div class="shead"><span class="eyebrow">Test</span></div>
+  <h2 class="shl">Quick gut check.</h2>
+  <p class="sub" style="max-width:52ch">Five taps. It helps me build the real thing.</p>
   <div class="fbform">
-    <div class="fbq"><span class="fbl">When you rewatch, do you skip songs?</span><div class="fbchips" data-group="skip"><button type="button" class="fbchip">Always</button><button type="button" class="fbchip">Sometimes</button><button type="button" class="fbchip">Never</button></div></div>
-    <div class="fbq"><span class="fbl">Your bigger frustration with songs?</span><div class="fbchips" data-group="pain"><button type="button" class="fbchip">Not knowing its name</button><button type="button" class="fbchip">Not knowing when it ends</button><button type="button" class="fbchip">Neither</button></div></div>
-    <div class="fbq"><span class="fbl">Ever left the app (YouTube / Shazam) just to find a song?</span><div class="fbchips" data-group="leave"><button type="button" class="fbchip">Yes</button><button type="button" class="fbchip">No</button></div></div>
-    <div class="fbq"><span class="fbl">Would you save a song to a playlist from the player?</span><div class="fbchips" data-group="save"><button type="button" class="fbchip">Yes</button><button type="button" class="fbchip">Maybe</button><button type="button" class="fbchip">No</button></div></div>
+    <div class="fbq"><span class="fbl">Do you skip Bollywood songs?</span><div class="fbchips" data-group="skip"><button type="button" class="fbchip">Always</button><button type="button" class="fbchip">Sometimes</button><button type="button" class="fbchip">Never</button></div></div>
+    <div class="fbq"><span class="fbl">What bugs you more?</span><div class="fbchips" data-group="pain"><button type="button" class="fbchip">Its name</button><button type="button" class="fbchip">When it ends</button><button type="button" class="fbchip">Neither</button></div></div>
+    <div class="fbq"><span class="fbl">Left the app to find a song?</span><div class="fbchips" data-group="leave"><button type="button" class="fbchip">Yes</button><button type="button" class="fbchip">No</button></div></div>
+    <div class="fbq"><span class="fbl">Save songs from the player?</span><div class="fbchips" data-group="save"><button type="button" class="fbchip">Yes</button><button type="button" class="fbchip">Maybe</button><button type="button" class="fbchip">No</button></div></div>
     <div class="fbq"><span class="fbl">Would you use Tracks?</span><div class="fbchips" data-group="use"><button type="button" class="fbchip">Yes</button><button type="button" class="fbchip">Maybe</button><button type="button" class="fbchip">No</button></div></div>
-    <div class="fbq"><span class="fbl">Which bar did you like best?</span><div class="fbchips" data-group="iter"><button type="button" class="fbchip">Songs only (chosen)</button><button type="button" class="fbchip">Segmented pills</button><button type="button" class="fbchip">Continuous bands</button><button type="button" class="fbchip">Labeled nodes</button><button type="button" class="fbchip">Skip button</button><button type="button" class="fbchip">Right-side drawer</button></div></div>
-    <div class="fbq"><span class="fbl">What would make it better?</span><textarea id="fbtext" rows="3" placeholder="One thing you would change..."></textarea></div>
-    <button type="button" class="fbsend" id="fbsend">Send feedback</button>
-    <div class="fbthanks" id="fbthanks">Thanks. Opening your email now.</div>
+    <div class="fbq"><span class="fbl">Anything to change? (optional)</span><textarea id="fbtext" rows="2" placeholder="One thing…"></textarea></div>
+    <button type="button" class="fbsend" id="fbsend">Submit</button>
+    <div class="fbthanks" id="fbthanks">Thanks — got it.</div>
   </div>
 </section>
 
@@ -1060,6 +1113,10 @@
 </footer>
 
 <script>
+  // ===== RESPONSES ENDPOINT =====
+  // Paste your Google Apps Script Web App URL (ends in /exec) between the quotes.
+  // Both the survey and the card agree/disagree votes POST here → your Google Sheet.
+  window.TRACKS_ENDPOINT = "";
   // ---- interactive player ----
   var knob=document.getElementById('knob'),redlayer=document.getElementById('redlayer'),elapsed=document.getElementById('elapsed'),chapname=document.querySelector('.chaptitle span'),tip=document.getElementById('scrubtip'),tipT=document.getElementById('sttime'),tipN=document.getElementById('stname');
   var total=12840,pct=35;
@@ -1131,10 +1188,15 @@
     var send=document.getElementById('fbsend');
     if(send)send.addEventListener('click',function(){
       var t=document.getElementById('fbtext'),thx=document.getElementById('fbthanks');
-      var labels={skip:'Skip songs on rewatch',pain:'Bigger frustration',leave:'Left the app to find a song',save:'Would save a song to a playlist',use:'Would use Tracks',iter:'Favourite bar'};
-      var order=['skip','pain','leave','save','use','iter'];
-      var lines=order.map(function(k){return labels[k]+': '+(picks[k]||'-');}).join('\n')+'\nWhat would make it better:\n'+(t?t.value:'');
-      window.location.href='mailto:isg2038@nyu.edu?subject='+encodeURIComponent('Tracks feedback')+'&body='+encodeURIComponent(lines);
+      var data={type:'survey',skip:picks.skip||'',pain:picks.pain||'',leave:picks.leave||'',save:picks.save||'',use:picks.use||'',change:(t?t.value:'')};
+      if(window.TRACKS_ENDPOINT){
+        try{ fetch(window.TRACKS_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(data).toString()}); }catch(e){}
+      } else {
+        // fallback until the endpoint is set: prefilled email
+        var lines='Skip: '+data.skip+'\nBugs more: '+data.pain+'\nLeft app: '+data.leave+'\nSave: '+data.save+'\nUse Tracks: '+data.use+'\nChange:\n'+data.change;
+        window.location.href='mailto:isg2038@nyu.edu?subject='+encodeURIComponent('Tracks feedback')+'&body='+encodeURIComponent(lines);
+      }
+      if(send)send.textContent='Submitted ✓';
       if(thx)thx.style.display='block';
     });
   })();
@@ -1206,12 +1268,16 @@
       setHTML('acct-list-prefs',rows(p.prefs));
       if(navav){navav.textContent=p.initial;navav.style.background=p.avGrad;}
       var navs=document.querySelectorAll('.acct-side .acct-nav');navs.forEach(function(x,i){x.classList.toggle('on',i===0);});
+      var uf=document.querySelector('#iterations .uflowd');if(uf)uf.setAttribute('data-active',key);
     }
     render(cur);
     // ---- who's watching: pick a profile ----
     function pick(key){if(PERSONAS[key])render(key);if(curtain)curtain.classList.add('on');setTimeout(function(){if(whoscreen)whoscreen.classList.add('hide');window.scrollTo(0,0);},340);setTimeout(function(){if(curtain)curtain.classList.remove('on');},680);}
     document.querySelectorAll('.who-p').forEach(function(p){p.addEventListener('click',function(){pick(p.getAttribute('data-key')||cur);});});
     if(nfp&&nfm){nfp.addEventListener('click',function(e){e.stopPropagation();nfm.classList.toggle('open');nfp.classList.toggle('open');});document.addEventListener('click',function(){nfm.classList.remove('open');nfp.classList.remove('open');});}
+    // notification bell → how-to-use instructions
+    var bell=document.getElementById('nfbell'),notif=document.getElementById('nfnotif');
+    if(bell&&notif){bell.addEventListener('click',function(e){e.stopPropagation();notif.classList.toggle('open');var d=bell.querySelector('.dot');if(d)d.style.display='none';});document.addEventListener('click',function(e){if(!e.target.closest('#nfbellwrap'))notif.classList.remove('open');});}
     var mp=document.getElementById('manageprofiles');
     if(mp)mp.addEventListener('click',function(){if(whoscreen)whoscreen.classList.remove('hide');window.scrollTo(0,0);});
     var acct=document.getElementById('acctscreen'),aback=document.getElementById('acctback');
@@ -1252,7 +1318,12 @@
     // ---- Netflix-style expanded preview: click a tile → centered popover ----
     var nfrow=row.parentElement, preview=document.getElementById('rpreview'), curTile=null;
     var IC_play='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    var IC_link='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></svg>';
     var IC_plus='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+    // ---- agree/disagree votes POST to the shared window.TRACKS_ENDPOINT (set at top of script) ----
+    function recordVote(source,prompt,vote){
+      try{ if(window.TRACKS_ENDPOINT){ fetch(window.TRACKS_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({type:'vote',source:source||'',prompt:prompt||'',vote:vote}).toString()}); } }catch(e){}
+    }
     var IC_like='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1zm4 0 3-7a2 2 0 0 1 2 2v3h4a2 2 0 0 1 2 2.3l-1.3 6A2 2 0 0 1 18.7 20H11z"/></svg>';
     var IC_up='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>';
     function closePreview(){if(!curTile)return;preview.classList.remove('on');preview.setAttribute('aria-hidden','true');row.querySelectorAll('.ritem.open').forEach(function(o){o.classList.remove('open');var b=o.querySelector('.rshot');if(b)b.setAttribute('aria-expanded','false');});curTile=null;}
@@ -1260,11 +1331,15 @@
       var shot=tile.querySelector('.rshot').cloneNode(true);
       var exp=shot.querySelector('.rs-exp');if(exp)exp.remove();
       var rb=tile.querySelector('.rbody');
-      preview.innerHTML='<div class="rp-card"><div class="rp-top">'+shot.innerHTML+'</div>'
+      var srcLink=rb.querySelector('.src a');
+      var href=srcLink?srcLink.getAttribute('href'):'#';
+      var srcName=(shot.querySelector('.rs-sub')||{}).textContent||'';
+      var promptTxt=(rb.querySelector('h4')||{}).textContent||'';
+      preview.innerHTML='<div class="rp-card"><a class="rp-top" href="'+href+'" target="_blank" rel="noopener" title="Open the source">'+shot.innerHTML+'</a>'
         +'<div class="rp-panel"><div class="rp-btns">'
-        +'<span class="rp-cir play" title="Play">'+IC_play+'</span>'
-        +'<span class="rp-cir" title="Add to list">'+IC_plus+'</span>'
-        +'<span class="rp-cir" title="I like this">'+IC_like+'</span>'
+        +'<a class="rp-cir link" href="'+href+'" target="_blank" rel="noopener" title="Open the source">'+IC_link+'</a>'
+        +'<button class="rp-cir vote agree" type="button" title="I agree">'+IC_plus+'</button>'
+        +'<button class="rp-cir vote disagree" type="button" title="I disagree">'+IC_like+'</button>'
         +'<button class="rp-cir rp-close" type="button" aria-label="Close">'+IC_up+'</button>'
         +'</div>'+rb.innerHTML+'</div></div>';
       preview.classList.add('on');preview.setAttribute('aria-hidden','false');
@@ -1279,6 +1354,15 @@
       tile.classList.add('open');tile.querySelector('.rshot').setAttribute('aria-expanded','true');
       curTile=tile;
       preview.querySelector('.rp-close').addEventListener('click',function(e){e.stopPropagation();closePreview();});
+      preview.querySelectorAll('.rp-cir.vote').forEach(function(vb){
+        vb.addEventListener('click',function(e){
+          e.stopPropagation();
+          var isAgree=vb.classList.contains('agree');
+          var already=vb.classList.contains('voted');
+          preview.querySelectorAll('.rp-cir.vote').forEach(function(x){x.classList.remove('voted');});
+          if(!already){vb.classList.add('voted');recordVote(srcName,promptTxt,isAgree?'agree':'disagree');}
+        });
+      });
     }
     row.querySelectorAll('.rshot').forEach(function(sh){
       sh.addEventListener('click',function(e){e.stopPropagation();var tile=sh.closest('.ritem');if(curTile===tile){closePreview();}else{openPreview(tile);}});
