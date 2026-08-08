@@ -335,9 +335,9 @@
   /* feedback form */
   .fbform{margin-top:26px;max-width:640px}
   .fbq{margin-bottom:22px}
-  .fbl{display:block;font-weight:700;color:var(--ink);font-size:15px;margin-bottom:11px}
-  .fbchips{display:flex;gap:10px;flex-wrap:wrap}
-  .fbchip{background:#fff;border:1px solid var(--line);border-radius:22px;padding:9px 18px;font-family:inherit;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;transition:.15s}
+  .fbl{display:block;font-weight:700;color:var(--ink);font-size:14px;line-height:1.35;margin-bottom:10px}
+  .fbchips{display:flex;gap:8px;flex-wrap:wrap}
+  .fbchip{background:#faf8f3;border:1px solid var(--line);border-radius:20px;padding:8px 15px;font-family:inherit;font-size:13.5px;font-weight:600;color:var(--ink);cursor:pointer;transition:.15s}
   .fbchip:hover{border-color:var(--red)}
   .fbchip.on{background:var(--red);border-color:var(--red);color:#fff}
   .fbform textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:14px;color:var(--ink);resize:vertical;background:#fff}
@@ -375,16 +375,19 @@
   .trecbtn:hover{background:#000}
   .trecthx{margin-top:10px;color:var(--red-d);font-weight:700;font-size:13px;display:none}
   .fbnote{font-size:12px;color:#8a8a8a;margin:2px 0 8px;line-height:1.4}
-  .trec-solo{max-width:460px;margin-top:20px}
+  .trec-solo{max-width:460px;margin-top:18px}
   .trec-solo .trec-in{margin-bottom:11px}
-  /* grouped assumption survey */
-  .fbform{max-width:940px}
-  .tgroup{margin-top:30px}
-  .tgroup>.tk{margin-bottom:0}
-  .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px 44px;margin-top:14px}
+  /* grouped assumption survey — a clean card per group */
+  .fbform{max-width:1000px}
+  .tgroup{margin-top:16px;background:#fff;border:1px solid #e7e3d7;border-radius:14px;padding:20px 24px 24px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  .tgroup>.tk{display:block;margin:0 0 18px;color:var(--red-d);border-bottom:1px solid #efece3;padding-bottom:12px}
+  .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px 40px}
   .tgrid .fbq{margin:0}
-  .trecruit-wide{max-width:940px}
-  @media(max-width:760px){.tgrid{grid-template-columns:1fr}}
+  .fbbar{display:flex;align-items:center;gap:18px;margin-top:22px}
+  .fbprog{font-size:13px;font-weight:700;color:#9a958a}
+  .fbprog b{color:var(--red-d)}
+  .trecruit-wide{max-width:1000px;margin-top:30px}
+  @media(max-width:680px){.tgrid{grid-template-columns:1fr}}
   @media(max-width:900px){.tsplit{grid-template-columns:1fr;gap:0}.tsplit .trule{display:none}.tside{margin-bottom:34px;padding-bottom:30px;border-bottom:1px solid #e0dccf}.xpgrid{grid-template-columns:1fr 1fr}}
   @media(max-width:560px){.xpgrid{grid-template-columns:1fr}}
   /* reflection */
@@ -1130,7 +1133,7 @@
 <section class="block" id="feedback" style="background:#f4f1ea">
   <div class="shead"><span class="eyebrow">Test</span></div>
   <h2 class="shl">Test my assumptions.</h2>
-  <p class="sub" style="max-width:66ch">This whole case study rests on a few bets — about the problem, the design I chose, and who it's for. You just used the prototype, so tell me where I'm right or wrong. Every answer lands in the response sheet behind this page.</p>
+  <p class="sub" style="max-width:58ch">This case study rests on a few bets. You just used the prototype — tell me where I'm right or wrong.</p>
   <div class="fbform">
 
     <div class="tgroup">
@@ -1173,8 +1176,11 @@
       </div>
     </div>
 
-    <div class="fbq" style="margin-top:20px"><span class="fbl">Anything you'd change or add? (optional)</span><textarea id="fbtext" rows="2" placeholder="One thing…"></textarea></div>
-    <button type="button" class="fbsend" id="fbsend">Submit answers</button>
+    <div class="fbq" style="margin-top:22px"><span class="fbl">Anything you'd change or add? (optional)</span><textarea id="fbtext" rows="2" placeholder="One thing…"></textarea></div>
+    <div class="fbbar">
+      <button type="button" class="fbsend" id="fbsend">Submit answers</button>
+      <span class="fbprog" id="fbprog"><b>0</b> of 16 answered</span>
+    </div>
     <div class="fbthanks" id="fbthanks">Thanks — logged. That's one real data point.</div>
   </div>
 
@@ -1287,9 +1293,12 @@
   // ---- feedback: primary research via prefilled email ----
   (function(){
     var picks={};
+    var totalQ=document.querySelectorAll('.fbchips').length;
+    function updateProg(){var el=document.getElementById('fbprog');if(el)el.innerHTML='<b>'+Object.keys(picks).length+'</b> of '+totalQ+' answered';}
     document.querySelectorAll('.fbchips').forEach(function(g){
-      g.addEventListener('click',function(e){var b=e.target.closest('.fbchip');if(!b)return;g.querySelectorAll('.fbchip').forEach(function(x){x.classList.remove('on');});b.classList.add('on');picks[g.getAttribute('data-group')]=b.textContent;});
+      g.addEventListener('click',function(e){var b=e.target.closest('.fbchip');if(!b)return;g.querySelectorAll('.fbchip').forEach(function(x){x.classList.remove('on');});b.classList.add('on');picks[g.getAttribute('data-group')]=b.textContent;updateProg();});
     });
+    updateProg();
     var send=document.getElementById('fbsend');
     if(send)send.addEventListener('click',function(){
       var t=document.getElementById('fbtext'),thx=document.getElementById('fbthanks');
