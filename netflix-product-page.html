@@ -161,8 +161,8 @@
   @media(max-width:640px){.ba-compare{grid-template-columns:1fr}}
   .uflowd{margin-top:28px;max-width:none}
   .uflowd svg{width:100%;height:auto;display:block}
-  /* user flow spreads to the full screen width */
-  .dpanel[data-panel="flow-sec"] .uflowd{width:100vw;max-width:100vw;margin-left:50%;transform:translateX(-50%);padding:0 clamp(18px,5vw,90px)}
+  /* user flow starts at the same left X as all other content, then bleeds to the right screen edge */
+  .dpanel[data-panel="flow-sec"] .uflowd{margin-left:0;width:auto;max-width:none;transform:none;padding:0;margin-right:calc(-1*max(6vw,calc((100% - 1120px)/2)))}
   /* highlight only the current profile's path in the user flow */
   .flowlane{transition:opacity .25s ease}
   .uflowd[data-active] .flowlane{opacity:.18}
@@ -345,6 +345,27 @@
   .fbsend{margin-top:6px;background:var(--red);color:#fff;border:0;border-radius:6px;padding:13px 26px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer}
   .fbsend:hover{background:var(--red-d)}
   .fbthanks{margin-top:14px;color:var(--red-d);font-weight:700;font-size:14px;display:none}
+  /* ===== the real experiment: A/B test plan (Netflix-informed) ===== */
+  .tsplit{display:grid;grid-template-columns:minmax(0,340px) 1px minmax(0,1fr);gap:0 40px;margin-top:26px;align-items:start}
+  .tsplit .trule{background:#e0dccf;width:1px;align-self:stretch}
+  .tside .tk{font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--red-d)}
+  .tside h3,.tmain h3{font-size:20px;font-weight:800;color:#141414;margin:7px 0 4px;letter-spacing:-.01em}
+  .tside .tnote{color:var(--muted);font-size:13.5px;line-height:1.6;margin-bottom:16px;max-width:40ch}
+  .tmain>.tk{font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--red-d)}
+  .tmain>.tlead{color:var(--muted);font-size:14px;line-height:1.65;max-width:62ch;margin:0 0 22px}
+  .tmain>.tlead b{color:#141414}
+  .xpgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .xp{background:#fff;border:1px solid #e6e2d6;border-radius:11px;padding:18px 18px 16px;display:flex;flex-direction:column}
+  .xp .xn{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
+  .xp h4{margin:7px 0 6px;font-size:15px;font-weight:800;color:#141414;line-height:1.25}
+  .xp p{font-size:12.7px;line-height:1.5;color:#54524c;margin:0}
+  .xp p b{color:#141414;font-weight:700}
+  .xp .xsrc{margin-top:auto;padding-top:11px;font-size:10.5px}
+  .xp .xsrc a{color:#9a958a;text-decoration:underline}
+  .tclose{margin-top:18px;font-size:13.5px;line-height:1.6;color:#141414;font-weight:600;max-width:66ch}
+  .tclose b{color:var(--red-d)}
+  @media(max-width:900px){.tsplit{grid-template-columns:1fr;gap:0}.tsplit .trule{display:none}.tside{margin-bottom:34px;padding-bottom:30px;border-bottom:1px solid #e0dccf}.xpgrid{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.xpgrid{grid-template-columns:1fr}}
   /* reflection */
   .refl{display:grid;grid-template-columns:1fr 1fr;gap:26px 34px;margin-top:28px}
   .reflitem{border-top:2px solid #ded9cf;padding:16px 0 0}
@@ -505,6 +526,9 @@
   .bmetric .bv{font-size:clamp(32px,3.6vw,46px);font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1}
   .bmetric .bl{color:#b3b3b3;font-size:13px;line-height:1.45;margin-top:9px}
   .bmetric .src{display:block;margin-top:12px;font-size:11px}.bmetric .src a{color:#8a8a8a;text-decoration:underline}
+  /* business cards fill the full frame width like the other panels */
+  .dpanel[data-panel="business"] .metrics{flex-wrap:wrap;overflow-x:visible}
+  .dpanel[data-panel="business"] .metrics>.metric{flex:1 1 190px}
   @media(max-width:900px){.metrics{grid-template-columns:1fr 1fr}}
   @media(max-width:520px){.metrics{grid-template-columns:1fr}}
 
@@ -798,7 +822,7 @@
     <div class="hb-kicker"><b>N</b> PRODUCT CONCEPT</div>
     <h1 class="hb-h">Tracks</h1>
     <p class="hb-syn">How might we adapt standard streaming players for Bollywood and musical viewers so that they can instantly navigate (skip, replay, or jump between) musical numbers based on their personal viewing preferences?</p>
-    <div class="hb-meta"><span class="tag">98% Match</span><span>2026</span><span class="age">U/A</span><span>UX &middot; Prototype</span></div>
+    <div class="hb-meta"><span class="tag">92% Match</span><span>2026</span><span class="age">U/A</span><span>UX &middot; Prototype</span></div>
     <div class="hb-facts">
       <div><span>Role</span>Solo: research, UX, copy, prototype</div>
       <div><span>Platform</span>Netflix, TV, web and mobile</div>
@@ -934,6 +958,10 @@
       <p>Rich, but it takes over the frame. Its list became the compact Songs panel.</p>
     </div>
   </div>
+  <div class="ins-one">
+    <span class="ins-k">The decision</span>
+    <p>Five bars added labels; <b>one stayed quiet</b>. Songs get a pill, the story stays a line — so eleven tracks stay countable <b>without</b> turning the film into chapters.</p>
+  </div>
   </div>
 
   <div class="dpanel" data-panel="flow-sec">
@@ -988,6 +1016,10 @@
     <div class="metric top win"><span class="rank">4</span><div class="mbody"><div class="mh">"Gehra Hua"</div><div class="ml">Named on the timeline via <b>MediaFM</b>, ready to skip or replay.</div><span class="src"><a href="https://research.netflix.com/research-area/machine-learning" target="_blank" rel="noopener">Netflix Research</a></span></div></div>
     <div class="metric top"><span class="rank">5</span><div class="mbody"><div class="mh">Already built</div><div class="ml">Netflix runs chapter navigation on its 2026 video-podcast slate; <b>Tracks reuses that exact tooling</b>, pointed at Indian cinema.</div><span class="src"><a href="https://www.cnbc.com/2025/10/14/spotify-ringer-netflix-video-podcasts.html" target="_blank" rel="noopener">CNBC</a> · <a href="https://techcrunch.com/2025/12/16/netflix-doubles-down-on-video-podcasts-with-iheartmedia-deal/" target="_blank" rel="noopener">TechCrunch</a></span></div></div>
   </div>
+  <div class="ins-one">
+    <span class="ins-k">The point</span>
+    <p><b>Nothing here is new.</b> SMAD already finds the music, MediaFM already names it, and chapter navigation already ships on Netflix's 2026 podcasts — Tracks is <b>integration, not invention</b>, aimed at Indian cinema.</p>
+  </div>
   </div>
 
   <div class="dpanel" data-panel="business">
@@ -997,6 +1029,10 @@
     <div class="metric bmetric"><div class="bv">~2.4%</div><div class="bl">monthly churn, where completion is the signal</div><span class="src"><a href="https://www.brandvm.com/post/netflixs-marketing-strategy-2026" target="_blank" rel="noopener">Brand Vision</a></span></div>
     <div class="metric bmetric"><div class="bv">600M+</div><div class="bl">views for KPop Demon Hunters, a musical, Netflix's biggest title</div><span class="src"><a href="https://about.netflix.com/en/news/kpop-demon-hunters-by-the-numbers-one-year-anniversary" target="_blank" rel="noopener">Netflix</a></span></div>
     <div class="metric bmetric"><div class="bv">+38%</div><div class="bl">music now out-earns cinema globally</div><span class="src"><a href="https://www.musicbusinessworldwide.com/at-45-5bn-in-2023-music-copyright-now-worth-more-globally-than-cinema-new-report-finds/" target="_blank" rel="noopener">Music Business Worldwide</a></span></div>
+  </div>
+  <div class="ins-one">
+    <span class="ins-k">The bet</span>
+    <p>Completion is the one metric that pays <b>both sides</b> — it lowers churn on the retention line <b>and</b> lengthens watch-time for the ad tier — and the audience that cares most is already <b>a quarter of the viewing</b>.</p>
   </div>
   </div>
   </div>
@@ -1072,8 +1108,13 @@
 <!-- ===================== FEEDBACK (primary research, live) ===================== -->
 <section class="block" id="feedback" style="background:#f4f1ea">
   <div class="shead"><span class="eyebrow">Test</span></div>
-  <h2 class="shl">Quick gut check.</h2>
-  <p class="sub" style="max-width:52ch">Five taps. It helps me build the real thing.</p>
+  <h2 class="shl">Two tests, not one.</h2>
+  <p class="sub" style="max-width:64ch">A quick gut check from you right now — and the full experiment I'd run inside Netflix to prove Tracks earns its place.</p>
+  <div class="tsplit">
+    <div class="tside">
+      <div class="tk">Live now · your input</div>
+      <h3>Quick gut check</h3>
+      <p class="tnote">Five taps. Answers feed the tabular database behind this page.</p>
   <div class="fbform">
     <div class="fbq"><span class="fbl">Do you skip Bollywood songs?</span><div class="fbchips" data-group="skip"><button type="button" class="fbchip">Always</button><button type="button" class="fbchip">Sometimes</button><button type="button" class="fbchip">Never</button></div></div>
     <div class="fbq"><span class="fbl">What bugs you more?</span><div class="fbchips" data-group="pain"><button type="button" class="fbchip">Its name</button><button type="button" class="fbchip">When it ends</button><button type="button" class="fbchip">Neither</button></div></div>
@@ -1083,6 +1124,23 @@
     <div class="fbq"><span class="fbl">Anything to change? (optional)</span><textarea id="fbtext" rows="2" placeholder="One thing…"></textarea></div>
     <button type="button" class="fbsend" id="fbsend">Submit</button>
     <div class="fbthanks" id="fbthanks">Thanks — got it.</div>
+  </div>
+    </div>
+    <div class="trule"></div>
+    <div class="tmain">
+      <div class="tk">The real experiment</div>
+      <h3>How I'd A/B test Tracks the Netflix way</h3>
+      <p class="tlead">Netflix doesn't ship on the loudest opinion — it drops members into <b>cells</b>, holds everything else steady, and lets <b>completion and retention</b> decide. Here's that same test, scoped to Tracks.</p>
+      <div class="xpgrid">
+        <div class="xp"><span class="xn">01 · Hypothesis</span><h4>What we believe</h4><p>Naming each song and showing where it ends lifts <b>completion</b> and cuts overshoot-scrubs — <b>without</b> costing streaming hours. No lift, no ship.</p></div>
+        <div class="xp"><span class="xn">02 · Cells</span><h4>Control vs Tracks</h4><p>One default cell — today's player — and one Tracks cell. A member sits in <b>exactly one</b>, and no other test touches the player bar at the same time.</p><span class="xsrc"><a href="https://netflixtechblog.com/its-all-a-bout-testing-the-netflix-experimentation-platform-4e1ca458c15" target="_blank" rel="noopener">Netflix XP Platform</a></span></div>
+        <div class="xp"><span class="xn">03 · Who sees it</span><h4>Real-time, stratified</h4><p>Assign members as they open a Bollywood or musical title, <b>stratified by country and device</b> so cells stay comparable — diaspora, domestic and first-time fans all in.</p><span class="xsrc"><a href="https://netflixtechblog.com/its-all-a-bout-testing-the-netflix-experimentation-platform-4e1ca458c15" target="_blank" rel="noopener">Netflix XP Platform</a></span></div>
+        <div class="xp"><span class="xn">04 · Primary metric</span><h4>Completion &amp; clean skips</h4><p>Share of song-time watched vs skipped, overshoot-scrub rate, and exits to search a song elsewhere. The needle Tracks is built to move.</p></div>
+        <div class="xp"><span class="xn">05 · Guardrails + north star</span><h4>Don't break the core</h4><p><b>Streaming hours</b> and error/abandon rate can't drop (guardrails); <b>retention</b> is the long-horizon call — read over weeks, the way Netflix judges a real win.</p><span class="xsrc"><a href="https://netflixtechblog.com/its-all-a-bout-testing-the-netflix-experimentation-platform-4e1ca458c15" target="_blank" rel="noopener">Netflix XP Platform</a></span></div>
+        <div class="xp"><span class="xn">06 · Detection quality</span><h4>Interleave the labels first</h4><p>Before the full A/B, <b>interleave</b> song-detection variants — it ranks which labeling is most accurate on far fewer members, so we only A/B a version we trust.</p><span class="xsrc"><a href="https://netflixtechblog.com/using-interleaving-in-online-experiments-to-accelerate-algorithm-innovation-at-netflix-a04ee392ec55" target="_blank" rel="noopener">Interleaving · Netflix</a></span></div>
+      </div>
+      <p class="tclose"><b>Then let the data call it.</b> Read significance in an Ignite-style dashboard, roll the winning cell out to everyone — and if completion doesn't move, Tracks stays a concept. That's the point of testing.</p>
+    </div>
   </div>
 </section>
 
