@@ -375,6 +375,9 @@
   .trecbtn:hover{background:#000}
   .trecthx{margin-top:10px;color:var(--red-d);font-weight:700;font-size:13px;display:none}
   .fbnote{font-size:12px;color:#8a8a8a;margin:2px 0 8px;line-height:1.4}
+  .trec-solo{max-width:460px;margin-top:20px}
+  .trec-solo .trec-line{font-size:15px;color:var(--muted);margin:0 0 16px;max-width:46ch}
+  .trec-solo .trec-in{margin-bottom:11px}
   @media(max-width:900px){.tsplit{grid-template-columns:1fr;gap:0}.tsplit .trule{display:none}.tside{margin-bottom:34px;padding-bottom:30px;border-bottom:1px solid #e0dccf}.xpgrid{grid-template-columns:1fr 1fr}}
   @media(max-width:560px){.xpgrid{grid-template-columns:1fr}}
   /* reflection */
@@ -1119,49 +1122,13 @@
 <!-- ===================== FEEDBACK (primary research, live) ===================== -->
 <section class="block" id="feedback" style="background:#f4f1ea">
   <div class="shead"><span class="eyebrow">Test</span></div>
-  <h2 class="shl">You're the test.</h2>
-  <p class="sub" style="max-width:66ch">Everything above is a working prototype you just used — so you're my first tester. Answer a few things below, and see the full experiment I'd run next, at Netflix scale, for what a webpage can't prove.</p>
-  <div class="tsplit">
-    <div class="tside">
-      <div class="tk">Live · you're the tester</div>
-      <h3>Take the test</h3>
-      <p class="tnote">You just used the player above — so you're my first tester. Answers go straight into the response sheet behind this page.</p>
-  <div class="fbform">
-    <div class="fbq"><span class="fbl">In the demo, did the end-marker help you land on a song without overshooting?</span><div class="fbchips" data-group="marker"><button type="button" class="fbchip">Yes, exactly</button><button type="button" class="fbchip">Somewhat</button><button type="button" class="fbchip">Not really</button></div></div>
-    <div class="fbq"><span class="fbl">Which bar tells you where a song ends?</span><div class="fbchips" data-group="prefer"><button type="button" class="fbchip">Today's player</button><button type="button" class="fbchip">Tracks</button><button type="button" class="fbchip">Can't tell</button></div></div>
-    <div class="fbq"><span class="fbl">Do you skip Bollywood songs?</span><div class="fbchips" data-group="skip"><button type="button" class="fbchip">Always</button><button type="button" class="fbchip">Sometimes</button><button type="button" class="fbchip">Never</button></div></div>
-    <div class="fbq"><span class="fbl">Ever left the app to find a song?</span><div class="fbchips" data-group="leave"><button type="button" class="fbchip">Yes</button><button type="button" class="fbchip">No</button></div></div>
-    <div class="fbq"><span class="fbl">Would you use Tracks?</span><div class="fbchips" data-group="use"><button type="button" class="fbchip">Yes</button><button type="button" class="fbchip">Maybe</button><button type="button" class="fbchip">No</button></div></div>
-    <div class="fbq"><span class="fbl">One thing you'd change? (optional)</span><textarea id="fbtext" rows="2" placeholder="One thing…"></textarea></div>
-    <button type="button" class="fbsend" id="fbsend">Submit answers</button>
-    <div class="fbthanks" id="fbthanks">Thanks — logged. That's one real data point.</div>
-  </div>
-      <div class="trecruit">
-        <div class="tk">After this</div>
-        <h3>Be a real tester</h3>
-        <p class="trec-line">Some things a page can't prove — whether you'd really skip over weeks, whether completion actually lifts. Want in on the real test?</p>
-        <input type="email" class="trec-in" id="trecmail" placeholder="Email (optional)" autocomplete="email">
-        <input type="text" class="trec-in" id="trecnote" placeholder="What would make you use it?">
-        <p class="fbnote">Optional. Only used to invite you to the follow-up test — nothing else.</p>
-        <button type="button" class="trecbtn" id="trecbtn">Count me in</button>
-        <div class="trecthx" id="trecthx">You're on the list — thank you.</div>
-      </div>
-    </div>
-    <div class="trule"></div>
-    <div class="tmain">
-      <div class="tk">What a page can't test — what's next</div>
-      <h3>The experiment I'd run at Netflix scale</h3>
-      <p class="tlead">Your answers cover intent and comprehension. The rest needs Netflix's own platform — members dropped into <b>cells</b>, everything else held steady, and <b>completion and retention</b> deciding. Here's that plan.</p>
-      <div class="xpgrid">
-        <div class="xp"><span class="xn">01 · Allocation</span><h4>Real-time, stratified</h4><p>Assign members the moment they open an Indian-cinema or musical title, <b>stratified by country and device</b> — diaspora, domestic and first-time fans kept comparable. Can't be faked on a page.</p><span class="xsrc"><a href="https://netflixtechblog.com/its-all-a-bout-testing-the-netflix-experimentation-platform-4e1ca458c15" target="_blank" rel="noopener">Netflix XP Platform</a></span></div>
-        <div class="xp"><span class="xn">02 · Cells</span><h4>Control vs Tracks</h4><p>One default cell — today's player — and one Tracks cell. A member sits in <b>exactly one</b>, and no other test touches the scrubber at the same time.</p><span class="xsrc"><a href="https://netflixtechblog.com/its-all-a-bout-testing-the-netflix-experimentation-platform-4e1ca458c15" target="_blank" rel="noopener">Netflix XP Platform</a></span></div>
-        <div class="xp"><span class="xn">03 · Primary metric</span><h4>Fraction of content viewed</h4><p>Netflix's own engagement metrics — <b>fraction of content viewed</b>, share of <b>short-duration plays</b>, plus overshoot-scrubs and app-exits to search a song. The needle Tracks moves.</p><span class="xsrc"><a href="https://www.marpipe.com/blog/how-netflix-uses-testing" target="_blank" rel="noopener">Marpipe · Netflix metrics</a></span></div>
-        <div class="xp"><span class="xn">04 · Guardrails + north star</span><h4>Don't break the core</h4><p><b>Streaming hours</b> and short-play rate can't worsen (guardrails); <b>retention</b> is the long-horizon call — read over weeks, the way Netflix judges a real win.</p><span class="xsrc"><a href="https://netflixtechblog.com/its-all-a-bout-testing-the-netflix-experimentation-platform-4e1ca458c15" target="_blank" rel="noopener">Netflix XP Platform</a></span></div>
-        <div class="xp"><span class="xn">05 · Phase 2 · Multivariate</span><h4>Find what drove it</h4><p>If Tracks wins, hold the layout and vary its parts — the song label, the end-marker, per-song skip, the list — to learn <b>which element</b> carried the lift, not ship the whole bundle on faith.</p><span class="xsrc"><a href="https://www.marpipe.com/blog/how-netflix-uses-testing" target="_blank" rel="noopener">Marpipe · Multivariate</a></span></div>
-        <div class="xp"><span class="xn">06 · The read</span><h4>Let the data call it</h4><p>Run until <b>statistically powered</b>, read significance in an Ignite-style dashboard, ship the winning cell. If completion doesn't move, Tracks stays a concept.</p><span class="xsrc"><a href="https://netflixtechblog.com/its-all-a-bout-testing-the-netflix-experimentation-platform-4e1ca458c15" target="_blank" rel="noopener">Netflix XP Platform</a></span></div>
-      </div>
-      <p class="tclose"><b>The split is the point.</b> This page tests intent and comprehension with real people; the cards are what only Netflix's platform can run — so the concept stays honest about where the proof still has to come from.</p>
-    </div>
+  <h2 class="shl">Be a real tester.</h2>
+  <div class="trec-solo">
+    <p class="trec-line">A page can't prove the real thing — whether you'd skip over weeks, whether completion lifts. Want in on the actual test?</p>
+    <input type="email" class="trec-in" id="trecmail" placeholder="Email" autocomplete="email">
+    <input type="text" class="trec-in" id="trecnote" placeholder="What would make you use it? (optional)">
+    <button type="button" class="trecbtn" id="trecbtn">Count me in</button>
+    <div class="trecthx" id="trecthx">You're on the list — thank you.</div>
   </div>
 </section>
 
