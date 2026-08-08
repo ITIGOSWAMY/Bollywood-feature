@@ -376,8 +376,15 @@
   .trecthx{margin-top:10px;color:var(--red-d);font-weight:700;font-size:13px;display:none}
   .fbnote{font-size:12px;color:#8a8a8a;margin:2px 0 8px;line-height:1.4}
   .trec-solo{max-width:460px;margin-top:20px}
-  .trec-solo .trec-line{font-size:15px;color:var(--muted);margin:0 0 16px;max-width:46ch}
   .trec-solo .trec-in{margin-bottom:11px}
+  /* grouped assumption survey */
+  .fbform{max-width:940px}
+  .tgroup{margin-top:30px}
+  .tgroup>.tk{margin-bottom:0}
+  .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px 44px;margin-top:14px}
+  .tgrid .fbq{margin:0}
+  .trecruit-wide{max-width:940px}
+  @media(max-width:760px){.tgrid{grid-template-columns:1fr}}
   @media(max-width:900px){.tsplit{grid-template-columns:1fr;gap:0}.tsplit .trule{display:none}.tside{margin-bottom:34px;padding-bottom:30px;border-bottom:1px solid #e0dccf}.xpgrid{grid-template-columns:1fr 1fr}}
   @media(max-width:560px){.xpgrid{grid-template-columns:1fr}}
   /* reflection */
@@ -1122,13 +1129,65 @@
 <!-- ===================== FEEDBACK (primary research, live) ===================== -->
 <section class="block" id="feedback" style="background:#f4f1ea">
   <div class="shead"><span class="eyebrow">Test</span></div>
-  <h2 class="shl">Be a real tester.</h2>
-  <div class="trec-solo">
-    <p class="trec-line">A page can't prove the real thing — whether you'd skip over weeks, whether completion lifts. Want in on the actual test?</p>
-    <input type="email" class="trec-in" id="trecmail" placeholder="Email" autocomplete="email">
-    <input type="text" class="trec-in" id="trecnote" placeholder="What would make you use it? (optional)">
-    <button type="button" class="trecbtn" id="trecbtn">Count me in</button>
-    <div class="trecthx" id="trecthx">You're on the list — thank you.</div>
+  <h2 class="shl">Test my assumptions.</h2>
+  <p class="sub" style="max-width:66ch">This whole case study rests on a few bets — about the problem, the design I chose, and who it's for. You just used the prototype, so tell me where I'm right or wrong. Every answer lands in the response sheet behind this page.</p>
+  <div class="fbform">
+
+    <div class="tgroup">
+      <div class="tk">1 · The problem — is it real?</div>
+      <div class="tgrid">
+        <div class="fbq"><span class="fbl">Do you skip songs in Bollywood films?</span><div class="fbchips" data-group="skip"><button type="button" class="fbchip">Always</button><button type="button" class="fbchip">Sometimes</button><button type="button" class="fbchip">Never</button></div></div>
+        <div class="fbq"><span class="fbl">When you skip, do you overshoot and scrub back?</span><div class="fbchips" data-group="overshoot"><button type="button" class="fbchip">Often</button><button type="button" class="fbchip">Sometimes</button><button type="button" class="fbchip">Never</button></div></div>
+        <div class="fbq"><span class="fbl">Ever left the app to find a song from a film?</span><div class="fbchips" data-group="leave"><button type="button" class="fbchip">Yes</button><button type="button" class="fbchip">No</button></div></div>
+        <div class="fbq"><span class="fbl">What bugs you more?</span><div class="fbchips" data-group="pain"><button type="button" class="fbchip">Not knowing its name</button><button type="button" class="fbchip">Not knowing when it ends</button><button type="button" class="fbchip">Neither</button></div></div>
+      </div>
+    </div>
+
+    <div class="tgroup">
+      <div class="tk">2 · The design — does it work?</div>
+      <div class="tgrid">
+        <div class="fbq"><span class="fbl">In the demo, did the end-marker help you land a song cleanly?</span><div class="fbchips" data-group="marker"><button type="button" class="fbchip">Yes, exactly</button><button type="button" class="fbchip">Somewhat</button><button type="button" class="fbchip">Not really</button></div></div>
+        <div class="fbq"><span class="fbl">Which bar tells you where a song ends?</span><div class="fbchips" data-group="prefer"><button type="button" class="fbchip">Today's player</button><button type="button" class="fbchip">Tracks</button><button type="button" class="fbchip">Can't tell</button></div></div>
+        <div class="fbq"><span class="fbl">Which timeline would you actually want?</span><div class="fbchips" data-group="iteration"><button type="button" class="fbchip">Only songs marked</button><button type="button" class="fbchip">Every scene a chapter</button><button type="button" class="fbchip">Just a Skip button</button><button type="button" class="fbchip">A side list</button></div></div>
+        <div class="fbq"><span class="fbl">Useful to skip a single song in one tap?</span><div class="fbchips" data-group="perskip"><button type="button" class="fbchip">Yes</button><button type="button" class="fbchip">Maybe</button><button type="button" class="fbchip">No</button></div></div>
+      </div>
+    </div>
+
+    <div class="tgroup">
+      <div class="tk">3 · About you</div>
+      <div class="tgrid">
+        <div class="fbq"><span class="fbl">Which sounds most like you?</span><div class="fbchips" data-group="persona"><button type="button" class="fbchip">Here for the songs</button><button type="button" class="fbchip">Here to skip them</button><button type="button" class="fbchip">New &amp; curious</button></div></div>
+        <div class="fbq"><span class="fbl">You're mostly here for…</span><div class="fbchips" data-group="content"><button type="button" class="fbchip">Bollywood films</button><button type="button" class="fbchip">Musicals</button><button type="button" class="fbchip">K-drama &amp; other</button><button type="button" class="fbchip">A mix</button></div></div>
+        <div class="fbq"><span class="fbl">Where do you watch?</span><div class="fbchips" data-group="device"><button type="button" class="fbchip">TV</button><button type="button" class="fbchip">Phone</button><button type="button" class="fbchip">Both</button></div></div>
+        <div class="fbq"><span class="fbl">Watch Indian content from outside India?</span><div class="fbchips" data-group="diaspora"><button type="button" class="fbchip">Yes</button><button type="button" class="fbchip">No</button><button type="button" class="fbchip">N/A</button></div></div>
+      </div>
+    </div>
+
+    <div class="tgroup">
+      <div class="tk">4 · Would you use it?</div>
+      <div class="tgrid">
+        <div class="fbq"><span class="fbl">Would you use Tracks?</span><div class="fbchips" data-group="use"><button type="button" class="fbchip">Yes</button><button type="button" class="fbchip">Maybe</button><button type="button" class="fbchip">No</button></div></div>
+        <div class="fbq"><span class="fbl">Save songs from the player to a playlist?</span><div class="fbchips" data-group="save"><button type="button" class="fbchip">Yes</button><button type="button" class="fbchip">Maybe</button><button type="button" class="fbchip">No</button></div></div>
+        <div class="fbq"><span class="fbl">Use a Songs list to jump between numbers?</span><div class="fbchips" data-group="jump"><button type="button" class="fbchip">Yes</button><button type="button" class="fbchip">Maybe</button><button type="button" class="fbchip">No</button></div></div>
+        <div class="fbq"><span class="fbl">Would it make you more likely to finish a film?</span><div class="fbchips" data-group="finish"><button type="button" class="fbchip">Yes</button><button type="button" class="fbchip">Maybe</button><button type="button" class="fbchip">No</button></div></div>
+      </div>
+    </div>
+
+    <div class="fbq" style="margin-top:20px"><span class="fbl">Anything you'd change or add? (optional)</span><textarea id="fbtext" rows="2" placeholder="One thing…"></textarea></div>
+    <button type="button" class="fbsend" id="fbsend">Submit answers</button>
+    <div class="fbthanks" id="fbthanks">Thanks — logged. That's one real data point.</div>
+  </div>
+
+  <div class="trecruit trecruit-wide">
+    <div class="tk">After this</div>
+    <h3>Be a real tester</h3>
+    <p class="trec-line">Some things a page can't prove — whether you'd really skip over weeks, whether completion actually lifts. Want in on the real test?</p>
+    <div class="trec-solo">
+      <input type="email" class="trec-in" id="trecmail" placeholder="Email (optional)" autocomplete="email">
+      <input type="text" class="trec-in" id="trecnote" placeholder="What would make you use it?">
+      <button type="button" class="trecbtn" id="trecbtn">Count me in</button>
+      <div class="trecthx" id="trecthx">You're on the list — thank you.</div>
+    </div>
   </div>
 </section>
 
@@ -1234,12 +1293,15 @@
     var send=document.getElementById('fbsend');
     if(send)send.addEventListener('click',function(){
       var t=document.getElementById('fbtext'),thx=document.getElementById('fbthanks');
-      var data={type:'survey',marker:picks.marker||'',prefer:picks.prefer||'',skip:picks.skip||'',leave:picks.leave||'',use:picks.use||'',change:(t?t.value:'')};
+      var data={type:'survey'};
+      for(var k in picks){ if(picks.hasOwnProperty(k)) data[k]=picks[k]; }
+      data.change=(t?t.value:'');
       if(window.TRACKS_ENDPOINT){
         try{ fetch(window.TRACKS_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(data).toString()}); }catch(e){}
       } else {
         // fallback until the endpoint is set: prefilled email
-        var lines='Marker helped: '+data.marker+'\nClearer bar: '+data.prefer+'\nSkip songs: '+data.skip+'\nLeft app: '+data.leave+'\nUse Tracks: '+data.use+'\nChange:\n'+data.change;
+        var lines='';for(var kk in data){ if(data.hasOwnProperty(kk)&&kk!=='type'&&kk!=='change') lines+=kk+': '+data[kk]+'\n'; }
+        lines+='change:\n'+data.change;
         window.location.href='mailto:isg2038@nyu.edu?subject='+encodeURIComponent('Tracks test — a response')+'&body='+encodeURIComponent(lines);
       }
       if(send)send.textContent='Submitted ✓';
