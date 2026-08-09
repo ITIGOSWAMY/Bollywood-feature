@@ -162,8 +162,8 @@
   @media(max-width:640px){.ba-compare{grid-template-columns:1fr}}
   .uflowd{margin-top:28px;max-width:none}
   .uflowd svg{width:100%;height:auto;display:block}
-  /* user flow starts at the same left X as all other content, then bleeds to the right screen edge */
-  .dpanel[data-panel="flow-sec"] .uflowd{margin-left:0;width:auto;max-width:none;transform:none;padding:0;margin-right:calc(-1*max(6vw,calc((100% - 1120px)/2)))}
+  /* user flow: a portrait decision tree, left-aligned and capped so nothing overlaps */
+  .dpanel[data-panel="flow-sec"] .uflowd{margin-left:0;width:100%;max-width:600px;transform:none;padding:0;margin-right:0}
   /* highlight only the current profile's path in the user flow */
   .flowlane{transition:opacity .25s ease}
   .uflowd[data-active] .flowlane{opacity:.18}
@@ -777,10 +777,10 @@
     <aside class="acct-side">
       <button class="acct-back" type="button" id="acctback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back to Netflix</button>
       <button class="acct-nav on" type="button" data-target="acct-overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V21h13V9.5"/></svg> Overview</button>
-      <button class="acct-nav" type="button" data-target="acct-challenges"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/></svg> Challenges</button>
-      <button class="acct-nav" type="button" data-target="acct-needs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg> Product Needs</button>
-      <button class="acct-nav" type="button" data-target="acct-marketing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l9 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M18.5 8a4 4 0 0 1 0 8"/></svg> Marketing</button>
-      <button class="acct-nav" type="button" data-target="acct-prefs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h7M15 18h5"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="13" cy="18" r="2"/></svg> Preferences</button>
+      <button class="acct-nav" type="button" data-target="acct-prefs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h7M15 18h5"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="13" cy="18" r="2"/></svg> Context</button>
+      <button class="acct-nav" type="button" data-target="acct-needs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg> Goals &amp; Triggers</button>
+      <button class="acct-nav" type="button" data-target="acct-challenges"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/></svg> Pain Points</button>
+      <button class="acct-nav" type="button" data-target="acct-marketing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg> Tech &amp; Literacy</button>
     </aside>
     <main class="acct-main">
       <h1 class="acct-h1">Account</h1>
@@ -793,14 +793,14 @@
         </div>
         <div class="acct-mrow"><b id="acct-quote"></b><svg class="chev" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div>
       </div>
-      <p class="acct-ql" id="acct-challenges">Challenges</p>
-      <div class="acct-list" id="acct-list-challenges"></div>
-      <p class="acct-ql" id="acct-needs">Product Needs</p>
-      <div class="acct-list" id="acct-list-needs"></div>
-      <p class="acct-ql" id="acct-marketing">Marketing</p>
-      <div class="acct-list" id="acct-list-marketing"></div>
-      <p class="acct-ql" id="acct-prefs">Preferences</p>
+      <p class="acct-ql" id="acct-prefs">Context &amp; Environment</p>
       <div class="acct-list" id="acct-list-prefs"></div>
+      <p class="acct-ql" id="acct-needs">Goals &amp; Triggers</p>
+      <div class="acct-list" id="acct-list-needs"></div>
+      <p class="acct-ql" id="acct-challenges">Critical Pain Points</p>
+      <div class="acct-list" id="acct-list-challenges"></div>
+      <p class="acct-ql" id="acct-marketing">Tech &amp; Domain Literacy</p>
+      <div class="acct-list" id="acct-list-marketing"></div>
     </main>
    </div>
   </div>
@@ -992,44 +992,66 @@
   </div>
 
   <div class="dpanel" data-panel="flow-sec">
-  <p class="itr-lead">The path for the profile you're on; the others are dimmed.</p>
+  <p class="itr-lead">How a viewer navigates a song, from play back to the film.</p>
   <div class="uflowd">
-    <svg viewBox="0 0 1120 420" role="img" aria-label="User flow by intent. Press play, then watch the film. Three paths: here for the songs (open the Songs list, tap a song to jump straight there, watch it); here to skip a song (as a song starts, open the list and tap Skip, and the film resumes); or first time and curious (a song plays, the tab shows its name, now you know it). All paths return to the film.">
+    <svg viewBox="0 0 700 1040" role="img" aria-label="Tracks user flow. Start, then the viewer is watching a Bollywood film. Decision: a song plays, navigate it? If no, a tooltip names the song and the film continues to the end. If yes, the viewer opens the Songs list, then a second decision: jump to the song or skip it. Jumping taps the song to jump there; skipping taps Skip and the film resumes. Both continue the film, and the flow ends back in the film.">
       <defs><marker id="fah" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#b3b3b3"/></marker></defs>
-      <g stroke="#b3b3b3" stroke-width="2" fill="none" marker-end="url(#fah)">
-        <path d="M112 210 H120"/>
+      <!-- key -->
+      <g font-family="inherit">
+        <text x="434" y="30" font-size="11" font-weight="800" letter-spacing=".14em" fill="#8a8a8a">KEY</text>
+        <ellipse cx="452" cy="58" rx="16" ry="9" fill="#3B82F6"/><text x="480" y="62" font-size="12" fill="#b3b3b3">Start / End</text>
+        <rect x="436" y="83" width="32" height="17" rx="4" fill="#F5461E"/><text x="480" y="96" font-size="12" fill="#b3b3b3">Screen or step</text>
+        <polygon points="452,114 470,126 452,138 434,126" fill="#17171a" stroke="#6a6a6a" stroke-width="1.2"/><text x="480" y="130" font-size="12" fill="#b3b3b3">Decision</text>
+        <polygon points="440,150 472,150 466,166 434,166" fill="#26262b" stroke="#F5461E" stroke-width="1.2"/><text x="480" y="163" font-size="12" fill="#b3b3b3">Input / output</text>
       </g>
-      <ellipse cx="58" cy="210" rx="52" ry="22" fill="#333"/>
-      <text x="58" y="214" text-anchor="middle" font-family="inherit" font-size="12" font-weight="700" fill="#fff">Press play</text>
-      <rect x="120" y="188" width="150" height="44" rx="6" fill="#E50914"/>
-      <text x="195" y="214" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Watching the film</text>
-
-      <g class="flowlane" data-flow="maya">
-        <g stroke="#b3b3b3" stroke-width="2" fill="none" marker-end="url(#fah)"><path d="M272 210 V68 H300"/><path d="M450 68 H486"/><path d="M666 68 H706"/><path d="M856 68 H920 V210 H938"/></g>
-        <text x="375" y="36" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#ff8a90" letter-spacing="0.5">MUSICAL · HERE FOR THE SONGS</text>
-        <rect x="300" y="46" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="375" y="72" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Open the Songs list</text>
-        <rect x="486" y="46" width="180" height="44" rx="6" fill="#E50914"/><text x="576" y="72" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Tap a song, jump there</text>
-        <rect x="706" y="46" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="781" y="72" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Watch that song</text>
+      <!-- connectors -->
+      <g stroke="#b3b3b3" stroke-width="2" fill="none">
+        <path d="M210 84 V118" marker-end="url(#fah)"/>
+        <path d="M210 176 V212" marker-end="url(#fah)"/>
+        <path d="M210 388 V443" marker-end="url(#fah)"/>
+        <path d="M210 497 V544" marker-end="url(#fah)"/>
+        <path d="M210 716 V738"/>
+        <path d="M210 738 H120 V760" marker-end="url(#fah)"/>
+        <path d="M210 738 H340 V760" marker-end="url(#fah)"/>
+        <path d="M120 818 V895 H123" marker-end="url(#fah)"/>
+        <path d="M340 818 V895 H297" marker-end="url(#fah)"/>
+        <path d="M320 300 H476" marker-end="url(#fah)"/>
+        <path d="M560 327 V980 H276" marker-end="url(#fah)"/>
+        <path d="M210 923 V948" marker-end="url(#fah)"/>
       </g>
-
-      <g class="flowlane" data-flow="priya">
-        <g stroke="#b3b3b3" stroke-width="2" fill="none" marker-end="url(#fah)"><path d="M270 210 H300"/><path d="M450 210 H486"/><path d="M666 210 H706"/><path d="M856 210 H938"/></g>
-        <text x="375" y="178" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#ff8a90" letter-spacing="0.5">BOLLYWOOD · HERE TO SKIP A SONG</text>
-        <rect x="300" y="188" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="375" y="214" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">A song starts</text>
-        <rect x="486" y="188" width="180" height="44" rx="6" fill="#E50914"/><text x="576" y="214" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Open list, tap Skip</text>
-        <rect x="706" y="188" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="781" y="214" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Film resumes</text>
-      </g>
-
-      <g class="flowlane" data-flow="sofia">
-        <g stroke="#b3b3b3" stroke-width="2" fill="none" marker-end="url(#fah)"><path d="M272 210 V352 H300"/><path d="M450 352 H486"/><path d="M666 352 H706"/><path d="M856 352 H920 V210 H938"/></g>
-        <text x="375" y="320" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#ff8a90" letter-spacing="0.5">K-DRAMA · FIRST TIME, CURIOUS</text>
-        <rect x="300" y="330" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="375" y="356" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">A song plays</text>
-        <rect x="486" y="330" width="180" height="44" rx="6" fill="#E50914"/><text x="576" y="356" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Tab shows its name</text>
-        <rect x="706" y="330" width="150" height="44" rx="6" fill="#26262b" stroke="#6a6a6a" stroke-width="1.3"/><text x="781" y="356" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="600" fill="#fff">Now you know it</text>
-      </g>
-
-      <ellipse cx="1000" cy="210" rx="64" ry="24" fill="#333"/>
-      <text x="1000" y="214" text-anchor="middle" font-family="inherit" font-size="11.5" font-weight="700" fill="#fff">Back to the film</text>
+      <!-- start -->
+      <ellipse cx="210" cy="54" rx="64" ry="30" fill="#3B82F6"/>
+      <text x="210" y="59" text-anchor="middle" font-family="inherit" font-size="14" font-weight="800" fill="#fff">START</text>
+      <!-- watching -->
+      <rect x="125" y="118" width="170" height="58" rx="9" fill="#F5461E"/>
+      <text x="210" y="152" text-anchor="middle" font-family="inherit" font-size="13.5" font-weight="600" fill="#fff">Watching the film</text>
+      <!-- decision 1 -->
+      <polygon points="210,212 320,300 210,388 100,300" fill="#17171a" stroke="#6a6a6a" stroke-width="1.4"/>
+      <text x="210" y="294" text-anchor="middle" font-family="inherit" font-size="13" font-weight="600" fill="#fff"><tspan x="210" dy="0">A song plays.</tspan><tspan x="210" dy="16">Navigate it?</tspan></text>
+      <circle cx="210" cy="415" r="15" fill="#0f0f10" stroke="#22c55e" stroke-width="2"/><text x="210" y="419" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#22c55e">Yes</text>
+      <circle cx="400" cy="300" r="15" fill="#0f0f10" stroke="#ef4444" stroke-width="2"/><text x="400" y="304" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#ef4444">No</text>
+      <!-- open list (input) -->
+      <polygon points="133,443 323,443 287,497 115,497" fill="#26262b" stroke="#F5461E" stroke-width="1.4"/>
+      <text x="214" y="474" text-anchor="middle" font-family="inherit" font-size="13" font-weight="600" fill="#fff">Open the Songs list</text>
+      <!-- decision 2 -->
+      <polygon points="210,544 320,630 210,716 100,630" fill="#17171a" stroke="#6a6a6a" stroke-width="1.4"/>
+      <text x="210" y="624" text-anchor="middle" font-family="inherit" font-size="13" font-weight="600" fill="#fff"><tspan x="210" dy="0">Jump to it</tspan><tspan x="210" dy="16">or skip it?</tspan></text>
+      <rect x="139" y="728" width="52" height="20" rx="10" fill="#0f0f10" stroke="#6a6a6a"/><text x="165" y="742" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#cfcfcf">Jump</text>
+      <rect x="259" y="728" width="52" height="20" rx="10" fill="#0f0f10" stroke="#6a6a6a"/><text x="285" y="742" text-anchor="middle" font-family="inherit" font-size="11" font-weight="700" fill="#cfcfcf">Skip</text>
+      <!-- results -->
+      <rect x="45" y="762" width="150" height="56" rx="9" fill="#F5461E"/>
+      <text x="120" y="787" text-anchor="middle" font-family="inherit" font-size="12.5" font-weight="600" fill="#fff"><tspan x="120" dy="0">Tap it,</tspan><tspan x="120" dy="15">jump there</tspan></text>
+      <rect x="260" y="762" width="160" height="56" rx="9" fill="#F5461E"/>
+      <text x="340" y="787" text-anchor="middle" font-family="inherit" font-size="12.5" font-weight="600" fill="#fff"><tspan x="340" dy="0">Tap Skip,</tspan><tspan x="340" dy="15">film resumes</tspan></text>
+      <!-- tooltip (output) -->
+      <polygon points="478,273 678,273 642,327 442,327" fill="#26262b" stroke="#F5461E" stroke-width="1.4"/>
+      <text x="560" y="305" text-anchor="middle" font-family="inherit" font-size="12.5" font-weight="600" fill="#fff">Tooltip names the song</text>
+      <!-- collector -->
+      <rect x="125" y="867" width="170" height="56" rx="9" fill="#F5461E"/>
+      <text x="210" y="899" text-anchor="middle" font-family="inherit" font-size="13" font-weight="600" fill="#fff">Film continues</text>
+      <!-- end -->
+      <ellipse cx="210" cy="980" rx="64" ry="30" fill="#6f6f72"/>
+      <text x="210" y="985" text-anchor="middle" font-family="inherit" font-size="14" font-weight="800" fill="#fff">END</text>
     </svg>
   </div>
   </div>
@@ -1364,28 +1386,28 @@
         badge:'Member since 2021 · Spotify-linked',name:'Maya Ellison',
         sub:'The Soundtrack Collector · Musical-theatre & OST superfan · Age 27 · Los Angeles, USA',
         quote:'“If a film has a great number, I need it on my playlist before the credits roll.”',
-        challenges:[['warn','The song has no name on screen','She leaves the app to Shazam her own TV'],['music','A number she loves, with no way to save it','Discovery dead-ends inside the film'],['play','Can’t jump back to the number','Blind scrubbing overshoots the song']],
-        needs:[['music','See the song: name + artist','Right on the seek bar, no guessing'],['save','One-tap save to a playlist','Spotify / Amazon Music, without leaving the film'],['play','Jump TO the song, not past it','Replay a favourite number instantly']],
-        marketing:[['list','Song-first trailers & OST drops','Reels & TikTok clips, Netflix Tudum'],['users','Sing-along moments','The KPop Demon Hunters / “Naatu Naatu” energy']],
-        prefs:[['sparkle','Music is the reason she watches','The number is the peak, never the pause'],['globe','Follows the music across cultures','Came to Bollywood via musicals & K-pop']]},
+        challenges:[['warn','Leaves the app to Shazam songs off her own screen','The player never names them'],['play','Overshoots the song when she scrubs back','No marker for where it starts or ends'],['music','Abandons discovery inside the film','No one-tap way to save a track she just heard']],
+        needs:[['music','Wants the song name and artist on the seek bar','So she stops leaving to identify it'],['save','Saves a number to a playlist in one tap','Trigger: a song she likes starts playing'],['play','Jumps to a song to replay it','Without scrubbing past it']],
+        marketing:[['music','Links Netflix to Spotify and Shazam most sessions','Moves comfortably across streaming apps'],['list','Uses OST and soundtrack terms','Reads the credits to find composers']],
+        prefs:[['tv','Watches on a laptop in the evenings','Keeps Spotify open in a second tab'],['globe','Follows soundtracks across languages','Reached Bollywood through musicals and K-pop']]},
       priya:{initial:'P',color:'wa-crimson',
         avGrad:'linear-gradient(150deg,#F0323B,#7b1015)',badgeGrad:'linear-gradient(90deg,#8f1418,#F0323B)',
         badge:'Member since 2018 · watches from abroad',name:'Priya Sharma',
         sub:'The Devoted Rewatcher · Bollywood fan & diaspora viewer · Age 34 · Toronto, Canada',
         quote:'“I know every word already. Some nights I sing along; some nights I just want to get back to the story.”',
-        challenges:[['heart','Songs are heritage, not filler','A blunt “skip” feels like an insult'],['scrub','Blind scrubbing overshoots','She knows what to skip, not where it ends'],['users','Second screen, then lost','No signal for when to re-engage']],
-        needs:[['music','Know when the song ends','A passive marker, never an auto-skip'],['play','Optional jump-to-end','For numbers she’s heard 100 times, never automatic'],['save','Save the beloved number','And subtitle older, regional lyrics']],
-        marketing:[['refresh','Nostalgia, done with respect','“Relive the classics”, family co-viewing, festivals'],['users','Where her community is','WhatsApp & Instagram shares, diaspora creators']],
-        prefs:[['music','Knows the soundtrack by heart','Savours some, navigates others; it depends'],['tv','Watches with family, across devices','Living-room TV and mobile']]},
+        challenges:[['scrub','Overshoots when she scrubs to skip','She knows what to skip, not where it ends'],['users','Loses her place after a second-screen break','No signal for when to re-engage'],['heart','Reads a blunt Skip as disrespect','Songs are heritage, not filler']],
+        needs:[['music','Wants a marker for when a song ends','Passive, never an auto-skip'],['play','Jumps to the end of songs she has heard 100 times','Only when she chooses to'],['save','Saves and subtitles older regional numbers','Trigger: a childhood favourite plays']],
+        marketing:[['tv','Switches between the TV and her phone mid-film','Uses the remote more than touch'],['users','Shares clips on WhatsApp and Instagram','Knows the films and songs by heart']],
+        prefs:[['tv','Watches on the living-room TV with family','And on her phone, late at night'],['globe','Streams Indian films from abroad','Most on weekends and during festivals']]},
       sofia:{initial:'S',color:'wa-purple',
         avGrad:'linear-gradient(150deg,#a24fb8,#4a1a59)',badgeGrad:'linear-gradient(90deg,#5b2a8f,#a24fb8)',
         badge:'Member since 2024 · ad-supported plan',name:'Sofia Reyes',
         sub:'The Curious Crossover · K-drama & OST fan, new to Bollywood · Age 21 · Manila, Philippines',
         quote:'“The OST hooked me. But when a song plays with no subtitles, I’m lost and I don’t know for how long.”',
-        challenges:[['cc','Unsubtitled songs = lost','3-5 minutes she can’t follow'],['search','Found it through the music, then stuck','Loves the OST, can’t read the lyrics'],['save','No way to save the discovery','A synced song she’d add to a playlist']],
-        needs:[['cc','Subtitle the song','Lyric translation on the number, the make-or-break need'],['music','See & save the track','Named marker + add to playlist'],['share','Clip it for a fan edit','Share a moment to the fandom']],
-        marketing:[['list','Crossover & OST moments','TikTok, YouTube, Discord & Reddit fandoms'],['users','“If you love K-drama OSTs…”','Creators she follows covering Bollywood']],
-        prefs:[['cc','Subtitle-native, culturally curious','Happy to read subs; wants to understand, not skip'],['globe','Discovers cultures through music','K-pop → K-drama → now Bollywood']]}
+        challenges:[['cc','Loses the plot for 3-5 minutes on unsubtitled songs','She can’t follow the lyrics'],['search','Finds the song, then hits a dead end','Loves the OST, can’t read the words'],['save','Can’t save a discovery','A synced song she would add to a playlist']],
+        needs:[['cc','Wants the song lyrics subtitled','The make-or-break need on a musical number'],['music','Sees and saves the track','Named marker plus add-to-playlist'],['share','Clips a moment for a fan edit','Trigger: a song she loves plays']],
+        marketing:[['play','Navigates by touch on a mobile-only plan','Skips intros, taps for subtitles'],['search','Fluent in fandom tools','Shazam, playlists, and clip editors']],
+        prefs:[['tv','Watches on her phone on the ad-supported plan','In short sessions, often commuting'],['globe','New to Bollywood via K-drama OSTs','Reads subtitles throughout']]}
     };
     var cur='maya';
     function rows(list){return list.map(function(r){return '<div class="acct-row"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(IC[r[0]]||IC.music)+'</svg><div class="txt"><b>'+r[1]+'</b><span>'+r[2]+'</span></div><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div>';}).join('');}
