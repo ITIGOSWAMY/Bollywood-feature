@@ -75,7 +75,8 @@
   .redlayer{position:absolute;inset:0;clip-path:inset(0 65% 0 0);pointer-events:none}
   .sline{position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:4px;border-radius:2px;background:rgba(255,255,255,.28)}
   .sline.red{background:var(--red)}
-  .ssong{position:absolute;top:50%;transform:translateY(-50%);height:10px;border-radius:5px;background:rgba(255,255,255,.62)}
+  /* songs render as lighter grey bands inside the bar (no dots); the played part stays red */
+  .ssong{position:absolute;top:50%;transform:translateY(-50%);height:4px;border-radius:2px;background:rgba(255,255,255,.58)}
   .ssong.red{background:var(--red)}
   .chaptitle{display:flex;width:fit-content;align-items:center;gap:10px;margin-bottom:16px;padding:9px 16px;background:rgba(35,35,38,.82);border-radius:22px;color:#fff;font-weight:600;font-size:15px;cursor:pointer;transition:background .2s}
   .chaptitle:hover{background:rgba(55,55,58,.9)}
@@ -739,7 +740,7 @@
     .chapicon{width:13px;height:13px}
     .scrub{height:11px}
     .knob{width:11px;height:11px}
-    .ssong{height:8px}
+    .ssong{height:4px}
     .timerow{font-size:9.5px;margin-top:7px}
     .ctrlrow{margin-top:8px}
     .ctrlrow .grp{gap:14px}
@@ -951,42 +952,42 @@
   </div>
 
   <div class="dpanel" data-panel="iterations">
-  <p class="itr-lead">Six bars explored. One let the songs lead.</p>
+  <p class="itr-lead">Six timeline treatments explored, merged to the families that mattered. Grey song bands, with the song revealed as you reach it, won.</p>
   <div class="itr-grid">
     <div class="itr">
       <div class="itr-bar"><svg viewBox="0 0 220 124"><rect x="0" y="0" width="220" height="124" rx="8" fill="#0f0f11"/><rect x="0" y="0" width="220" height="88" fill="#141417"/><text x="110" y="50" text-anchor="middle" fill="#2c2c30" font-size="15" font-weight="800" font-family="inherit">FILM</text><g fill="#4d4d4d"><rect x="12" y="100" width="34" height="6" rx="3"/><rect x="50" y="100" width="26" height="6" rx="3"/><rect x="80" y="100" width="40" height="6" rx="3"/><rect x="124" y="100" width="22" height="6" rx="3"/><rect x="150" y="100" width="26" height="6" rx="3"/><rect x="180" y="100" width="28" height="6" rx="3"/></g><g fill="#E50914"><rect x="12" y="100" width="34" height="6" rx="3"/><rect x="50" y="100" width="26" height="6" rx="3"/></g><circle cx="76" cy="103" r="5" fill="#fff"/></svg></div>
-      <div class="itr-name">Segmented pills</div><span class="itr-tag off">Set aside</span>
-      <p>Every stretch becomes a chapter, so songs stop standing out.</p>
-    </div>
-    <div class="itr win">
-      <div class="itr-bar"><svg viewBox="0 0 220 124"><rect x="0" y="0" width="220" height="124" rx="8" fill="#0f0f11"/><rect x="0" y="0" width="220" height="88" fill="#141417"/><text x="90" y="50" text-anchor="middle" fill="#2c2c30" font-size="15" font-weight="800" font-family="inherit">FILM</text><rect x="12" y="72" width="66" height="13" rx="6.5" fill="rgba(35,35,38,.92)"/><text x="26" y="81" fill="#fff" font-size="6.5" font-family="inherit">Gehra Hua</text><rect x="164" y="71" width="44" height="15" rx="4" fill="#E50914"/><text x="186" y="81" text-anchor="middle" fill="#fff" font-size="7.5" font-weight="700" font-family="inherit">Skip</text><rect x="12" y="102" width="196" height="3" rx="1.5" fill="#4d4d4d"/><g fill="#bdbdbd"><rect x="46" y="100" width="9" height="7" rx="3.5"/><rect x="112" y="100" width="13" height="7" rx="3.5"/><rect x="172" y="100" width="8" height="7" rx="3.5"/></g><rect x="12" y="102" width="86" height="3" rx="1.5" fill="#E50914"/><rect x="46" y="100" width="9" height="7" rx="3.5" fill="#E50914"/><circle cx="98" cy="103.5" r="4.5" fill="#fff"/></svg></div>
-      <div class="itr-name">Songs only, on a story line</div><span class="itr-tag win">Chosen</span>
-      <p>Only songs get a pill; the story stays a quiet line, plus a per-song skip.</p>
+      <div class="itr-name">Every scene a chapter</div><span class="itr-tag off">Set aside</span>
+      <p>Segment the whole bar and every stretch becomes a chapter, so the songs stop standing out.</p>
     </div>
     <div class="itr">
-      <div class="itr-bar"><svg viewBox="0 0 220 124"><rect x="0" y="0" width="220" height="124" rx="8" fill="#0f0f11"/><rect x="0" y="0" width="220" height="88" fill="#141417"/><text x="110" y="50" text-anchor="middle" fill="#2c2c30" font-size="15" font-weight="800" font-family="inherit">FILM</text><rect x="12" y="101" width="196" height="5" rx="2.5" fill="#4d4d4d"/><rect x="96" y="101" width="26" height="5" fill="rgba(229,9,20,.5)"/><rect x="12" y="101" width="84" height="5" rx="2.5" fill="#E50914"/><circle cx="96" cy="103.5" r="4.5" fill="#fff"/></svg></div>
-      <div class="itr-name">Continuous bands + markers</div><span class="itr-tag off">Set aside</span>
-      <p>Songs blur into the bar and get hard to count.</p>
+      <div class="itr-bar"><svg viewBox="0 0 220 124"><rect x="0" y="0" width="220" height="124" rx="8" fill="#0f0f11"/><rect x="0" y="0" width="220" height="88" fill="#141417"/><text x="110" y="50" text-anchor="middle" fill="#2c2c30" font-size="15" font-weight="800" font-family="inherit">FILM</text><rect x="12" y="101" width="196" height="5" rx="2.5" fill="#4d4d4d"/><rect x="12" y="101" width="72" height="5" rx="2.5" fill="#E50914"/><rect x="30" y="99" width="9" height="9" rx="4.5" fill="#E50914"/><rect x="66" y="99" width="9" height="9" rx="4.5" fill="#E50914"/><rect x="104" y="99" width="9" height="9" rx="4.5" fill="#dcdcdc"/><rect x="140" y="99" width="9" height="9" rx="4.5" fill="#dcdcdc"/><rect x="176" y="99" width="9" height="9" rx="4.5" fill="#dcdcdc"/><circle cx="84" cy="103.5" r="5" fill="#fff"/></svg></div>
+      <div class="itr-name">Dots and pills</div><span class="itr-tag off">Set aside</span>
+      <p>A discrete mark for every song, but eleven of them clutter the bar and blur together.</p>
     </div>
     <div class="itr">
       <div class="itr-bar"><svg viewBox="0 0 220 124"><rect x="0" y="0" width="220" height="124" rx="8" fill="#0f0f11"/><rect x="0" y="0" width="220" height="88" fill="#141417"/><text x="110" y="50" text-anchor="middle" fill="#2c2c30" font-size="15" font-weight="800" font-family="inherit">FILM</text><rect x="12" y="99" width="196" height="5" rx="2.5" fill="#4d4d4d"/><rect x="12" y="99" width="84" height="5" rx="2.5" fill="#E50914"/><g fill="#bbb"><circle cx="40" cy="101.5" r="4"/><circle cx="104" cy="101.5" r="4"/><circle cx="168" cy="101.5" r="4"/></g><g fill="#8a8a8a" font-size="6.5" font-family="inherit"><text x="26" y="117">Zamana</text><text x="92" y="117">Gehra</text><text x="156" y="117">Ramba</text></g></svg></div>
-      <div class="itr-name">Labeled boundary nodes</div><span class="itr-tag off">Set aside</span>
-      <p>Names crowd badly once there are eleven songs.</p>
+      <div class="itr-name">Boundary and end labels</div><span class="itr-tag off">Set aside</span>
+      <p>Mark or name each edge only. It pinpoints where a song ends, but names crowd past eleven and you lose how long it runs.</p>
     </div>
     <div class="itr">
-      <div class="itr-bar"><svg viewBox="0 0 220 124"><rect x="0" y="0" width="220" height="124" rx="8" fill="#0f0f11"/><rect x="0" y="0" width="220" height="88" fill="#141417"/><text x="90" y="50" text-anchor="middle" fill="#2c2c30" font-size="15" font-weight="800" font-family="inherit">FILM</text><rect x="150" y="66" width="58" height="16" rx="4" fill="#fff"/><text x="179" y="77" text-anchor="middle" fill="#111" font-size="8" font-weight="700" font-family="inherit">Skip Song</text><rect x="12" y="101" width="196" height="5" rx="2.5" fill="#4d4d4d"/><rect x="12" y="101" width="84" height="5" rx="2.5" fill="#E50914"/><circle cx="96" cy="103.5" r="4.5" fill="#fff"/></svg></div>
-      <div class="itr-name">Just a Skip Song button</div><span class="itr-tag off">Set aside</span>
-      <p>It skips, but hides the song: no name, no length, nothing to save.</p>
+      <div class="itr-bar"><svg viewBox="0 0 220 124"><rect x="0" y="0" width="220" height="124" rx="8" fill="#0f0f11"/><rect x="0" y="0" width="220" height="88" fill="#141417"/><text x="110" y="50" text-anchor="middle" fill="#2c2c30" font-size="15" font-weight="800" font-family="inherit">FILM</text><rect x="60" y="66" width="72" height="15" rx="7.5" fill="#1c1c1e" stroke="#3a3a3a" stroke-width="0.7"/><text x="72" y="76" fill="#fff" font-size="6.5" font-family="inherit">Gehra Hua</text><path d="M92 81 l4 4 l4 -4 z" fill="#1c1c1e"/><rect x="12" y="101" width="196" height="5" rx="2.5" fill="#4d4d4d"/><rect x="12" y="101" width="84" height="5" rx="2.5" fill="#E50914"/><circle cx="96" cy="103.5" r="5" fill="#fff"/></svg></div>
+      <div class="itr-name">Reveal on interaction</div><span class="itr-tag part">Partly kept</span>
+      <p>Keep the bar clean and reveal a song only as you reach or scrub it. Cleanest look, but idle viewers miss it, so the reveal pill stayed.</p>
     </div>
     <div class="itr">
       <div class="itr-bar"><svg viewBox="0 0 220 124"><rect x="0" y="0" width="220" height="124" rx="8" fill="#0f0f11"/><text x="58" y="60" text-anchor="middle" fill="#2c2c30" font-size="14" font-weight="800" font-family="inherit">FILM</text><rect x="118" y="8" width="94" height="108" rx="5" fill="#242427"/><rect x="126" y="16" width="52" height="5" rx="2.5" fill="#8a8a8a"/><rect x="126" y="27" width="80" height="24" rx="3" fill="#0d0d0f"/><rect x="131" y="31" width="18" height="16" rx="2" fill="#E50914" opacity=".55"/><rect x="153" y="33" width="30" height="4" rx="2" fill="#fff"/><rect x="153" y="43" width="46" height="2.5" rx="1.2" fill="#E50914"/><rect x="126" y="60" width="34" height="4" rx="2" fill="#b0b0b0"/><rect x="126" y="67" width="66" height="2" rx="1" fill="#4a4a4a"/><rect x="126" y="79" width="30" height="4" rx="2" fill="#b0b0b0"/><rect x="126" y="86" width="66" height="2" rx="1" fill="#4a4a4a"/><rect x="126" y="98" width="26" height="4" rx="2" fill="#b0b0b0"/></svg></div>
-      <div class="itr-name">Right-side chapter drawer</div><span class="itr-tag part">Partly kept</span>
-      <p>Rich, but it takes over the frame. Its list became the compact Songs panel.</p>
+      <div class="itr-name">Off-bar song list</div><span class="itr-tag part">Partly kept</span>
+      <p>Move song info off the scrubber into a side list or a second line. It became the compact Songs panel.</p>
+    </div>
+    <div class="itr win">
+      <div class="itr-bar"><svg viewBox="0 0 220 124"><rect x="0" y="0" width="220" height="124" rx="8" fill="#0f0f11"/><rect x="0" y="0" width="220" height="88" fill="#141417"/><text x="110" y="50" text-anchor="middle" fill="#2c2c30" font-size="15" font-weight="800" font-family="inherit">FILM</text><rect x="56" y="66" width="84" height="15" rx="7.5" fill="#1c1c1e" stroke="#3a3a3a" stroke-width="0.7"/><text x="68" y="76" fill="#fff" font-size="6.5" font-family="inherit">Gehra Hua</text><text x="124" y="76" fill="#9a9a9a" font-size="6" font-family="inherit">1:14</text><path d="M94 81 l4 4 l4 -4 z" fill="#1c1c1e"/><rect x="12" y="101" width="196" height="6" rx="3" fill="#4d4d4d"/><g fill="#8f8f8f"><rect x="40" y="101" width="14" height="6" rx="3"/><rect x="78" y="101" width="20" height="6" rx="3"/><rect x="118" y="101" width="16" height="6" rx="3"/><rect x="150" y="101" width="12" height="6" rx="3"/><rect x="180" y="101" width="16" height="6" rx="3"/></g><rect x="12" y="101" width="86" height="6" rx="3" fill="#E50914"/><circle cx="98" cy="104" r="5" fill="#fff"/></svg></div>
+      <div class="itr-name">Grey song bands</div><span class="itr-tag win">Chosen</span>
+      <p>No dots. Songs are lighter grey bands, the played part stays red, and the pill names the song and its time as you reach it, plus a per-song skip.</p>
     </div>
   </div>
   <div class="ins-one">
     <span class="ins-k">The decision</span>
-    <p>We chose the <b>songs-only timeline</b>: it marks just the songs on a quiet story line, so in testing viewers could skip or replay a number without the film turning into chapters, and it reuses components Netflix already ships. The richer labeled-node and full-chapter options were rejected because song names crowded and buried the plot once there were <b>eleven of them</b>.</p>
+    <p>We chose <b>lighter grey song bands</b> on an otherwise plain bar, with the played part red and a pill that names the song and its time as you reach it. In testing that read as clear regions without the clutter of eleven dots and it reuses components Netflix already ships; the discrete-marker and boundary-label options were rejected because the marks blurred and the names crowded once there were <b>eleven songs</b>.</p>
   </div>
   </div>
 
@@ -1267,8 +1268,8 @@
   var presets=[
     {fx:.5,fy:.5,s:1},
     {fx:.35,fy:.8,s:1.6,lbl:'Tracks',h:'Know which song is playing.',p:'Named right above the bar.'},
-    {fx:.36,fy:.87,s:2.6,lbl:'See how long it runs',h:'The marker shows where it ends.',p:''},
-    {fx:.34,fy:.82,s:2.2,lbl:'Reach it yourself',h:'Scrub straight to where it ends.',p:'The marker guides you, no overshoot.'},
+    {fx:.36,fy:.87,s:2.6,lbl:'See how long it runs',h:'The band shows where it ends.',p:''},
+    {fx:.34,fy:.82,s:2.2,lbl:'Reach it yourself',h:'Scrub straight to where it ends.',p:'The band guides you, no overshoot.'},
     {fx:.5,fy:.5,s:1,lbl:'Every song',h:'Open the list, jump anywhere.',p:'The full soundtrack, in order.'}
   ];
   presets.forEach(function(){pdots.appendChild(document.createElement('i'));});
