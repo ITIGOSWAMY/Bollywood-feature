@@ -75,9 +75,11 @@
   .redlayer{position:absolute;inset:0;clip-path:inset(0 65% 0 0);pointer-events:none}
   .sline{position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:4px;border-radius:2px;background:rgba(255,255,255,.28)}
   .sline.red{background:var(--red)}
-  /* songs render as lighter grey bands inside the bar (no dots); the played part stays red */
-  .ssong{position:absolute;top:50%;transform:translateY(-50%);height:4px;border-radius:2px;background:rgba(255,255,255,.58)}
-  .ssong.red{background:var(--red)}
+  /* sheet-music barlines: the bar is empty until a song starts, then a tick marks its start and a final barline its end. Only the active song is marked. */
+  .sm{position:absolute;top:50%;transform:translate(-50%,-50%);height:16px;width:2px;border-radius:1px;background:#efeadb;opacity:0;pointer-events:none;transition:opacity .3s ease;z-index:3}
+  .sm.show{opacity:.95}
+  .sm.end{width:3px}
+  .sm.end::before{content:"";position:absolute;top:0;left:-4px;height:100%;width:2px;border-radius:1px;background:#efeadb}
   .chaptitle{display:flex;width:fit-content;align-items:center;gap:10px;margin-bottom:16px;padding:9px 16px;background:rgba(35,35,38,.82);border-radius:22px;color:#fff;font-weight:600;font-size:15px;cursor:pointer;transition:background .2s}
   .chaptitle:hover{background:rgba(55,55,58,.9)}
   .chapicon{width:17px;height:17px;color:#fff;opacity:.92;flex-shrink:0}
@@ -746,6 +748,7 @@
     .scrub{height:11px}
     .knob{width:11px;height:11px}
     .ssong{height:4px}
+    .sm{height:11px}
     .timerow{font-size:9.5px;margin-top:7px}
     .ctrlrow{margin-top:8px}
     .ctrlrow .grp{gap:14px}
@@ -958,7 +961,7 @@
   </div>
 
   <div class="dpanel" data-panel="iterations">
-  <p class="itr-lead">Every timeline treatment we explored. Grey song bands, with the song revealed as you reach it, won.</p>
+  <p class="itr-lead">Every timeline treatment we explored. Hairline barlines, shown only for the song you're in, won.</p>
   <div class="itr-grid">
     <div class="itr">
       <div class="itr-bar"><svg viewBox="0 0 220 124"><rect x="0" y="0" width="220" height="124" rx="8" fill="#0f0f11"/><rect x="0" y="0" width="220" height="88" fill="#141417"/><text x="110" y="50" text-anchor="middle" fill="#2c2c30" font-size="15" font-weight="800" font-family="inherit">FILM</text><g fill="#4d4d4d"><rect x="12" y="100" width="34" height="6" rx="3"/><rect x="50" y="100" width="26" height="6" rx="3"/><rect x="80" y="100" width="40" height="6" rx="3"/><rect x="124" y="100" width="22" height="6" rx="3"/><rect x="150" y="100" width="26" height="6" rx="3"/><rect x="180" y="100" width="28" height="6" rx="3"/></g><g fill="#E50914"><rect x="12" y="100" width="34" height="6" rx="3"/><rect x="50" y="100" width="26" height="6" rx="3"/></g><circle cx="76" cy="103" r="5" fill="#fff"/></svg></div>
@@ -1025,15 +1028,25 @@
       <div class="itr-name">Just a Skip button</div><span class="itr-tag off">Set aside</span>
       <p>It skips, but hides the song: no name, no length, nothing to save.</p>
     </div>
-    <div class="itr win">
+    <div class="itr">
       <div class="itr-bar"><svg viewBox="0 0 220 124"><rect x="0" y="0" width="220" height="124" rx="8" fill="#0f0f11"/><rect x="0" y="0" width="220" height="88" fill="#141417"/><text x="110" y="50" text-anchor="middle" fill="#2c2c30" font-size="15" font-weight="800" font-family="inherit">FILM</text><rect x="56" y="66" width="84" height="15" rx="7.5" fill="#1c1c1e" stroke="#3a3a3a" stroke-width="0.7"/><text x="68" y="76" fill="#fff" font-size="6.5" font-family="inherit">Gehra Hua</text><text x="124" y="76" fill="#9a9a9a" font-size="6" font-family="inherit">1:14</text><path d="M94 81 l4 4 l4 -4 z" fill="#1c1c1e"/><rect x="12" y="101" width="196" height="6" rx="3" fill="#4d4d4d"/><g fill="#8f8f8f"><rect x="40" y="101" width="14" height="6" rx="3"/><rect x="78" y="101" width="20" height="6" rx="3"/><rect x="118" y="101" width="16" height="6" rx="3"/><rect x="150" y="101" width="12" height="6" rx="3"/><rect x="180" y="101" width="16" height="6" rx="3"/></g><rect x="12" y="101" width="86" height="6" rx="3" fill="#E50914"/><circle cx="98" cy="104" r="5" fill="#fff"/></svg></div>
-      <div class="itr-name">Grey song bands</div><span class="itr-tag win">Chosen</span>
-      <p>No dots. Songs are lighter grey bands, the played part stays red, and the pill names the song and its time as you reach it, plus a per-song skip.</p>
+      <div class="itr-name">Grey song bands</div><span class="itr-tag part">Partly kept</span>
+      <p>Songs as lighter grey bands, played part red, named by the pill. Clear, but it marks every song at once; the reveal idea carried on, the persistent band did not.</p>
+    </div>
+    <div class="itr">
+      <div class="itr-bar"><svg viewBox="0 0 220 124"><rect x="0" y="0" width="220" height="124" rx="8" fill="#0f0f11"/><text x="44" y="60" text-anchor="middle" fill="#2c2c30" font-size="14" font-weight="800" font-family="inherit">FILM</text><rect x="92" y="10" width="120" height="104" rx="5" fill="#242427"/><text x="102" y="25" fill="#8a8a8a" font-size="7" font-family="inherit">Songs</text><g><rect x="102" y="34" width="58" height="4" rx="2" fill="#b0b0b0"/><rect x="102" y="52" width="50" height="4" rx="2" fill="#b0b0b0"/><rect x="102" y="70" width="56" height="4" rx="2" fill="#e6e6e6"/><rect x="102" y="88" width="46" height="4" rx="2" fill="#b0b0b0"/></g><rect x="174" y="65" width="30" height="13" rx="3" fill="none" stroke="#e0e0e0" stroke-width="1"/><text x="189" y="74.5" text-anchor="middle" fill="#e0e0e0" font-size="6.5" font-weight="700" font-family="inherit">Skip</text></svg></div>
+      <div class="itr-name">Skip inside the list</div><span class="itr-tag off">Set aside</span>
+      <p>The first skip idea: a Skip button on every row of the Songs list. It worked, but buried the action in a panel, so it moved to a floating button.</p>
+    </div>
+    <div class="itr win">
+      <div class="itr-bar"><svg viewBox="0 0 220 124"><rect x="0" y="0" width="220" height="124" rx="8" fill="#0f0f11"/><rect x="0" y="0" width="220" height="88" fill="#141417"/><text x="110" y="50" text-anchor="middle" fill="#2c2c30" font-size="15" font-weight="800" font-family="inherit">FILM</text><rect x="56" y="66" width="84" height="15" rx="7.5" fill="#1c1c1e" stroke="#3a3a3a" stroke-width="0.7"/><text x="68" y="76" fill="#fff" font-size="6.5" font-family="inherit">Gehra Hua</text><text x="124" y="76" fill="#9a9a9a" font-size="6" font-family="inherit">1:14</text><path d="M94 81 l4 4 l4 -4 z" fill="#1c1c1e"/><rect x="12" y="101" width="196" height="6" rx="3" fill="#4d4d4d"/><rect x="12" y="101" width="86" height="6" rx="3" fill="#E50914"/><g fill="#efeadb"><rect x="91" y="96" width="1.8" height="16" rx="0.9"/><rect x="114.5" y="96" width="1.8" height="16" rx="0.9"/><rect x="117.5" y="96" width="3" height="16" rx="1"/></g><circle cx="98" cy="104" r="5" fill="#fff"/></svg></div>
+      <div class="itr-name">Barlines on start</div><span class="itr-tag win">Chosen</span>
+      <p>The bar stays empty until a song starts, then a tick marks its start and a final barline its end, for that song only. The tooltip names it, and a Skip Song button appears like Skip Intro.</p>
     </div>
   </div>
   <div class="ins-one">
     <span class="ins-k">The decision</span>
-    <p>We chose <b>lighter grey song bands</b> as the least intrusive, least cluttered option. To the scrub tooltip we added the song name, so viewers see what is playing and, when they scrub, exactly where the song ends. In testing it read clearly, and it reuses components Netflix already ships.</p>
+    <p>We chose <b>hairline barlines that appear only for the song you're in</b>: a tick at its start and a final barline at its end, on an otherwise empty Netflix bar. It shows where a song begins and ends without a band or a permanent label, the scrub tooltip still names it, and a Skip Song button appears like Skip Intro; the grey band was set aside for marking every song at once.</p>
   </div>
   </div>
 
@@ -1146,8 +1159,8 @@
           <div class="chaptitle"><svg class="chapicon" viewBox="0 0 24 24" fill="currentColor"><rect x="8.5" y="3.4" width="11.5" height="3.1" rx="0.6"/><rect x="8.5" y="4" width="2.3" height="12.4"/><rect x="17.7" y="4" width="2.3" height="10.4"/><ellipse cx="6.6" cy="16.6" rx="3.5" ry="2.8"/><ellipse cx="15.8" cy="14.6" rx="3.5" ry="2.8"/></svg><span>Gehra Hua</span></div>
           <div class="scrub" id="scrub">
             <div class="sline"></div>
-            <div class="ssong" style="left:1.95%;width:1.21%"></div><div class="ssong" style="left:10.51%;width:1.95%"></div><div class="ssong" style="left:19.16%;width:1.85%"></div><div class="ssong" style="left:26.79%;width:1.1%"></div><div class="ssong" style="left:33.64%;width:2.82%"></div><div class="ssong" style="left:41.9%;width:1.74%"></div><div class="ssong" style="left:48.72%;width:1.43%"></div><div class="ssong" style="left:57.71%;width:1.98%"></div><div class="ssong" style="left:65.97%;width:1.59%"></div><div class="ssong" style="left:75.23%;width:1.21%"></div><div class="ssong" style="left:83.33%;width:1.3%"></div>
-            <div class="redlayer" id="redlayer"><div class="sline red"></div><div class="ssong red" style="left:1.95%;width:1.21%"></div><div class="ssong red" style="left:10.51%;width:1.95%"></div><div class="ssong red" style="left:19.16%;width:1.85%"></div><div class="ssong red" style="left:26.79%;width:1.1%"></div><div class="ssong red" style="left:33.64%;width:2.82%"></div><div class="ssong red" style="left:41.9%;width:1.74%"></div><div class="ssong red" style="left:48.72%;width:1.43%"></div><div class="ssong red" style="left:57.71%;width:1.98%"></div><div class="ssong red" style="left:65.97%;width:1.59%"></div><div class="ssong red" style="left:75.23%;width:1.21%"></div><div class="ssong red" style="left:83.33%;width:1.3%"></div></div>
+            <div class="redlayer" id="redlayer"><div class="sline red"></div></div>
+            <span class="sm start" id="smStart"></span><span class="sm end" id="smEnd"></span>
             <div class="scrubtip" id="scrubtip"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="8.5" y="3.4" width="11.5" height="3.1" rx="0.6"/><rect x="8.5" y="4" width="2.3" height="12.4"/><rect x="17.7" y="4" width="2.3" height="10.4"/><ellipse cx="6.6" cy="16.6" rx="3.5" ry="2.8"/><ellipse cx="15.8" cy="14.6" rx="3.5" ry="2.8"/></svg><span class="st-time" id="sttime">1:14:54</span><span class="st-dot">•</span><span class="st-name" id="stname">Gehra Hua</span></div>
             <div class="knob" id="knob"></div>
           </div>
@@ -1305,7 +1318,7 @@
   var total=12840,pct=35;
   knob.style.transition='left .4s';redlayer.style.transition='clip-path .4s';if(tip)tip.style.transition='opacity .18s';
   function fmt(s){s=Math.max(0,Math.round(s));var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),x=s%60;return h+':'+String(m).padStart(2,'0')+':'+String(x).padStart(2,'0');}
-  function seek(p,name){pct=Math.max(0,Math.min(100,p));knob.style.left=pct+'%';redlayer.style.clipPath='inset(0 '+(100-pct)+'% 0 0)';if(elapsed)elapsed.textContent=fmt(pct/100*total);if(name&&chapname)chapname.textContent=name;if(typeof updateActiveRow==='function')updateActiveRow(pct);if(typeof songAt==='function'){ if(songAt(pct)){if(typeof showSkip==='function')showSkip();} else {if(typeof hideSkip==='function')hideSkip();} }}
+  function seek(p,name){pct=Math.max(0,Math.min(100,p));knob.style.left=pct+'%';redlayer.style.clipPath='inset(0 '+(100-pct)+'% 0 0)';if(elapsed)elapsed.textContent=fmt(pct/100*total);if(name&&chapname)chapname.textContent=name;if(typeof updateActiveRow==='function')updateActiveRow(pct);if(typeof songAt==='function'){var _s=songAt(pct);if(_s){if(typeof showSkip==='function')showSkip();if(typeof showSongMark==='function')showSongMark(_s);}else{if(typeof hideSkip==='function')hideSkip();if(typeof hideSongMark==='function')hideSongMark();}}}
   document.getElementById('centerplay').addEventListener('click',function(){this.style.opacity=this.style.opacity==='0'?'1':'0';});
   var songspanel=document.getElementById('songspanel'),chaptitle=document.querySelector('.chaptitle');
   function setList(open){if(songspanel)songspanel.classList.toggle('open',open);if(chaptitle)chaptitle.style.visibility=open?'hidden':'visible';}
@@ -1326,6 +1339,10 @@
   function showSkip(){if(!skipBtn)return;skipBtn.classList.add('show');clearTimeout(skipHideT);skipHideT=setTimeout(function(){if(skipBtn)skipBtn.classList.remove('show');},10000);}
   function hideSkip(){if(skipBtn)skipBtn.classList.remove('show');clearTimeout(skipHideT);}
   if(skipBtn)skipBtn.addEventListener('click',function(e){e.stopPropagation();var s=(typeof songAt==='function')?songAt(pct):null;if(s)seek(s.p+s.w+0.4);hideSkip();});
+  // sheet-music barline marks: only the active song is marked; the bar is empty otherwise
+  var smStart=document.getElementById('smStart'),smEnd=document.getElementById('smEnd');
+  function showSongMark(s){if(!smStart||!smEnd||!s)return;smStart.style.left=s.p+'%';smEnd.style.left=(s.p+s.w)+'%';smStart.classList.add('show');smEnd.classList.add('show');}
+  function hideSongMark(){if(smStart)smStart.classList.remove('show');if(smEnd)smEnd.classList.remove('show');}
   var scrub=document.getElementById('scrub'),stDot=tip?tip.querySelector('.st-dot'):null,stIcon=tip?tip.querySelector('svg'):null;
   if(scrub&&tip){
     var moveTip=function(e){var rc=scrub.getBoundingClientRect();var p=Math.max(0,Math.min(100,(e.clientX-rc.left)/rc.width*100));tip.style.left=p+'%';if(tipT)tipT.textContent=fmt(p/100*total);var s=songAt(p);if(s){if(tipN){tipN.textContent=s.n;tipN.style.display='';}if(stDot)stDot.style.display='';if(stIcon)stIcon.style.display='';}else{if(tipN)tipN.style.display='none';if(stDot)stDot.style.display='none';if(stIcon)stIcon.style.display='none';}};
@@ -1339,9 +1356,9 @@
   var zoom=document.getElementById('zoom'),caption=document.getElementById('caption'),hint=document.getElementById('hint'),player=document.getElementById('player'),scrolly=document.getElementById('scrolly'),pdots=document.getElementById('pdots');
   var presets=[
     {fx:.5,fy:.5,s:1},
-    {fx:.35,fy:.8,s:1.6,lbl:'Tracks',h:'Know which song is playing.',p:'Named right above the bar.'},
-    {fx:.36,fy:.87,s:2.6,lbl:'See how long it runs',h:'The band shows where it ends.',p:''},
-    {fx:.34,fy:.82,s:2.2,lbl:'Reach it yourself',h:'Scrub straight to where it ends.',p:'The band guides you, no overshoot.'},
+    {fx:.35,fy:.85,s:2,lbl:'A song starts',h:'The bar marks just this song.',p:'A tick at its start, named above.'},
+    {fx:.41,fy:.86,s:2.6,lbl:'Where it ends',h:'A final barline marks the end.',p:'Empty bar otherwise, no clutter.'},
+    {fx:.86,fy:.74,s:1.9,lbl:'Skip it',h:'One tap to skip the song.',p:'Like Skip Intro, then it is gone.'},
     {fx:.5,fy:.5,s:1,lbl:'Every song',h:'Open the list, jump anywhere.',p:'The full soundtrack, in order.'}
   ];
   presets.forEach(function(){pdots.appendChild(document.createElement('i'));});
@@ -1351,10 +1368,12 @@
     current=i;var p=presets[i];applyZoom(p.fx,p.fy,p.s);
     if(typeof setList==='function')setList(i===4);
     dots.forEach(function(d,x){d.className=x===i?'on':'';});
-    if(i===0){hint.style.opacity='1';caption.classList.remove('on');if(typeof hideSkip==='function')hideSkip();return;}
+    if(i===0){hint.style.opacity='1';caption.classList.remove('on');if(typeof hideSkip==='function')hideSkip();if(typeof hideSongMark==='function')hideSongMark();return;}
     hint.style.opacity='0';
     caption.querySelector('.lbl').textContent=p.lbl;caption.querySelector('h3').textContent=p.h;caption.querySelector('p').textContent=p.p;caption.classList.add('on');
-    if(i===1&&typeof showSkip==='function')showSkip();
+    var as=(typeof songAt==='function')?songAt(pct):null;
+    if(as&&typeof showSongMark==='function')showSongMark(as);
+    if((i===1||i===3)&&typeof showSkip==='function')showSkip();else if(typeof hideSkip==='function')hideSkip();
   }
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)setStep(+e.target.dataset.step);});},{rootMargin:'-45% 0px -45% 0px',threshold:0});
   document.querySelectorAll('.step').forEach(function(s){io.observe(s);});
