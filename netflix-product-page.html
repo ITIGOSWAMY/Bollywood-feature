@@ -799,6 +799,12 @@
   .fbgate-q{font-size:20px;font-weight:700;color:#1a1a1a;margin:0 0 14px}
   .fbgate-chips{display:flex;gap:10px;flex-wrap:wrap}
   .fbgateno{color:var(--muted);font-size:clamp(15px,1.3vw,18px);font-weight:400;line-height:1.6;margin:12px 0 2px;max-width:52ch}
+
+  .acct-tag{flex-shrink:0;font-size:11px;font-weight:700;border-radius:12px;padding:4px 11px;letter-spacing:.02em;white-space:nowrap}
+  .acct-tag.now{background:#e3f4ea;color:#1a7f3c}
+  .acct-tag.next{background:#ececec;color:#6a6a6a}
+  .acct-legend{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#737373;margin:0 0 14px;flex-wrap:wrap}
+  .acct-legend .acct-tag{padding:3px 9px}
 </style>
 </head>
 <body>
@@ -842,6 +848,7 @@
       <p class="acct-ql" id="acct-prefs">Context &amp; Environment</p>
       <div class="acct-list" id="acct-list-prefs"></div>
       <p class="acct-ql" id="acct-needs">Goals &amp; Triggers</p>
+      <p class="acct-legend"><span class="acct-tag now">In Tracks</span> solved in v1 &nbsp; <span class="acct-tag next">Next</span> on the roadmap</p>
       <div class="acct-list" id="acct-list-needs"></div>
       <p class="acct-ql" id="acct-challenges">Critical Pain Points</p>
       <div class="acct-list" id="acct-list-challenges"></div>
@@ -1423,8 +1430,8 @@
         badge:'Member since 2021 · Spotify-linked',name:'Cynthia Ellison',
         sub:'The Soundtrack Collector · Musical-theatre & OST superfan · Age 27 · Los Angeles, USA',
         quote:'“If a film has a great number, I need it on my playlist before the credits roll.”',
-        challenges:[['warn','Leaves the app to Shazam tracks off her own screen','The player never names them'],['play','Overshoots the track when she scrubs back','No marker for where it starts or ends'],['music','Abandons discovery inside the film','No one-tap way to save a track she just heard']],
-        needs:[['music','Wants the track name and artist on the seek bar','So she stops leaving to identify it'],['save','Saves a number to a playlist in one tap','Trigger: a track she likes starts playing'],['play','Jumps to a track to replay it','Without scrubbing past it']],
+        challenges:[['warn','Leaves the app to Shazam tracks off her own screen','The player never names them'],['play','Overshoots the track when she scrubs back','No marker for where it ends'],['music','Abandons discovery inside the film','No one-tap way to save a track she just heard']],
+        needs:[['music','Wants the track name on the seek bar','So she stops leaving to identify it','now'],['save','Saves a number to a playlist in one tap','Trigger: a track she likes starts playing','next'],['play','Jumps to a track to replay it','Without scrubbing past it','now']],
         marketing:[['music','Links Netflix to Spotify and Shazam most sessions','Moves comfortably across streaming apps'],['list','Uses OST and soundtrack terms','Reads the credits to find composers']],
         prefs:[['tv','Watches on a laptop in the evenings','Keeps Spotify open in a second tab'],['globe','Follows soundtracks across languages','Reached Bollywood through musicals and K-pop']]},
       priya:{initial:'P',pic:'pic-pooja',color:'wa-crimson',
@@ -1433,7 +1440,7 @@
         sub:'The Devoted Rewatcher · Bollywood fan & diaspora viewer · Age 34 · Toronto, Canada',
         quote:'“I know every word already. Some nights I sing along; some nights I just want to get back to the story.”',
         challenges:[['scrub','Overshoots when she scrubs to skip','She knows what to skip, not where it ends'],['users','Loses her place after a second-screen break','No signal for when to re-engage'],['heart','Reads a blunt Skip as disrespect','Tracks are heritage, not filler']],
-        needs:[['music','Wants a marker for when a song ends','Passive, never an auto-skip'],['play','Jumps to the end of songs she has heard 100 times','Only when she chooses to'],['save','Saves and subtitles older regional numbers','Trigger: a childhood favourite plays']],
+        needs:[['music','Wants a marker for when a track ends','Passive, never an auto-skip','now'],['play','Jumps to the end of tracks she has heard 100 times','Only when she chooses to','now'],['save','Saves and subtitles older regional numbers','Trigger: a childhood favourite plays','next']],
         marketing:[['tv','Switches between the TV and her phone mid-film','Uses the remote more than touch'],['users','Shares clips on WhatsApp and Instagram','Knows the films and tracks by heart']],
         prefs:[['tv','Watches on the living-room TV with family','And on her phone, late at night'],['globe','Streams Indian films from abroad','Most on weekends and during festivals']]},
       sofia:{initial:'S',pic:'pic-rumi',color:'wa-purple',
@@ -1442,12 +1449,12 @@
         sub:'The Curious Crossover · K-drama & OST fan, new to Bollywood · Age 21 · Manila, Philippines',
         quote:'“The OST hooked me. But when a track plays with no subtitles, I’m lost and I don’t know for how long.”',
         challenges:[['cc','Loses the plot for 3-5 minutes on unsubtitled tracks','She can’t follow the lyrics'],['search','Finds the track, then hits a dead end','Loves the OST, can’t read the words'],['save','Can’t save a discovery','A synced track she would add to a playlist']],
-        needs:[['cc','Wants the track lyrics subtitled','The make-or-break need on a musical number'],['music','Sees and saves the track','Named marker plus add-to-playlist'],['share','Clips a moment for a fan edit','Trigger: a track she loves plays']],
+        needs:[['cc','Wants the track lyrics subtitled','The make-or-break need on a musical number','next'],['music','Sees the track as it plays','The tooltip names it for a newcomer','now'],['share','Saves or clips a track she loves','For a playlist or a fan edit','next']],
         marketing:[['play','Navigates by touch on a mobile-only plan','Skips intros, taps for subtitles'],['search','Fluent in fandom tools','Shazam, playlists, and clip editors']],
         prefs:[['tv','Watches on her phone on the ad-supported plan','In short sessions, often commuting'],['globe','New to Bollywood via K-drama OSTs','Reads subtitles throughout']]}
     };
     var cur='maya';
-    function rows(list){return list.map(function(r){return '<div class="acct-row"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(IC[r[0]]||IC.music)+'</svg><div class="txt"><b>'+r[1]+'</b><span>'+r[2]+'</span></div><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div>';}).join('');}
+    function rows(list){return list.map(function(r){var end=r[3]?'<span class="acct-tag '+r[3]+'">'+(r[3]==='now'?'In Tracks':'Next')+'</span>':'<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';return '<div class="acct-row"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(IC[r[0]]||IC.music)+'</svg><div class="txt"><b>'+r[1]+'</b><span>'+r[2]+'</span></div>'+end+'</div>';}).join('');}
     function setText(id,t){var el=document.getElementById(id);if(el)el.textContent=t;}
     function setHTML(id,h){var el=document.getElementById(id);if(el)el.innerHTML=h;}
     function setPic(el,pic){if(!el)return;el.textContent='';el.style.background='';el.classList.remove('pic-cynthia','pic-pooja','pic-rumi','wa-amber','wa-crimson','wa-purple');if(pic)el.classList.add(pic);}
