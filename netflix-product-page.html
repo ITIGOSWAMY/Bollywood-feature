@@ -55,7 +55,7 @@
   /* ===== detailed player ===== */
   .player{position:relative;width:min(1180px,92vw);aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#2a0d11,#160809 45%,#050203);box-shadow:0 40px 120px rgba(0,0,0,.7);border:1px solid #2a2a2a;user-select:none}
   .still{position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.015),rgba(255,255,255,.015) 2px,transparent 2px,transparent 10px)}
-  .still:after{content:"[ FILM STILL ]";position:absolute;right:5%;bottom:42%;color:rgba(255,255,255,.07);font-weight:800;letter-spacing:.28em;font-size:clamp(14px,2vw,26px)}
+  .still:after{content:"[ FILM STILL ]";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:rgba(255,255,255,.07);font-weight:800;letter-spacing:.28em;font-size:clamp(14px,2vw,26px)}
   .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55),transparent 22%,transparent 60%,rgba(0,0,0,.92))}
   .pbar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:14px;padding:20px 24px;z-index:3}
   .pbar .back{font-size:26px;color:#fff;opacity:.9;line-height:1}
@@ -793,6 +793,12 @@
   .sr-item .sr-hl{color:#ff6b73}
   .search-hit{animation:searchpulse 1.9s ease}
   @keyframes searchpulse{0%,100%{box-shadow:0 0 0 0 rgba(229,9,20,0)}18%{box-shadow:0 0 0 3px rgba(229,9,20,.9)}55%{box-shadow:0 0 0 3px rgba(229,9,20,.45)}}
+
+  /* test willingness gate */
+  .fbgate{margin:6px 0 2px}
+  .fbgate-q{font-size:20px;font-weight:700;color:#1a1a1a;margin:0 0 14px}
+  .fbgate-chips{display:flex;gap:10px;flex-wrap:wrap}
+  .fbgateno{font-size:19px;font-weight:600;color:#1a1a1a;margin:6px 0 2px}
 </style>
 </head>
 <body>
@@ -1161,7 +1167,6 @@
   <div class="step" data-step="2"></div>
   <div class="step" data-step="3"></div>
   <div class="step" data-step="4"></div>
-  <div class="step" data-step="5"></div>
 </div>
 
 
@@ -1170,7 +1175,12 @@
   <div class="shead"><span class="eyebrow">Test</span></div>
   <h2 class="shl">Test my assumptions.</h2>
   <p class="sub" style="max-width:58ch">This case study rests on a few bets. You just used the prototype, so tell me where I'm right or wrong.</p>
-  <div class="fbform">
+  <div class="fbgate" id="fbgate">
+    <p class="fbgate-q">Up for a 2-minute test?</p>
+    <div class="fbchips fbgate-chips"><button type="button" class="fbchip" id="fbgate-yes">Yes, I'm in</button><button type="button" class="fbchip" id="fbgate-no">Not now</button></div>
+  </div>
+  <div class="fbgateno" id="fbgateno" style="display:none">No problem. Thanks for pressing play anyway.</div>
+  <div class="fbform" id="fbform" style="display:none">
 
     <div class="tgroup">
       <div class="tk">1 · The problem: is it real?</div>
@@ -1220,7 +1230,7 @@
     <div class="fbthanks" id="fbthanks">Thanks, logged. That's one real data point.</div>
   </div>
 
-  <div class="trecruit trecruit-wide">
+  <div class="trecruit trecruit-wide" id="fbrecruit" style="display:none">
     <div class="tk">After this</div>
     <h3>Be a real tester</h3>
     <p class="trec-line">Some things a page can't prove: whether you'd really skip over weeks, whether completion actually lifts. Want in on the real test?</p>
@@ -1267,7 +1277,7 @@
   // ---- interactive player ----
   var knob=document.getElementById('knob'),redlayer=document.getElementById('redlayer'),elapsed=document.getElementById('elapsed'),chapname=document.querySelector('.chaptitle span'),tip=document.getElementById('scrubtip'),tipT=document.getElementById('sttime'),tipN=document.getElementById('stname');
   var total=12840,pct=0;
-  knob.style.transition='left .4s';redlayer.style.transition='clip-path .4s';if(tip)tip.style.transition='opacity .18s';
+  knob.style.transition='left .85s cubic-bezier(.4,0,.2,1)';redlayer.style.transition='clip-path .85s cubic-bezier(.4,0,.2,1)';if(tip)tip.style.transition='opacity .18s';
   function fmt(s){s=Math.max(0,Math.round(s));var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),x=s%60;return h+':'+String(m).padStart(2,'0')+':'+String(x).padStart(2,'0');}
   function seek(p,name){pct=Math.max(0,Math.min(100,p));knob.style.left=pct+'%';redlayer.style.clipPath='inset(0 '+(100-pct)+'% 0 0)';if(elapsed)elapsed.textContent=fmt(pct/100*total);if(name&&chapname)chapname.textContent=name;if(typeof updateActiveRow==='function')updateActiveRow(pct);if(typeof songAt==='function'){var _s=songAt(pct);if(_s){if(typeof showSkip==='function')showSkip();if(typeof showSongMark==='function')showSongMark(_s);}else{if(typeof hideSkip==='function')hideSkip();if(typeof hideSongMark==='function')hideSongMark();}}}
   document.getElementById('centerplay').addEventListener('click',function(){this.style.opacity=this.style.opacity==='0'?'1':'0';});
@@ -1310,8 +1320,7 @@
   var zoom=document.getElementById('zoom'),caption=document.getElementById('caption'),hint=document.getElementById('hint'),player=document.getElementById('player'),scrolly=document.getElementById('scrolly'),pdots=document.getElementById('pdots');
   var presets=[
     {fx:.5,fy:.5,s:1},
-    {fx:.5,fy:.6,s:1.3,lbl:'Now playing',h:'Watching a musical movie.',p:'Packed with tracks to move between.'},
-    {fx:.5,fy:.5,s:1,lbl:'The Tracks list',h:'See every track.',p:'The whole soundtrack, in order.'},
+    {fx:.5,fy:.5,s:1,lbl:'The Tracks list',h:'See every musical number.',p:'The whole score, in order.'},
     {fx:.4,fy:.78,s:2.4,lbl:'Scrub the bar',h:'Scrub to see its name.',p:'The tooltip names the track you land on.'},
     {fx:.42,fy:.84,s:2.8,lbl:'The end mark',h:'See where it ends.',p:'One barline, borrowed from sheet music.'},
     {fx:.86,fy:.74,s:1.9,lbl:'Skip Track',h:'Skip it in one tap.',p:'Works just like Skip Intro.'}
@@ -1323,16 +1332,16 @@
   function setStep(i){
     current=i;var p=presets[i];applyZoom(p.fx,p.fy,p.s);
     dots.forEach(function(d,x){d.className=x===i?'on':'';});
-    // scrubber: start of the timeline for the first steps, then slide to Gehra Hua
-    if(i>=3){if(Math.round(pct)!==GEHRA)seek(GEHRA,'Gehra Hua');}else{if(Math.round(pct)!==0)seek(0);}
-    if(typeof setList==='function')setList(i===2);
+    // scrubber: start of the timeline until the scrub step, then slide to Gehra Hua
+    if(i>=2){if(Math.round(pct)!==GEHRA)seek(GEHRA,'Gehra Hua');}else{if(Math.round(pct)!==0)seek(0);}
+    if(typeof setList==='function')setList(i===1);
     if(i===0){hint.style.opacity='1';caption.classList.remove('on');if(typeof hideSkip==='function')hideSkip();if(typeof hideSongMark==='function')hideSongMark();if(typeof hideTip==='function')hideTip();if(chaptitle)chaptitle.style.visibility='hidden';return;}
     hint.style.opacity='0';
     caption.querySelector('.lbl').textContent=p.lbl;caption.querySelector('h3').textContent=p.h;caption.querySelector('p').textContent=p.p;caption.classList.add('on');
     if(i>=3){var as=(typeof songAt==='function')?songAt(pct):null;if(as&&typeof showSongMark==='function')showSongMark(as);}else if(typeof hideSongMark==='function')hideSongMark();
-    if(i===3&&typeof showTip==='function')showTip();else if(typeof hideTip==='function')hideTip();
-    if(i===5&&typeof showSkip==='function')showSkip();else if(typeof hideSkip==='function')hideSkip();
-    if(i<3&&chaptitle)chaptitle.style.visibility='hidden';
+    if(i===2&&typeof showTip==='function')showTip();else if(typeof hideTip==='function')hideTip();
+    if(i===4&&typeof showSkip==='function')showSkip();else if(typeof hideSkip==='function')hideSkip();
+    if(i<2&&chaptitle)chaptitle.style.visibility='hidden';
   }
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)setStep(+e.target.dataset.step);});},{rootMargin:'-45% 0px -45% 0px',threshold:0});
   document.querySelectorAll('.step').forEach(function(s){io.observe(s);});
@@ -1628,6 +1637,14 @@
     items.forEach(function(x,i){x.classList.toggle('on',i===cur);if(i===cur)x.scrollIntoView({block:'nearest'});});
   });
   document.addEventListener('click',function(ev){if(!ev.target.closest('#nfsearch'))close();});
+})();
+</script>
+<script>
+(function(){
+  var y=document.getElementById('fbgate-yes'),n=document.getElementById('fbgate-no'),
+      nm=document.getElementById('fbgateno'),f=document.getElementById('fbform'),r=document.getElementById('fbrecruit');
+  if(y)y.addEventListener('click',function(){if(nm)nm.style.display='none';if(f)f.style.display='';if(r)r.style.display='';y.classList.add('on');if(n)n.classList.remove('on');});
+  if(n)n.addEventListener('click',function(){if(f)f.style.display='none';if(r)r.style.display='none';if(nm)nm.style.display='block';n.classList.add('on');if(y)y.classList.remove('on');});
 })();
 </script>
 </body>
