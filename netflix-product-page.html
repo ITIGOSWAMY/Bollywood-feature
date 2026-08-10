@@ -832,9 +832,9 @@
 <div class="whoscreen" id="whoscreen">
   <h1>Who's watching?</h1>
   <div class="who-row">
-    <div class="who-p" data-key="maya" data-name="Cynthia" data-color="wa-amber"><div class="who-av pic-cynthia"></div><div class="nm">Cynthia</div></div>
     <div class="who-p" data-key="priya" data-name="Pooja" data-color="wa-crimson"><div class="who-av pic-pooja"></div><div class="nm">Pooja</div></div>
     <div class="who-p" data-key="sofia" data-name="Rumi" data-color="wa-purple"><div class="who-av pic-rumi"></div><div class="nm">Rumi</div></div>
+    <div class="who-p" data-key="maya" data-name="Cynthia" data-color="wa-amber"><div class="who-av pic-cynthia"></div><div class="nm">Cynthia</div></div>
     <div class="who-p who-addp"><div class="who-add"><div class="who-addcirc"><svg viewBox="0 0 24 24" fill="none" stroke="#e6e6e6" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div></div><div class="nm">Add Profile</div></div>
   </div>
   <button class="who-manage" type="button">Manage profiles</button>
@@ -1350,6 +1350,21 @@
   document.querySelectorAll('.sp-row').forEach(function(r){
     r.addEventListener('click',function(e){e.stopPropagation();seek(parseFloat(r.getAttribute('data-pct'))||0,r.getAttribute('data-name'));setList(false);});
   });
+
+  // ---- per-profile film data: title, track list, timeline placement, walkthrough target ----
+  var MOVIES={"maya": {"title": "Wicked: For Good", "meta": "PG · 2025 · Musical/Fantasy · 2h 17m", "total": 8220, "target": 88, "songs": [{"p": 5, "w": 3.5, "n": "Every Day More Wicked", "t": "0:06:51"}, {"p": 13, "w": 3.9, "n": "Thank Goodness / I Couldn't Be Happier", "t": "0:17:49"}, {"p": 21, "w": 2.8, "n": "No Place Like Home", "t": "0:28:46"}, {"p": 29, "w": 2.5, "n": "The Wicked Witch of the East", "t": "0:39:44"}, {"p": 37, "w": 3.5, "n": "Wonderful", "t": "0:50:41"}, {"p": 45, "w": 1.6, "n": "I'm Not That Girl (Reprise)", "t": "1:01:39"}, {"p": 53, "w": 3.0, "n": "As Long as You're Mine", "t": "1:12:37"}, {"p": 61, "w": 2.8, "n": "No Good Deed", "t": "1:23:34"}, {"p": 69, "w": 1.9, "n": "March of the Witch Hunters", "t": "1:34:32"}, {"p": 77, "w": 2.7, "n": "The Girl in the Bubble", "t": "1:45:29"}, {"p": 86, "w": 4.6, "n": "For Good", "t": "1:57:49"}]}, "priya": {"title": "Kabhi Khushi Kabhie Gham", "meta": "U/A · 2001 · Musical/Romance · 3h 30m", "total": 12600, "target": 35.5, "songs": [{"p": 6, "w": 3.24, "n": "Say Shava Shava", "t": "0:12:36"}, {"p": 15, "w": 3.25, "n": "Bole Chudiyan", "t": "0:31:30"}, {"p": 24, "w": 2.74, "n": "You Are My Soniya", "t": "0:50:24"}, {"p": 34, "w": 3.77, "n": "Kabhi Khushi Kabhie Gham", "t": "1:11:24"}, {"p": 44, "w": 3.4, "n": "Suraj Hua Maddham", "t": "1:32:24"}, {"p": 54, "w": 2.6, "n": "Yeh Ladka Hai Allah", "t": "1:53:24"}, {"p": 63, "w": 2.74, "n": "Deewana Hai Dekho", "t": "2:12:18"}, {"p": 71, "w": 0.89, "n": "Kabhi Khushi Kabhie Gham (Sad Version 1)", "t": "2:29:06"}, {"p": 79, "w": 1.09, "n": "Soul of K3G (Instrumental)", "t": "2:45:54"}, {"p": 86, "w": 0.89, "n": "Kabhi Khushi Kabhie Gham (Sad Version 2)", "t": "3:00:36"}, {"p": 93, "w": 2.02, "n": "Vande Mataram", "t": "3:15:18"}]}, "sofia": {"title": "KPop Demon Hunters", "meta": "PG · 2025 · Musical/Action · 1h 39m", "total": 5940, "target": 24.5, "songs": [{"p": 6, "w": 2.95, "n": "How It's Done", "t": "0:05:56"}, {"p": 14, "w": 2.53, "n": "Soda Pop", "t": "0:13:52"}, {"p": 23, "w": 3.28, "n": "Golden", "t": "0:22:46"}, {"p": 31, "w": 2.86, "n": "Takedown", "t": "0:30:41"}, {"p": 39, "w": 3.03, "n": "Strategy", "t": "0:38:37"}, {"p": 47, "w": 2.69, "n": "Free", "t": "0:46:32"}, {"p": 55, "w": 3.03, "n": "Your Idol", "t": "0:54:27"}, {"p": 63, "w": 2.78, "n": "Takedown (Film Version)", "t": "1:02:22"}, {"p": 71, "w": 3.11, "n": "What It Sounds Like", "t": "1:10:17"}, {"p": 79, "w": 2.86, "n": "Path", "t": "1:18:13"}, {"p": 87, "w": 3.54, "n": "Love, Maybe", "t": "1:26:08"}, {"p": 94, "w": 4.04, "n": "Score Suite", "t": "1:33:04"}]}};
+  function loadMovie(key){
+    var m=MOVIES[key]; if(!m) return;
+    var ttl=document.querySelector('.ttl'); if(ttl) ttl.innerHTML=m.title+' <em>'+m.meta+'</em>';
+    SONGS=m.songs; total=m.total; GEHRA=m.target;
+    var list=document.querySelector('#songspanel .sp-list');
+    if(list){
+      list.innerHTML=m.songs.map(function(s){return '<div class="sp-row" data-pct="'+s.p+'" data-name="'+String(s.n).replace(/"/g,'&quot;')+'"><span class="n">'+s.n+'</span><span class="t">'+s.t+'</span></div>';}).join('');
+      list.querySelectorAll('.sp-row').forEach(function(r){r.addEventListener('click',function(e){e.stopPropagation();seek(parseFloat(r.getAttribute('data-pct'))||0,r.getAttribute('data-name'));setList(false);});});
+    }
+    seek(0);
+    if(typeof setStep==='function'&&typeof current!=='undefined')setStep(current);
+  }
   // floating "Skip Song" button (Netflix skip-intro style): shows when a song begins, hides after ~10s
   var skipBtn=document.getElementById('skipsong'),skipHideT;
   function showSkip(){if(!skipBtn)return;skipBtn.classList.add('show');clearTimeout(skipHideT);skipHideT=setTimeout(function(){if(skipBtn)skipBtn.classList.remove('show');},10000);}
@@ -1501,13 +1516,14 @@
         marketing:[['play','Navigates by touch on a mobile-only plan','Skips intros, taps for subtitles'],['search','Fluent in fandom tools','Shazam, playlists, and clip editors']],
         prefs:[['tv','Watches on her phone on the ad-supported plan','In short sessions, often commuting'],['globe','New to Bollywood via K-drama OSTs','Reads subtitles throughout']]}
     };
-    var cur='maya';
+    var cur='priya';
     function rows(list){return list.map(function(r){var end=r[3]?'<span class="acct-tag '+r[3]+'">'+(r[3]==='now'?'In Tracks':'Next')+'</span>':'<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';return '<div class="acct-row"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(IC[r[0]]||IC.music)+'</svg><div class="txt"><b>'+r[1]+'</b><span>'+r[2]+'</span></div>'+end+'</div>';}).join('');}
     function setText(id,t){var el=document.getElementById(id);if(el)el.textContent=t;}
     function setHTML(id,h){var el=document.getElementById(id);if(el)el.innerHTML=h;}
     function setPic(el,pic){if(!el)return;el.textContent='';el.style.background='';el.classList.remove('pic-cynthia','pic-pooja','pic-rumi','wa-amber','wa-crimson','wa-purple');if(pic)el.classList.add(pic);}
     function render(key){
       var p=PERSONAS[key];if(!p)return;cur=key;
+      if(typeof loadMovie==="function")loadMovie(key);
       setText('acct-name',p.name);setText('acct-sub',p.sub);setText('acct-quote',p.quote);
       var b=document.getElementById('acct-badge');if(b){b.textContent=p.badge;}
       setPic(document.getElementById('acct-topav2'),p.pic);
