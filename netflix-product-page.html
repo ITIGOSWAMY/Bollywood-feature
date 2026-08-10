@@ -1161,6 +1161,7 @@
   <div class="step" data-step="2"></div>
   <div class="step" data-step="3"></div>
   <div class="step" data-step="4"></div>
+  <div class="step" data-step="5"></div>
 </div>
 
 
@@ -1302,28 +1303,33 @@
     scrub.addEventListener('click',function(e){var rc=scrub.getBoundingClientRect();seek((e.clientX-rc.left)/rc.width*100);});
   }
 
+  // show/hide the scrub tooltip programmatically (for the walkthrough)
+  function showTip(){if(!scrub||!tip)return;var s=(typeof songAt==='function')?songAt(pct):null;tip.style.left=pct+'%';if(tipT)tipT.textContent=fmt(pct/100*total);if(s&&tipN){tipN.textContent=s.n;tipN.style.display='';}if(stDot)stDot.style.display='';if(stIcon)stIcon.style.display='';tip.classList.add('show');if(chaptitle)chaptitle.style.visibility='hidden';}
+  function hideTip(){if(tip)tip.classList.remove('show');if(chaptitle&&songspanel&&!songspanel.classList.contains('open'))chaptitle.style.visibility='visible';}
   // ---- scroll-driven zoom walkthrough (centers the highlighted element) ----
   var zoom=document.getElementById('zoom'),caption=document.getElementById('caption'),hint=document.getElementById('hint'),player=document.getElementById('player'),scrolly=document.getElementById('scrolly'),pdots=document.getElementById('pdots');
   var presets=[
     {fx:.5,fy:.5,s:1},
-    {fx:.35,fy:.85,s:2,lbl:'A track starts',h:'The bar stays clean as it plays.',p:'No clutter while the track runs.'},
-    {fx:.41,fy:.86,s:2.6,lbl:'Where it ends',h:'A final barline marks the end.',p:'The one mark you need, named above.'},
-    {fx:.86,fy:.74,s:1.9,lbl:'Skip it',h:'One tap to skip the track.',p:'Like Skip Intro, then it is gone.'},
-    {fx:.5,fy:.5,s:1,lbl:'Every track',h:'Open the list, jump anywhere.',p:'The full soundtrack, in order.'}
+    {fx:.3,fy:.82,s:2,lbl:'A track starts',h:'Stay in the film.',p:'The music is marked, never in the way.'},
+    {fx:.4,fy:.78,s:2.4,lbl:'Scrub the bar',h:'Scrub to see its name.',p:'The tooltip names the track you are on.'},
+    {fx:.42,fy:.84,s:2.8,lbl:'The end mark',h:'See where it ends.',p:'One barline, borrowed from sheet music.'},
+    {fx:.86,fy:.74,s:1.9,lbl:'Skip Track',h:'Skip it in one tap.',p:'Works just like Skip Intro.'},
+    {fx:.5,fy:.5,s:1,lbl:'The Tracks list',h:'Jump to any track.',p:'The whole soundtrack, in order.'}
   ];
   presets.forEach(function(){pdots.appendChild(document.createElement('i'));});
   var dots=[].slice.call(pdots.children),current=0;
   function applyZoom(fx,fy,s){var W=player.offsetWidth,H=player.offsetHeight;var tx=-s*(fx-0.5)*W,ty=-s*(fy-0.5)*H;zoom.style.transformOrigin='50% 50%';zoom.style.transform='translate('+tx+'px,'+ty+'px) scale('+s+')';}
   function setStep(i){
     current=i;var p=presets[i];applyZoom(p.fx,p.fy,p.s);
-    if(typeof setList==='function')setList(i===4);
+    if(typeof setList==='function')setList(i===5);
     dots.forEach(function(d,x){d.className=x===i?'on':'';});
-    if(i===0){hint.style.opacity='1';caption.classList.remove('on');if(typeof hideSkip==='function')hideSkip();if(typeof hideSongMark==='function')hideSongMark();return;}
+    if(i===0){hint.style.opacity='1';caption.classList.remove('on');if(typeof hideSkip==='function')hideSkip();if(typeof hideSongMark==='function')hideSongMark();if(typeof hideTip==='function')hideTip();return;}
     hint.style.opacity='0';
     caption.querySelector('.lbl').textContent=p.lbl;caption.querySelector('h3').textContent=p.h;caption.querySelector('p').textContent=p.p;caption.classList.add('on');
     var as=(typeof songAt==='function')?songAt(pct):null;
     if(as&&typeof showSongMark==='function')showSongMark(as);
-    if((i===1||i===3)&&typeof showSkip==='function')showSkip();else if(typeof hideSkip==='function')hideSkip();
+    if(i===2&&typeof showTip==='function')showTip();else if(typeof hideTip==='function')hideTip();
+    if(i===4&&typeof showSkip==='function')showSkip();else if(typeof hideSkip==='function')hideSkip();
   }
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)setStep(+e.target.dataset.step);});},{rootMargin:'-45% 0px -45% 0px',threshold:0});
   document.querySelectorAll('.step').forEach(function(s){io.observe(s);});
