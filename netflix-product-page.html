@@ -1266,7 +1266,7 @@
   window.TRACKS_ENDPOINT = "";
   // ---- interactive player ----
   var knob=document.getElementById('knob'),redlayer=document.getElementById('redlayer'),elapsed=document.getElementById('elapsed'),chapname=document.querySelector('.chaptitle span'),tip=document.getElementById('scrubtip'),tipT=document.getElementById('sttime'),tipN=document.getElementById('stname');
-  var total=12840,pct=35;
+  var total=12840,pct=0;
   knob.style.transition='left .4s';redlayer.style.transition='clip-path .4s';if(tip)tip.style.transition='opacity .18s';
   function fmt(s){s=Math.max(0,Math.round(s));var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),x=s%60;return h+':'+String(m).padStart(2,'0')+':'+String(x).padStart(2,'0');}
   function seek(p,name){pct=Math.max(0,Math.min(100,p));knob.style.left=pct+'%';redlayer.style.clipPath='inset(0 '+(100-pct)+'% 0 0)';if(elapsed)elapsed.textContent=fmt(pct/100*total);if(name&&chapname)chapname.textContent=name;if(typeof updateActiveRow==='function')updateActiveRow(pct);if(typeof songAt==='function'){var _s=songAt(pct);if(_s){if(typeof showSkip==='function')showSkip();if(typeof showSongMark==='function')showSongMark(_s);}else{if(typeof hideSkip==='function')hideSkip();if(typeof hideSongMark==='function')hideSongMark();}}}
@@ -1310,32 +1310,35 @@
   var zoom=document.getElementById('zoom'),caption=document.getElementById('caption'),hint=document.getElementById('hint'),player=document.getElementById('player'),scrolly=document.getElementById('scrolly'),pdots=document.getElementById('pdots');
   var presets=[
     {fx:.5,fy:.5,s:1},
-    {fx:.3,fy:.82,s:2,lbl:'A track starts',h:'Stay in the film.',p:'The music is marked, never in the way.'},
-    {fx:.4,fy:.78,s:2.4,lbl:'Scrub the bar',h:'Scrub to see its name.',p:'The tooltip names the track you are on.'},
+    {fx:.5,fy:.6,s:1.3,lbl:'Now playing',h:'Watching a musical movie.',p:'Packed with tracks to move between.'},
+    {fx:.5,fy:.5,s:1,lbl:'The Tracks list',h:'See every track.',p:'The whole soundtrack, in order.'},
+    {fx:.4,fy:.78,s:2.4,lbl:'Scrub the bar',h:'Scrub to see its name.',p:'The tooltip names the track you land on.'},
     {fx:.42,fy:.84,s:2.8,lbl:'The end mark',h:'See where it ends.',p:'One barline, borrowed from sheet music.'},
-    {fx:.86,fy:.74,s:1.9,lbl:'Skip Track',h:'Skip it in one tap.',p:'Works just like Skip Intro.'},
-    {fx:.5,fy:.5,s:1,lbl:'The Tracks list',h:'Jump to any track.',p:'The whole soundtrack, in order.'}
+    {fx:.86,fy:.74,s:1.9,lbl:'Skip Track',h:'Skip it in one tap.',p:'Works just like Skip Intro.'}
   ];
   presets.forEach(function(){pdots.appendChild(document.createElement('i'));});
   var dots=[].slice.call(pdots.children),current=0;
   function applyZoom(fx,fy,s){var W=player.offsetWidth,H=player.offsetHeight;var tx=-s*(fx-0.5)*W,ty=-s*(fy-0.5)*H;zoom.style.transformOrigin='50% 50%';zoom.style.transform='translate('+tx+'px,'+ty+'px) scale('+s+')';}
+  var GEHRA=35;
   function setStep(i){
     current=i;var p=presets[i];applyZoom(p.fx,p.fy,p.s);
-    if(typeof setList==='function')setList(i===5);
     dots.forEach(function(d,x){d.className=x===i?'on':'';});
-    if(i===0){hint.style.opacity='1';caption.classList.remove('on');if(typeof hideSkip==='function')hideSkip();if(typeof hideSongMark==='function')hideSongMark();if(typeof hideTip==='function')hideTip();return;}
+    // scrubber: start of the timeline for the first steps, then slide to Gehra Hua
+    if(i>=3){if(Math.round(pct)!==GEHRA)seek(GEHRA,'Gehra Hua');}else{if(Math.round(pct)!==0)seek(0);}
+    if(typeof setList==='function')setList(i===2);
+    if(i===0){hint.style.opacity='1';caption.classList.remove('on');if(typeof hideSkip==='function')hideSkip();if(typeof hideSongMark==='function')hideSongMark();if(typeof hideTip==='function')hideTip();if(chaptitle)chaptitle.style.visibility='hidden';return;}
     hint.style.opacity='0';
     caption.querySelector('.lbl').textContent=p.lbl;caption.querySelector('h3').textContent=p.h;caption.querySelector('p').textContent=p.p;caption.classList.add('on');
-    var as=(typeof songAt==='function')?songAt(pct):null;
-    if(as&&typeof showSongMark==='function')showSongMark(as);
-    if(i===2&&typeof showTip==='function')showTip();else if(typeof hideTip==='function')hideTip();
-    if(i===4&&typeof showSkip==='function')showSkip();else if(typeof hideSkip==='function')hideSkip();
+    if(i>=3){var as=(typeof songAt==='function')?songAt(pct):null;if(as&&typeof showSongMark==='function')showSongMark(as);}else if(typeof hideSongMark==='function')hideSongMark();
+    if(i===3&&typeof showTip==='function')showTip();else if(typeof hideTip==='function')hideTip();
+    if(i===5&&typeof showSkip==='function')showSkip();else if(typeof hideSkip==='function')hideSkip();
+    if(i<3&&chaptitle)chaptitle.style.visibility='hidden';
   }
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)setStep(+e.target.dataset.step);});},{rootMargin:'-45% 0px -45% 0px',threshold:0});
   document.querySelectorAll('.step').forEach(function(s){io.observe(s);});
   window.addEventListener('resize',function(){setStep(current);});
   window.addEventListener('scroll',function(){var r=scrolly.getBoundingClientRect();var active=(r.top<=2&&r.bottom>=window.innerHeight*0.85);pdots.style.opacity=active?'1':'0';pdots.style.pointerEvents=active?'auto':'none';},{passive:true});
-  setStep(0);
+  seek(0);setStep(0);
   // ---- section nav active state ----
   var tabSecs=['iterations','scrolly','feedback','reflection'],tabEls={};
   document.querySelectorAll('#tabs a').forEach(function(a){tabEls[a.getAttribute('data-sec')]=a;});
