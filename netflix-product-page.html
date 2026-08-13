@@ -589,6 +589,7 @@
   /* business cards fill the full frame width like the other panels */
   .dpanel[data-panel="business"] .metrics{flex-wrap:wrap;overflow-x:visible}
   .dpanel[data-panel="business"] .metrics>.metric{flex:1 1 190px}
+  .dpanel[data-panel="business"] .metric{border-top-color:#FF6EC9}
   @media(max-width:900px){.metrics{grid-template-columns:1fr 1fr}}
   @media(max-width:520px){.metrics{grid-template-columns:1fr}}
 
@@ -651,8 +652,8 @@
   @media(max-width:820px){.ivgrid{grid-template-columns:1fr 1fr}}
   .iv{background:rgba(255,255,255,.03);border:1px solid #33262b;border-radius:10px;padding:15px 16px 16px}
   .a11y-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
-  .a11c{background:rgba(255,255,255,.03);border:1px solid #2c2c2c;border-radius:12px;padding:18px 18px 20px}
-  .a11c svg{width:26px;height:26px;stroke:#fff}
+  .a11c{background:linear-gradient(#1a060b,#1a060b) padding-box,linear-gradient(135deg,#FF6EC9,#F20101 55%,#4D000C) border-box;border:1.5px solid transparent;border-radius:12px;padding:18px 18px 20px}
+  .a11c svg{width:26px;height:26px;stroke:#FF6EC9}
   .a11h{font-weight:700;color:#fff;font-size:15px;margin:11px 0 5px}
   .a11d{color:#9a9a9a;font-size:13px;line-height:1.5}
   @media(max-width:820px){.a11y-grid{grid-template-columns:1fr 1fr}}
@@ -676,7 +677,7 @@
   .dpanel>.itr-lead{margin:14px 0 0}
   .dpanel .itr-grid,.dpanel .metrics,.dpanel .appblocks,.dpanel .uflowd,.dpanel .nfrow{margin-top:24px}
   .dpanel .ins-one{margin-top:30px}
-  .dpanel[data-panel="how"] .metric.top .mbody{min-height:180px;display:flex;flex-direction:column;justify-content:center}
+  .dpanel[data-panel="how"] .metric.top .mbody{min-height:180px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(#1a060b,#1a060b) padding-box,linear-gradient(135deg,#FF6EC9,#F20101 55%,#4D000C) border-box;border:1.5px solid transparent}
   /* netflix app blocks (how + test) */
   .appblocks{display:flex;gap:9px;overflow-x:auto;padding:6px 0 20px;margin-top:22px;scroll-snap-type:x mandatory}
   .appblocks>.appblock{flex:0 0 clamp(230px,24vw,296px);scroll-snap-align:start}
@@ -712,16 +713,16 @@
   .nfdrop a:hover{text-decoration:underline}
   .itr-grid{display:flex;gap:9px;overflow-x:auto;padding:6px 0 20px;margin-top:22px;scroll-snap-type:x mandatory}
   .itr-grid>.itr{flex:0 0 clamp(230px,24vw,290px);scroll-snap-align:start}
-  .itr{background:#181818;border:1px solid #262626;border-radius:6px;padding:18px;transition:transform .22s,box-shadow .22s}
+  .itr{background:linear-gradient(#1a060b,#1a060b) padding-box,linear-gradient(135deg,#FF6EC9,#F20101 55%,#4D000C) border-box;border:1.5px solid transparent;border-radius:8px;padding:18px;transition:transform .22s,box-shadow .22s}
   .itr:hover{transform:scale(1.04);box-shadow:0 14px 30px rgba(0,0,0,.5);z-index:5}
-  .itr.win{border-color:var(--red);background:#1a0e10}
+  .itr.win{background:linear-gradient(#10221a,#10221a) padding-box,linear-gradient(135deg,#A5FBBE,#4fae7c) border-box}
   .itr-bar{background:transparent;border-radius:8px;padding:0;margin-bottom:14px;overflow:hidden}
   .itr-bar svg{width:100%;height:auto;display:block}
   .itr-name{font-weight:700;font-size:16px;color:#fff}
   .itr-tag{display:inline-block;margin-top:9px;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:20px}
   .itr-tag.off{background:#2a2a2a;color:#b3b3b3}
-  .itr-tag.part{background:#3a2a12;color:#f0b25a}
-  .itr-tag.win{background:var(--red);color:#fff}
+  .itr-tag.part{background:#3a0f26;color:#FF6EC9}
+  .itr-tag.win{background:#123322;color:#A5FBBE}
   .itr p{color:#a8a8a8;font-size:13px;line-height:1.5;margin-top:10px}
   .itr-why{margin-top:28px;border-left:3px solid var(--red);padding-left:22px;max-width:72ch}
   .itr-why .pl{color:#ff5a63;font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:11px}
@@ -857,7 +858,15 @@
 <div class="acctscreen" id="acctscreen">
   <div class="acct-top">
     <span class="logo">NETFLIX</span>
-    <div class="acct-topav" id="acctback2"><span class="av2 pic-cynthia" id="acct-topav2"></span><span class="caret2">&#9662;</span></div>
+    <div class="acct-topav" id="acctback2" style="position:relative"><span class="av2 pic-cynthia" id="acct-topav2"></span><span class="caret2">&#9662;</span>
+      <div class="nfmenu" id="acctmenu">
+        <button type="button" class="acctopen" data-key="priya"><span class="mav pic-pooja"></span> Pooja</button>
+        <button type="button" class="acctopen" data-key="sofia"><span class="mav pic-rumi"></span> Rumi</button>
+        <button type="button" class="acctopen" data-key="maya"><span class="mav pic-cynthia"></span> Cynthia</button>
+        <div class="sep"></div>
+        <button type="button" id="acctmenuback"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e5e5e5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Back to Netflix</button>
+      </div>
+    </div>
   </div>
   <div class="acct-wrap">
    <div class="acct-shell">
@@ -911,7 +920,7 @@
       <button class="nfbell" id="nfbell" type="button" aria-label="How to use this case study"><svg class="nficon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="dot">2</span></button>
       <div class="nfnotif" id="nfnotif">
         <div class="nn-head">How to use this case study</div>
-        <div class="nn-item"><b>Switch audience</b><span>Click your profile (top-right) and pick Cynthia, Pooja, or Rumi; the account page, user flow, and cards all adapt to that viewer.</span></div>
+        <div class="nn-item"><b>Switch audience</b><span>Click your profile (top-right) and pick Pooja, Rumi, or Cynthia; the account page, user flow, and cards all adapt to that viewer.</span></div>
         <div class="nn-item"><b>Read the research</b><span>In Design &rarr; Research, click any card. Hit &#8599; to open the source, or &#128077;/&#128078; to agree or disagree.</span></div>
       </div>
     </div>
@@ -919,9 +928,9 @@
       <span class="av pic-cynthia" id="navav"></span>
       <span class="caret">&#9662;</span>
       <div class="nfmenu" id="nfmenu">
-        <button type="button" class="acctopen" data-key="maya"><span class="mav pic-cynthia"></span> Cynthia</button>
         <button type="button" class="acctopen" data-key="priya"><span class="mav pic-pooja"></span> Pooja</button>
         <button type="button" class="acctopen" data-key="sofia"><span class="mav pic-rumi"></span> Rumi</button>
+        <button type="button" class="acctopen" data-key="maya"><span class="mav pic-cynthia"></span> Cynthia</button>
         <div class="sep"></div>
         <button type="button" class="acctopen" id="accounttab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e5e5e5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg> Account</button>
         <button type="button" id="manageprofiles"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e5e5e5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg> Manage profiles</button>
@@ -959,6 +968,7 @@
       <button class="itr-fbtn" type="button" id="itrfbtn">Research <span class="fc">&#9662;</span></button>
       <div class="itr-fmenu" id="itrfmenu">
         <button type="button" data-jump="research" class="on">Research</button>
+        <button type="button" data-jump="journey">User Journey</button>
         <button type="button" data-jump="iterations">Iterations</button>
         <button type="button" data-jump="flow-sec">User Flow</button>
         <button type="button" data-jump="how">Technology</button>
@@ -1035,6 +1045,91 @@
     <p>For decades, DVDs of Indian films, and musicals like The Sound of Music and Mamma Mia, shipped a <b>song menu</b> to jump between numbers. On streaming, this navigation doesn't exist. Viewers now <b>scrub blindly</b> through the tracks central to these films, and are left frustrated, openly asking for skip-song features, and even <b>"chapters like the DVDs had."</b></p>
   </div>
   
+  </div>
+
+  <div class="dpanel" data-panel="journey">
+  <style>
+  .dpanel[data-panel="journey"] .jm-wrap{overflow-x:auto;padding-bottom:8px;margin-top:24px}
+  .dpanel[data-panel="journey"] .jm-grid{display:grid;grid-template-columns:118px repeat(5,minmax(148px,1fr));gap:10px;min-width:900px;align-items:stretch}
+  .dpanel[data-panel="journey"] .jm-rl{display:flex;align-items:center;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a07d8f}
+  .dpanel[data-panel="journey"] .jm-stage{background:linear-gradient(135deg,#FF6EC9,#F20101 58%,#8a0f26);border:1px solid #9a1533;border-radius:12px;padding:12px}
+  .dpanel[data-panel="journey"] .jm-num{color:#ffd9ee;font-weight:800;font-size:12px;letter-spacing:.08em;display:block}
+  .dpanel[data-panel="journey"] .jm-name{font-size:15px;font-weight:700;color:#fff;margin-top:3px;display:block;line-height:1.25}
+  .dpanel[data-panel="journey"] .jm-cell{background:#1a060b;border:1px solid #55223c;border-radius:10px;padding:11px 12px;font-size:12.5px;line-height:1.45;color:#efdbe6}
+  .dpanel[data-panel="journey"] .jm-cell b{color:#fff}
+  .dpanel[data-panel="journey"] .jm-think{background:transparent;border:1px dashed #55223c;color:#c79ab0;font-style:italic}
+  .dpanel[data-panel="journey"] .jm-pain{background:#230610;border-color:#5c2340;color:#f6cfe1}
+  .dpanel[data-panel="journey"] .jm-opp{background:#10221a;border:1px solid #A5FBBE;color:#d9f7e2;font-size:13px;line-height:1.5;padding:12px 14px;border-radius:10px}
+  .dpanel[data-panel="journey"] .jm-opp b{color:#eaffee}
+  .dpanel[data-panel="journey"] .jm-emo{position:relative;background:#1a060b;border:1px solid #55223c;border-radius:10px;height:132px;overflow:hidden}
+  .dpanel[data-panel="journey"] .jm-emo .jm-lab{position:absolute;left:12px;top:9px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#a07d8f;font-weight:700;z-index:2}
+  .dpanel[data-panel="journey"] .jm-emo svg{position:absolute;inset:0;width:100%;height:100%}
+  .dpanel[data-panel="journey"] .jm-dot{position:absolute;width:13px;height:13px;border-radius:50%;background:#230610;border:3px solid #FF6EC9;transform:translate(-50%,-50%);z-index:2}
+  .dpanel[data-panel="journey"] .jm-face{position:absolute;transform:translateX(-50%);font-size:20px;line-height:1;z-index:3;pointer-events:none}
+  .dpanel[data-panel="journey"] .jm-legend{display:flex;flex-wrap:wrap;gap:18px;margin-top:14px;font-size:12px;color:#a07d8f;align-items:center}
+  .dpanel[data-panel="journey"] .jm-sw{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:-1px}
+  </style>
+  <p class="itr-lead">How it feels today.</p>
+  <div class="jm-wrap">
+    <div class="jm-grid">
+      <div class="jm-rl"></div>
+      <div class="jm-stage"><span class="jm-num">01</span><span class="jm-name">Settling in</span></div>
+      <div class="jm-stage"><span class="jm-num">02</span><span class="jm-name">A song begins</span></div>
+      <div class="jm-stage"><span class="jm-num">03</span><span class="jm-name">Deciding what to do</span></div>
+      <div class="jm-stage"><span class="jm-num">04</span><span class="jm-name">Hunting on the bar</span></div>
+      <div class="jm-stage"><span class="jm-num">05</span><span class="jm-name">Overshooting</span></div>
+
+      <div class="jm-rl">Doing</div>
+      <div class="jm-cell">Puts on a beloved musical to rewatch for the hundredth time.</div>
+      <div class="jm-cell">A musical number starts; recognises it instantly.</div>
+      <div class="jm-cell">Wants to <b>jump to</b> a favourite, or <b>skip past</b> one, depending on the night.</div>
+      <div class="jm-cell">Drags the scrubber back and forth, guessing where the song starts and ends.</div>
+      <div class="jm-cell">Lands on a crucial line of dialogue, or halfway into the song. Drags back again.</div>
+
+      <div class="jm-rl">Thinking</div>
+      <div class="jm-cell jm-think">&ldquo;I know every word of this already.&rdquo;</div>
+      <div class="jm-cell jm-think">&ldquo;Here it comes, do I want it tonight?&rdquo;</div>
+      <div class="jm-cell jm-think">&ldquo;On DVD I could just pick the song from the menu.&rdquo;</div>
+      <div class="jm-cell jm-think">&ldquo;Where does this actually end? I&rsquo;m scrubbing blind.&rdquo;</div>
+      <div class="jm-cell jm-think">&ldquo;Ugh, I missed the line. Now I&rsquo;ve lost my place.&rdquo;</div>
+
+      <div class="jm-rl">Feeling</div>
+      <div class="jm-emo" style="grid-column:2 / 7">
+        <span class="jm-lab">Emotion</span>
+        <svg viewBox="0 0 1290 132" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="jmg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF6EC9" stop-opacity="0.30"/><stop offset="1" stop-color="#FF6EC9" stop-opacity="0"/></linearGradient></defs>
+          <line x1="0" y1="66" x2="1290" y2="66" stroke="#55223c" stroke-width="1" stroke-dasharray="4 6"/>
+          <path d="M129,46 L387,40 L645,62 L903,96 L1161,112 L1161,132 L129,132 Z" fill="url(#jmg)"/>
+          <path d="M129,46 L387,40 L645,62 L903,96 L1161,112" fill="none" stroke="#FF6EC9" stroke-width="3"/>
+        </svg>
+        <span class="jm-dot" style="left:10%;top:46px"></span>
+        <span class="jm-dot" style="left:30%;top:40px"></span>
+        <span class="jm-dot" style="left:50%;top:62px"></span>
+        <span class="jm-dot" style="left:70%;top:96px"></span>
+        <span class="jm-dot" style="left:90%;top:112px"></span>
+        <span class="jm-face" style="left:10%;top:22px">&#128578;</span>
+        <span class="jm-face" style="left:30%;top:16px">&#128524;</span>
+        <span class="jm-face" style="left:50%;top:38px">&#129300;</span>
+        <span class="jm-face" style="left:70%;top:72px">&#128533;</span>
+        <span class="jm-face" style="left:90%;top:88px">&#128548;</span>
+      </div>
+
+      <div class="jm-rl">Pain points</div>
+      <div class="jm-cell jm-pain">The soundtrack is central, but the player treats it as invisible.</div>
+      <div class="jm-cell jm-pain">No signal for how long the number runs.</div>
+      <div class="jm-cell jm-pain">The DVD song menu never made it to streaming.</div>
+      <div class="jm-cell jm-pain">Song boundaries are hidden inside a flat progress bar.</div>
+      <div class="jm-cell jm-pain">Overshoots onto dialogue; loses her place and her patience.</div>
+
+      <div class="jm-rl">Opportunity</div>
+      <div class="jm-opp" style="grid-column:2 / 7"><b>Tracks</b> makes the film&rsquo;s structure visible: each song becomes a named chapter on the seek bar, a scrub tooltip names what you land on, a <b>Skip Track</b> button (like &ldquo;Skip Intro&rdquo;) jumps to a final barline, and a full track list lets you go straight to any number, <b>never skipping for you</b>.</div>
+    </div>
+  </div>
+  <div class="jm-legend">
+    <span><span class="jm-sw" style="background:#230610;border:1px solid #5c2340"></span>Pain point</span>
+    <span><span class="jm-sw" style="background:#10221a;border:1px solid #A5FBBE"></span>Opportunity</span>
+    <span><span class="jm-sw" style="background:#FF6EC9"></span>Emotion curve: peaks at recognition, drops through blind scrubbing to frustration</span>
+  </div>
   </div>
 
   <div class="dpanel" data-panel="iterations">
@@ -1561,10 +1656,14 @@
     if(mp)mp.addEventListener('click',function(){if(whoscreen)whoscreen.classList.remove('hide');window.scrollTo(0,0);});
     var acct=document.getElementById('acctscreen'),aback=document.getElementById('acctback');
     // ---- profile rows / Account button open the account overlay (switching persona if a key is given) ----
-    document.querySelectorAll('.acctopen').forEach(function(b){b.addEventListener('click',function(e){e.stopPropagation();var k=b.getAttribute('data-key');if(k)render(k);if(nfm){nfm.classList.remove('open');}if(nfp){nfp.classList.remove('open');}if(acct){acct.classList.add('open');acct.scrollTop=0;}});});
+    var acctmenu=document.getElementById('acctmenu');
+    document.querySelectorAll('.acctopen').forEach(function(b){b.addEventListener('click',function(e){e.stopPropagation();var k=b.getAttribute('data-key');if(k)render(k);if(nfm){nfm.classList.remove('open');}if(nfp){nfp.classList.remove('open');}if(acctmenu){acctmenu.classList.remove('open');}if(acct){acct.classList.add('open');acct.scrollTop=0;}});});
     if(aback&&acct)aback.addEventListener('click',function(){acct.classList.remove('open');});
     var aback2=document.getElementById('acctback2');
-    if(aback2&&acct)aback2.addEventListener('click',function(){acct.classList.remove('open');});
+    if(aback2&&acctmenu)aback2.addEventListener('click',function(e){e.stopPropagation();acctmenu.classList.toggle('open');});
+    if(acctmenu)document.addEventListener('click',function(){acctmenu.classList.remove('open');});
+    var acctmenuback=document.getElementById('acctmenuback');
+    if(acctmenuback&&acct)acctmenuback.addEventListener('click',function(e){e.stopPropagation();if(acctmenu)acctmenu.classList.remove('open');acct.classList.remove('open');});
     var side=document.querySelectorAll('.acct-side .acct-nav');
     side.forEach(function(b){b.addEventListener('click',function(){var t=document.getElementById(b.getAttribute('data-target'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});side.forEach(function(x){x.classList.remove('on');});b.classList.add('on');});});
     if(acct&&side.length){var secIds=['acct-overview','acct-challenges','acct-needs','acct-marketing','acct-prefs'];acct.addEventListener('scroll',function(){var top=acct.scrollTop,best=secIds[0];secIds.forEach(function(id){var el=document.getElementById(id);if(el&&el.offsetTop-110<=top)best=id;});side.forEach(function(x){x.classList.toggle('on',x.getAttribute('data-target')===best);});},{passive:true});}
