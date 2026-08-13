@@ -1426,10 +1426,12 @@
 </footer>
 
 <script>
-  // ===== RESPONSES ENDPOINT =====
-  // Paste your Google Apps Script Web App URL (ends in /exec) between the quotes.
-  // Both the survey and the card agree/disagree votes POST here → your Google Sheet.
-  window.TRACKS_ENDPOINT = "";
+  // ===== RESPONSES ENDPOINT (logs every Test-section response to a Google Sheet) =====
+  // 1. Make a Google Sheet. 2. Extensions > Apps Script, paste the code from tracks-logger.gs.
+  // 3. Deploy > New deployment > Web app > Execute as "Me", Access "Anyone" > copy the /exec URL.
+  // 4. Paste that URL between the quotes below (replace the empty ""). Survey answers, votes, and
+  //    tester sign-ups all log there. While it stays empty, responses fall back to a prefilled email.
+  window.TRACKS_ENDPOINT = "https://script.google.com/macros/s/AKfycbyVUS_HKVy_8e1vZfjdZ0B1-iD9PL7tflwWkpqFpxucDGlDwXd6kqve8EImoKTTuy8C/exec";
   // ---- interactive player ----
   var knob=document.getElementById('knob'),redlayer=document.getElementById('redlayer'),elapsed=document.getElementById('elapsed'),chapname=document.querySelector('.chaptitle span'),tip=document.getElementById('scrubtip'),tipT=document.getElementById('sttime'),tipN=document.getElementById('stname');
   var total=13978,pct=0;
